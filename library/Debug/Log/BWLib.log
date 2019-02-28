@@ -1,0 +1,12 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets(1879,5): warning : The referenced project '..\Rendering\Rendering.vcxproj' does not exist.
+  Math.cpp
+  Quaternion.cpp
+  Vector2.cpp
+  Vector3.cpp
+  Vector4.cpp
+  BWDouble.cpp
+  BWFloat.cpp
+  Networking.cpp
+  Physik.cpp
+  Generating Code...
+  BWLib.vcxproj -> E:\Git_BW\Brainwork\BWLib\library\BWLib.lib
