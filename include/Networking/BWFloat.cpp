@@ -25,7 +25,7 @@ unsigned int BWFloat::getMantissa(const BWFloat& p_BWFloat)
 }
 
 BWFloat::BWFloat() {}
-BWFloat::BWFloat(const int& p_value) 
+BWFloat::BWFloat(const int& p_value)
 {
 	m_value = p_value;
 }
@@ -63,7 +63,7 @@ BWFloat::BWFloat(std::string p_floatString)
 
 	//mantissa calculation pre kommata
 	int maxBitsForComata = 0;
-	if (overNull != "0") {
+	if (p_floatString != "" && p_floatString != "0") {
 		std::bitset<129> mantisseBitSet;
 		const int preCommaLength = (overNull.length() % 8 == 0) ? overNull.length() / 8 : overNull.length() / 8 + 1;
 		SplittetInt* preCommaArray = new SplittetInt[preCommaLength];
@@ -116,11 +116,6 @@ BWFloat::BWFloat(std::string p_floatString)
 			{
 				break;
 			}
-
-			for (int i = 0; i < preCommaLength; ++i)
-			{
-				std::cout << "i" << i << " " << preCommaArray[i].m_value << std::endl;
-			}
 		}
 
 		--maxBitsForComata;//because array starting at 0
@@ -133,6 +128,11 @@ BWFloat::BWFloat(std::string p_floatString)
 		mantisseBitSetFinal[23] = 0;//to reset the leading 1
 		mantissa |= (int)(mantisseBitSetFinal.to_ulong());
 		exponent += maxBitsForComata;
+	}
+	else
+	{
+		m_value = 0;
+		return;
 	}
 
 	//mantissa calculation post kommata
@@ -168,7 +168,6 @@ BWFloat::BWFloat(std::string p_floatString)
 							{
 								oneTime = true;
 								exponent += maxBitsForComata - 1;
-								std::cout << maxBitsForComata << std::endl;
 								maxBitsForComata = 23;
 							}
 							else
@@ -209,7 +208,6 @@ BWFloat::BWFloat(std::string p_floatString)
 		{
 
 			maxBitsForComata = 23 - (exponent - 127);
-			std::cout << maxBitsForComata << std::endl;
 
 			while (maxBitsForComata > 0)
 			{
@@ -249,16 +247,14 @@ BWFloat::BWFloat(std::string p_floatString)
 		}
 	}
 
-	//exponent calculation
-	std::cout << exponent << std::endl;
 	exponent = exponent << 23;
 
 	m_value |= sign;
 	m_value |= exponent;
 	m_value |= mantissa;
 
-	std::bitset<32> y((m_value));
-	std::cout << y << std::endl;
+	//std::bitset<32> y((m_value));
+	//std::cout << y << std::endl;
 }
 BWFloat::BWFloat(const BWFloat& p_bwFloat)
 {
@@ -268,77 +264,174 @@ BWFloat::~BWFloat()
 {
 }
 
+#pragma region castOperations
+BWFloat::operator BWDouble()
+{
+	return BWFloat();
+}
+BWFloat::operator float()
+{
+	return BWFloat();
+}
+BWFloat::operator double()
+{
+	return BWFloat();
+}
+BWFloat::operator int()
+{
+	return BWFloat();
+}
+#pragma endregion
+
+#pragma region arithmeticOperations
+void BWFloat::operator=(const BWFloat& p_BWFloat)
+{
+	m_value = p_BWFloat.m_value;
+}
+BWFloat BWFloat::operator-()
+{
+	return BWFloat(m_value ^ (1 << 31));
+}
+
+BWFloat& BWFloat::operator+=(const BWFloat& p_BWFloat)
+{
+	*this = *this + p_BWFloat;
+	return *this;
+}
+BWFloat& BWFloat::operator-=(const BWFloat& p_BWFloat)
+{
+	*this = *this - p_BWFloat;
+	return *this;
+}
+BWFloat& BWFloat::operator*=(const BWFloat& p_BWFloat)
+{
+	*this = *this * p_BWFloat;
+	return *this;
+}
+BWFloat& BWFloat::operator/=(const BWFloat& p_BWFloat)
+{
+	*this = *this / p_BWFloat;
+	return *this;
+}
 BWFloat BWFloat::operator+(const BWFloat& p_BWFloat)
 {
 	bool endSign = 0;
-	if (this->getSign(p_BWFloat) != 0)
+	if (BWFloat::getSign(p_BWFloat) != 0)
 	{
-		if (this->getSign(*this) != 0)
+		if (BWFloat::getSign(*this) != 0)
 		{
 			endSign = 1;
 		}
 		else
 		{
-			return this->operator-(p_BWFloat);
+			return BWFloat::operator-(p_BWFloat);
 		}
 	}
-	else if (this->getSign(*this) != 0)
+	else if (BWFloat::getSign(*this) != 0)
 	{
 		return BWFloat(p_BWFloat).operator-(*this);
 	}
 
-
-	std::bitset<32> a;
-	if (this->getExponent(*this) > this->getExponent(p_BWFloat))
+	std::bitset<32> result;
+	if (BWFloat::getExponent(*this) > BWFloat::getExponent(p_BWFloat))
 	{
-		a = (this->getMantissa(*this) | 1 << 23) + ((this->getMantissa(p_BWFloat) | 1 << 23) >> BWMath::Abs(static_cast<int>(this->getExponent(*this)) - static_cast<int>(this->getExponent(p_BWFloat))));
+		result = (BWFloat::getMantissa(*this) | 1 << 23) + ((BWFloat::getMantissa(p_BWFloat) | 1 << 23) >> BWMath::Abs(static_cast<int>(BWFloat::getExponent(*this)) - static_cast<int>(BWFloat::getExponent(p_BWFloat))));
 	}
 	else
 	{
-		a = ((this->getMantissa(*this) | 1 << 23) >> BWMath::Abs(static_cast<int>(this->getExponent(*this)) - static_cast<int>(this->getExponent(p_BWFloat)))) + (this->getMantissa(p_BWFloat) | 1 << 23);
+		result = ((BWFloat::getMantissa(*this) | 1 << 23) >> BWMath::Abs(static_cast<int>(BWFloat::getExponent(*this)) - static_cast<int>(BWFloat::getExponent(p_BWFloat)))) + (BWFloat::getMantissa(p_BWFloat) | 1 << 23);
 	}
 
-	std::cout << "bevor Exponent " << a << std::endl;
-
-	if (a[24] == 1) {
-		a = a >> 1;
-		a[23] = 0;
-		a |= (this->getExponent(*this) > this->getExponent(p_BWFloat)) ? (this->getExponent(*this) + 1) << 23 : (this->getExponent(p_BWFloat) + 1) << 23;
+	if (result[24] == 1) {
+		result = result >> 1;
+		result[23] = 0;
+		result |= (BWFloat::getExponent(*this) > BWFloat::getExponent(p_BWFloat)) ? (BWFloat::getExponent(*this) + 1) << 23 : (BWFloat::getExponent(p_BWFloat) + 1) << 23;
 	}
 	else {
-		a[23] = 0;
-		a |= (this->getExponent(*this) > this->getExponent(p_BWFloat)) ? this->getExponent(*this) << 23 : this->getExponent(p_BWFloat) << 23;
+		result[23] = 0;
+		result |= (BWFloat::getExponent(*this) > BWFloat::getExponent(p_BWFloat)) ? BWFloat::getExponent(*this) << 23 : BWFloat::getExponent(p_BWFloat) << 23;
 	}
-	a |= endSign << 31;
+	result |= endSign << 31;
 
-	std::bitset<32> b(BWMath::Abs(static_cast<int>(this->getExponent(*this)) - static_cast<int>(this->getExponent(p_BWFloat))) << 23);
-	std::cout << "after Exponent " << a << std::endl;
-
-	return BWFloat(m_value = static_cast<int>(a.to_ulong()));
+	return BWFloat(m_value = static_cast<int>(result.to_ulong()));
 }
 BWFloat BWFloat::operator-(const BWFloat& p_BWFloat)
 {
+	if (BWFloat::getSign(*this) != 0)
+	{
+		if (BWFloat::getSign(p_BWFloat) != 0)
+		{
+			if (*this > p_BWFloat)//both under zero(e.g. (-x)-(-y), (-4)-(-8))
+			{
+				return (-BWFloat(p_BWFloat)).operator-(-BWFloat(*this)); //(y) - (x), (8)-(4)
+			}
+			else
+			{
+				return (-BWFloat(*this)).operator-(-BWFloat(p_BWFloat)); //(x) - (y)
+			}
+		}
+		else
+		{
+			return this->operator+(-BWFloat(p_BWFloat));
+		}
+	}
+	else
+	{
+		if (BWFloat::getSign(p_BWFloat) != 0)
+		{
+			return this->operator+(-BWFloat(p_BWFloat));
+		}
+		else
+		{
+			if (*this > p_BWFloat || this->m_value == p_BWFloat.m_value)
+			{
 
+			}
+			else
+			{
+				if(this->m_value == 0 && p_BWFloat.m_value == 0)
+				{
+					return p_BWFloat;
+				}
+				return -(BWFloat(p_BWFloat).operator-(*this));
+			}
+		}
+	}
 
+	std::bitset<32> result;
+	if (BWFloat::getExponent(*this) > BWFloat::getExponent(p_BWFloat))
+	{
+		result = (BWFloat::getMantissa(*this) | 1 << 23) - ((BWFloat::getMantissa(p_BWFloat) | 1 << 23) >> BWMath::Abs(static_cast<int>(BWFloat::getExponent(*this)) - static_cast<int>(BWFloat::getExponent(p_BWFloat))));
+	}
+	else
+	{
+		result = ((BWFloat::getMantissa(*this) | 1 << 23) >> BWMath::Abs(static_cast<int>(BWFloat::getExponent(*this)) - static_cast<int>(BWFloat::getExponent(p_BWFloat)))) - (BWFloat::getMantissa(p_BWFloat) | 1 << 23);
+	}
+
+	int counter = 0;
+	while(result[23] == 0)
+	{
+		result = result << 1;
+		++counter;
+		if(counter == 23)
+		{
+			return BWFloat(0);
+		}
+	}
+	result[23] = 0;
+	result |= (BWFloat::getExponent(*this) > BWFloat::getExponent(p_BWFloat)) ? (BWFloat::getExponent(*this) - counter) << 23 : (BWFloat::getExponent(p_BWFloat) - counter) << 23;
+
+	return BWFloat(m_value = static_cast<int>(result.to_ulong()));
+}
+BWFloat BWFloat::operator*(const BWFloat& p_BWFloat)
+{
 	return BWFloat();
 }
-/*
-BWDouble& BWFloat::operator+=(const BWDouble& p_BWDouble)
+BWFloat BWFloat::operator/(const BWFloat& p_BWFloat)
 {
-	// TODO: insert return statement here
+	return BWFloat();
 }
-BWDouble& BWFloat::operator-=(const BWDouble& p_BWDouble)
-{
-	// TODO: insert return statement here
-}
-BWDouble& BWFloat::operator*=(const BWDouble& p_BWDouble)
-{
-	// TODO: insert return statement here
-}
-BWDouble& BWFloat::operator/=(const BWDouble& p_BWDouble)
-{
-	// TODO: insert return statement here
-}
+
 BWDouble BWFloat::operator+(const BWDouble& p_BWDouble)
 {
 	return BWDouble();
@@ -356,28 +449,236 @@ BWDouble BWFloat::operator/(const BWDouble& p_BWDouble)
 	return BWDouble();
 }
 
-BWFloat& BWFloat::operator+=(const BWFloat& p_BWFloat)
+BWFloat& BWFloat::operator+=(const int& p_int)
 {
-	// TODO: insert return statement here
+	*this = *this + p_int;
+	return *this;
 }
-BWFloat& BWFloat::operator-=(const BWFloat& p_BWFloat)
+BWFloat& BWFloat::operator-=(const int& p_int)
 {
-	// TODO: insert return statement here
+	*this = *this - p_int;
+	return *this;
 }
-BWFloat& BWFloat::operator*=(const BWFloat& p_BWFloat)
+BWFloat& BWFloat::operator*=(const int& p_int)
 {
-	// TODO: insert return statement here
+	*this = *this * p_int;
+	return *this;
 }
-BWFloat& BWFloat::operator/=(const BWFloat& p_BWFloat)
+BWFloat& BWFloat::operator/=(const int& p_int)
 {
-	// TODO: insert return statement here
+	*this = *this / p_int;
+	return *this;
 }
-BWFloat BWFloat::operator*(const BWFloat& p_BWFloat)
+BWFloat BWFloat::operator+(const int& p_int)
 {
 	return BWFloat();
 }
-BWFloat BWFloat::operator/(const BWFloat& p_BWFloat)
+BWFloat BWFloat::operator-(const int& p_int)
 {
 	return BWFloat();
 }
-*/
+BWFloat BWFloat::operator*(const int& p_int)
+{
+	return BWFloat();
+}
+BWFloat BWFloat::operator/(const int& p_int)
+{
+	return BWFloat();
+}
+
+BWFloat& BWFloat::operator+=(const float& p_float)
+{
+	*this = *this + p_float;
+	return *this;
+}
+BWFloat& BWFloat::operator-=(const float& p_float)
+{
+	*this = *this - p_float;
+	return *this;
+}
+BWFloat& BWFloat::operator*=(const float& p_float)
+{
+	*this = *this * p_float;
+	return *this;
+}
+BWFloat& BWFloat::operator/=(const float& p_float)
+{
+	*this = *this / p_float;
+	return *this;
+}
+BWFloat BWFloat::operator+(const float& p_float)
+{
+	return BWFloat();
+}
+BWFloat BWFloat::operator-(const float& p_float)
+{
+	return BWFloat();
+}
+BWFloat BWFloat::operator*(const float& p_float)
+{
+	return BWFloat();
+}
+BWFloat BWFloat::operator/(const float& p_float)
+{
+	return BWFloat();
+}
+
+BWFloat& BWFloat::operator+=(const double& p_double)
+{
+	*this = *this + p_double;
+	return *this;
+}
+BWFloat& BWFloat::operator-=(const double& p_double)
+{
+	*this = *this - p_double;
+	return *this;
+}
+BWFloat& BWFloat::operator*=(const double& p_double)
+{
+	*this = *this * p_double;
+	return *this;
+}
+BWFloat& BWFloat::operator/=(const double& p_double)
+{
+	*this = *this / p_double;
+	return *this;
+}
+BWFloat BWFloat::operator+(const double& p_double)
+{
+	return BWFloat();
+}
+BWFloat BWFloat::operator-(const double& p_double)
+{
+	return BWFloat();
+}
+BWFloat BWFloat::operator*(const double& p_double)
+{
+	return BWFloat();
+}
+BWFloat BWFloat::operator/(const double& p_double)
+{
+	return BWFloat();
+}
+
+#pragma endregion
+
+#pragma region comparisonOperator
+bool BWFloat::operator==(const BWFloat&  p_BWFloat)
+{
+	return (p_BWFloat.m_value == this->m_value) ? true : false;
+}
+bool BWFloat::operator!=(const BWFloat&  p_BWFloat)
+{
+	return (p_BWFloat.m_value != this->m_value) ? true : false;
+}
+bool BWFloat::operator>(const BWFloat&  p_BWFloat)
+{
+	if (BWFloat::getSign(*this) == BWFloat::getSign(p_BWFloat))
+	{
+		if (BWFloat::getExponent(*this) == BWFloat::getExponent(p_BWFloat))
+		{
+			if (BWFloat::getMantissa(*this) == BWFloat::getMantissa(p_BWFloat))
+			{
+				return false;
+			}
+			else
+			{
+				return(BWFloat::getMantissa(*this) > BWFloat::getMantissa(p_BWFloat)) ? true : false;
+			}
+		}
+		else
+		{
+			return(BWFloat::getExponent(*this) > BWFloat::getExponent(p_BWFloat)) ? true : false;
+		}
+	}
+	else
+	{
+		return (BWFloat::getExponent(*this) == 0 && BWFloat::getExponent(p_BWFloat) == 0) ? false : (BWFloat::getSign(*this) == 0) ? true : false;
+		//if (-0 && 0) = false ,else (leftValue == positiv) = true, else false;
+	}
+}
+bool BWFloat::operator>=(const BWFloat& p_BWFloat)
+{
+	if (BWFloat::getSign(*this) == BWFloat::getSign(p_BWFloat))
+	{
+		if (BWFloat::getExponent(*this) == BWFloat::getExponent(p_BWFloat))
+		{
+			if (BWFloat::getMantissa(*this) == BWFloat::getMantissa(p_BWFloat))
+			{
+				return true;
+			}
+			else
+			{
+				return(BWFloat::getMantissa(*this) > BWFloat::getMantissa(p_BWFloat)) ? true : false;
+			}
+		}
+		else
+		{
+			return(BWFloat::getExponent(*this) > BWFloat::getExponent(p_BWFloat)) ? true : false;
+		}
+	}
+	else
+	{
+		return (BWFloat::getExponent(*this) == 0 && BWFloat::getExponent(p_BWFloat) == 0) ? true : (BWFloat::getSign(*this) == 0) ? true : false;
+		//if (-0 && 0) = false ,else (leftValue == positiv) = true, else false;
+	}
+}
+bool BWFloat::operator<(const BWFloat&  p_BWFloat)
+{
+	if (BWFloat::getSign(*this) == BWFloat::getSign(p_BWFloat))
+	{
+		if (BWFloat::getExponent(*this) == BWFloat::getExponent(p_BWFloat))
+		{
+			if (BWFloat::getMantissa(*this) == BWFloat::getMantissa(p_BWFloat))
+			{
+				return false;
+			}
+			else
+			{
+				return(BWFloat::getMantissa(*this) < BWFloat::getMantissa(p_BWFloat)) ? true : false;
+			}
+		}
+		else
+		{
+			return(BWFloat::getExponent(*this) < BWFloat::getExponent(p_BWFloat)) ? true : false;
+		}
+	}
+	else
+	{
+		return (BWFloat::getExponent(*this) == 0 && BWFloat::getExponent(p_BWFloat) == 0) ? false : (BWFloat::getSign(*this) != 0) ? true : false;
+		//if (-0 && 0) = false ,else (leftValue == positiv) = true, else false;
+	}
+}
+bool BWFloat::operator<=(const BWFloat& p_BWFloat)
+{
+	if (BWFloat::getSign(*this) == BWFloat::getSign(p_BWFloat))
+	{
+		if (BWFloat::getExponent(*this) == BWFloat::getExponent(p_BWFloat))
+		{
+			if (BWFloat::getMantissa(*this) == BWFloat::getMantissa(p_BWFloat))
+			{
+				return true;
+			}
+			else
+			{
+				return(BWFloat::getMantissa(*this) < BWFloat::getMantissa(p_BWFloat)) ? true : false;
+			}
+		}
+		else
+		{
+			return(BWFloat::getExponent(*this) < BWFloat::getExponent(p_BWFloat)) ? true : false;
+		}
+	}
+	else
+	{
+		return (BWFloat::getExponent(*this) == 0 && BWFloat::getExponent(p_BWFloat) == 0) ? true : (BWFloat::getSign(*this) != 0) ? true : false;
+		//if (-0 && 0) = false ,else (leftValue == positiv) = true, else false;
+	}
+}
+#pragma endregion
+
+std::ostream & operator<<(std::ostream& output, BWFloat& p_BWFloat)
+{
+	output << "Output not finished yet";
+	return output;
+}

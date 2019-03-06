@@ -9,9 +9,9 @@ class BWFloat
 private:
 	int m_value = 0;
 
-	unsigned int getSign(const BWFloat&);
-	unsigned int getExponent(const BWFloat&);
-	unsigned int getMantissa(const BWFloat&);
+	static unsigned int getSign(const BWFloat&);
+	static unsigned int getExponent(const BWFloat&);
+	static unsigned int getMantissa(const BWFloat&);
 
 	BWFloat();
 	BWFloat(const int& p_value);
@@ -20,19 +20,16 @@ public:
 	BWFloat(const BWFloat&);
 	~BWFloat();
 
+#pragma region castOperations
 	operator BWDouble();
 	operator float();
 	operator double();
 	operator int();
+#pragma endregion
 
-	BWDouble& operator+=(const BWDouble&);
-	BWDouble& operator-=(const BWDouble&);
-	BWDouble& operator*=(const BWDouble&);
-	BWDouble& operator/=(const BWDouble&);
-	BWDouble operator+(const BWDouble&);
-	BWDouble operator-(const BWDouble&);
-	BWDouble operator*(const BWDouble&);
-	BWDouble operator/(const BWDouble&);
+#pragma region arithmeticOperations
+	void operator=(const BWFloat&);
+	BWFloat operator-();
 
 	BWFloat& operator+=(const BWFloat&);
 	BWFloat& operator-=(const BWFloat&);
@@ -42,6 +39,11 @@ public:
 	BWFloat operator-(const BWFloat&);
 	BWFloat operator*(const BWFloat&);
 	BWFloat operator/(const BWFloat&);
+	
+	BWDouble operator+(const BWDouble&);
+	BWDouble operator-(const BWDouble&);
+	BWDouble operator*(const BWDouble&);
+	BWDouble operator/(const BWDouble&);
 
 	BWFloat& operator+=(const int&);
 	BWFloat& operator-=(const int&);
@@ -69,9 +71,17 @@ public:
 	BWFloat operator-(const double&);
 	BWFloat operator*(const double&);
 	BWFloat operator/(const double&);
+#pragma endregion
 
-
-
-
+#pragma region comparisonOperations
+	bool operator==(const BWFloat&);
+	bool operator!=(const BWFloat&);
+	bool operator>(const BWFloat&);
+	bool operator>=(const BWFloat&);
+	bool operator<(const BWFloat&);
+	bool operator<=(const BWFloat&);
+#pragma endregion
 };
+
+std::ostream& operator<<(std::ostream&, BWFloat&);
 

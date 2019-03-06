@@ -41,6 +41,15 @@ void Quaternion::operator=(const Quaternion& quad) {
 	quad4[2] = quad.quad4[2];
 	quad4[3] = quad.quad4[3];
 }
+Quaternion Quaternion::operator-()
+{
+	quad4[0] = -quad4[0];
+	quad4[1] = -quad4[1];
+	quad4[2] = -quad4[2];
+	quad4[3] = -quad4[3];
+
+	return *this;
+}
 Quaternion Quaternion::operator+(const Quaternion& quad) {
 
 	Quaternion temp(*this);

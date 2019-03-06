@@ -84,6 +84,15 @@ void Vector4::operator=(const Vector4& vec) {
 	vec4[2] = vec.vec4[2];
 	vec4[3] = vec.vec4[3];
 }
+Vector4 Vector4::operator-()
+{
+	vec4[0] = -vec4[0];
+	vec4[1] = -vec4[1];
+	vec4[2] = -vec4[2];
+	vec4[3] = -vec4[3];
+
+	return *this;
+}
 Vector4& Vector4::operator+=(const Vector4& vec) {
 	vec4[0] = vec4[0] + vec.vec4[0];
 	vec4[1] = vec4[1] + vec.vec4[1];

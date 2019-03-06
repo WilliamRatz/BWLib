@@ -90,6 +90,14 @@ void Vector3::operator=(const Vector3& vec) {
 	vec3[1] = vec.vec3[1];
 	vec3[2] = vec.vec3[2];
 }
+Vector3 Vector3::operator-()
+{
+	vec3[0] = -vec3[0];
+	vec3[1] = -vec3[1];
+	vec3[2] = -vec3[2];
+
+	return *this;
+}
 Vector3& Vector3::operator+=(const Vector3& vec) {
 	vec3[0] = vec3[0] + vec.vec3[0];
 	vec3[1] = vec3[1] + vec.vec3[1];

@@ -75,6 +75,13 @@ void Vector2::operator=(const Vector2& vec) {
 	vec2[0] = vec.vec2[0];
 	vec2[1] = vec.vec2[1];
 }
+Vector2 Vector2::operator-()
+{
+	vec2[0] = -vec2[0];
+	vec2[1] = -vec2[1];
+
+	return *this;
+}
 Vector2 Vector2::operator+(const Vector2& vec) {
 
 	Vector2 temp(*this);

@@ -45,6 +45,8 @@ public:
 
 #pragma region arithmeticOperator
 	void operator=(const Quaternion&);
+	Quaternion operator-();
+
 	Quaternion operator+(const Quaternion&);
 	Quaternion operator-(const Quaternion&);
 	Quaternion operator*(const Quaternion&);

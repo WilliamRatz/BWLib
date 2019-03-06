@@ -54,6 +54,8 @@ public:
 
 #pragma region arithmeticOperator
 	void operator=(const Vector4&);
+	Vector4 operator-();
+
 	Vector4& operator+=(const Vector4&);
 	Vector4& operator-=(const Vector4&);
 	Vector4& operator/=(const Vector4&);
