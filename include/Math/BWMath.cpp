@@ -103,7 +103,7 @@ std::size_t BWMath::faculty(const std::size_t& p_value)
 
 	return result;
 }
-std::size_t BWMath::Abs(const std::size_t & p_value)
+std::size_t BWMath::Abs(const int & p_value)
 {
 	if (p_value >= 0)
 		return p_value;

@@ -1,4 +1,1 @@
-﻿  main.cpp
-e:\gitrepositories\bwlib\bwlibtester\main.cpp(7): warning C4326: return type of 'main' should be 'int' instead of 'void'
-e:\gitrepositories\bwlib\bwlibtester\main.cpp(18): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-  BWLibTester.vcxproj -> E:\GitRepositories\BWLib\BWLibTester\x64\Debug\BWLibTester.exe
+﻿  BWLibTester.vcxproj -> E:\GitRepositories\BWLib\BWLibTester\x64\Debug\BWLibTester.exe

@@ -9,6 +9,26 @@ struct SplittetInt
 };
 
 
+unsigned int BWFloat::getSign(const BWFloat& p_BWFloat)
+{
+	//false = + = 0
+	//true  = - = 1
+	return (p_BWFloat.m_value >> 31) << 31;
+}
+unsigned int BWFloat::getExponent(const BWFloat& p_BWFloat)
+{
+	return ((static_cast<unsigned int>(p_BWFloat.m_value) << 1) >> 24);
+}
+unsigned int BWFloat::getMantissa(const BWFloat& p_BWFloat)
+{
+	return ((static_cast<unsigned int>(p_BWFloat.m_value) << 9) >> 9);
+}
+
+BWFloat::BWFloat() {}
+BWFloat::BWFloat(const int& p_value) 
+{
+	m_value = p_value;
+}
 BWFloat::BWFloat(std::string p_floatString)
 {
 	int sign = 0;
@@ -106,7 +126,7 @@ BWFloat::BWFloat(std::string p_floatString)
 		--maxBitsForComata;//because array starting at 0
 		std::bitset<24> mantisseBitSetFinal;
 		int forLoopLenght = (maxBitsForComata > 23) ? 23 : maxBitsForComata;
-		for (int i = 0; i < forLoopLenght+1; ++i)//to get the leading 24
+		for (int i = 0; i < forLoopLenght + 1; ++i)//to get the leading 24
 		{
 			mantisseBitSetFinal[23 - i] = mantisseBitSet[maxBitsForComata - i];
 		}
@@ -188,7 +208,7 @@ BWFloat::BWFloat(std::string p_floatString)
 		else
 		{
 
-			maxBitsForComata = 23 - (exponent -127);
+			maxBitsForComata = 23 - (exponent - 127);
 			std::cout << maxBitsForComata << std::endl;
 
 			while (maxBitsForComata > 0)
@@ -201,7 +221,7 @@ BWFloat::BWFloat(std::string p_floatString)
 						postCommaArray[i] -= 100000000;
 						if (i == 0)
 						{
-							int tempint = 1 << maxBitsForComata-1;
+							int tempint = 1 << maxBitsForComata - 1;
 							mantissa |= tempint;
 						}
 						else
@@ -237,10 +257,127 @@ BWFloat::BWFloat(std::string p_floatString)
 	m_value |= exponent;
 	m_value |= mantissa;
 
-	std::bitset<32> y(m_value);
+	std::bitset<32> y((m_value));
 	std::cout << y << std::endl;
 }
-
+BWFloat::BWFloat(const BWFloat& p_bwFloat)
+{
+	this->m_value = p_bwFloat.m_value;
+}
 BWFloat::~BWFloat()
 {
 }
+
+BWFloat BWFloat::operator+(const BWFloat& p_BWFloat)
+{
+	bool endSign = 0;
+	if (this->getSign(p_BWFloat) != 0)
+	{
+		if (this->getSign(*this) != 0)
+		{
+			endSign = 1;
+		}
+		else
+		{
+			return this->operator-(p_BWFloat);
+		}
+	}
+	else if (this->getSign(*this) != 0)
+	{
+		return BWFloat(p_BWFloat).operator-(*this);
+	}
+
+
+	std::bitset<32> a;
+	if (this->getExponent(*this) > this->getExponent(p_BWFloat))
+	{
+		a = (this->getMantissa(*this) | 1 << 23) + ((this->getMantissa(p_BWFloat) | 1 << 23) >> BWMath::Abs(static_cast<int>(this->getExponent(*this)) - static_cast<int>(this->getExponent(p_BWFloat))));
+	}
+	else
+	{
+		a = ((this->getMantissa(*this) | 1 << 23) >> BWMath::Abs(static_cast<int>(this->getExponent(*this)) - static_cast<int>(this->getExponent(p_BWFloat)))) + (this->getMantissa(p_BWFloat) | 1 << 23);
+	}
+
+	std::cout << "bevor Exponent " << a << std::endl;
+
+	if (a[24] == 1) {
+		a = a >> 1;
+		a[23] = 0;
+		a |= (this->getExponent(*this) > this->getExponent(p_BWFloat)) ? (this->getExponent(*this) + 1) << 23 : (this->getExponent(p_BWFloat) + 1) << 23;
+	}
+	else {
+		a[23] = 0;
+		a |= (this->getExponent(*this) > this->getExponent(p_BWFloat)) ? this->getExponent(*this) << 23 : this->getExponent(p_BWFloat) << 23;
+	}
+	a |= endSign << 31;
+
+	std::bitset<32> b(BWMath::Abs(static_cast<int>(this->getExponent(*this)) - static_cast<int>(this->getExponent(p_BWFloat))) << 23);
+	std::cout << "after Exponent " << a << std::endl;
+
+	return BWFloat(m_value = static_cast<int>(a.to_ulong()));
+}
+BWFloat BWFloat::operator-(const BWFloat& p_BWFloat)
+{
+
+
+	return BWFloat();
+}
+/*
+BWDouble& BWFloat::operator+=(const BWDouble& p_BWDouble)
+{
+	// TODO: insert return statement here
+}
+BWDouble& BWFloat::operator-=(const BWDouble& p_BWDouble)
+{
+	// TODO: insert return statement here
+}
+BWDouble& BWFloat::operator*=(const BWDouble& p_BWDouble)
+{
+	// TODO: insert return statement here
+}
+BWDouble& BWFloat::operator/=(const BWDouble& p_BWDouble)
+{
+	// TODO: insert return statement here
+}
+BWDouble BWFloat::operator+(const BWDouble& p_BWDouble)
+{
+	return BWDouble();
+}
+BWDouble BWFloat::operator-(const BWDouble& p_BWDouble)
+{
+	return BWDouble();
+}
+BWDouble BWFloat::operator*(const BWDouble& p_BWDouble)
+{
+	return BWDouble();
+}
+BWDouble BWFloat::operator/(const BWDouble& p_BWDouble)
+{
+	return BWDouble();
+}
+
+BWFloat& BWFloat::operator+=(const BWFloat& p_BWFloat)
+{
+	// TODO: insert return statement here
+}
+BWFloat& BWFloat::operator-=(const BWFloat& p_BWFloat)
+{
+	// TODO: insert return statement here
+}
+BWFloat& BWFloat::operator*=(const BWFloat& p_BWFloat)
+{
+	// TODO: insert return statement here
+}
+BWFloat& BWFloat::operator/=(const BWFloat& p_BWFloat)
+{
+	// TODO: insert return statement here
+}
+BWFloat BWFloat::operator*(const BWFloat& p_BWFloat)
+{
+	return BWFloat();
+}
+BWFloat BWFloat::operator/(const BWFloat& p_BWFloat)
+{
+	return BWFloat();
+}
+*/

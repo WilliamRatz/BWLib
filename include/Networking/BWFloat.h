@@ -9,6 +9,12 @@ class BWFloat
 private:
 	int m_value = 0;
 
+	unsigned int getSign(const BWFloat&);
+	unsigned int getExponent(const BWFloat&);
+	unsigned int getMantissa(const BWFloat&);
+
+	BWFloat();
+	BWFloat(const int& p_value);
 public:
 	BWFloat(std::string floatString);
 	BWFloat(const BWFloat&);

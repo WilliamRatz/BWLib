@@ -25,7 +25,7 @@ public:
 
 	static double pow(const double& base, const double& exponent);
 	static std::size_t faculty(const std::size_t& value);
-	static std::size_t Abs(const std::size_t& value);
+	static std::size_t Abs(const int& value);
 
 	static double fract(const double& value);
 	static double round(const double& value, const int& position);
