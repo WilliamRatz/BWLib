@@ -45,12 +45,12 @@ public:
 
 #pragma region arithmeticOperator
 	void operator=(const Quaternion&);
-	inline Quaternion operator+(const Quaternion&);
-	inline Quaternion operator-(const Quaternion&);
-	inline Quaternion operator*(const Quaternion&);
-	inline Quaternion& operator+=(const Quaternion&);
-	inline Quaternion& operator-=(const Quaternion&);
-	inline Quaternion& operator*=(const Quaternion&);
+	Quaternion operator+(const Quaternion&);
+	Quaternion operator-(const Quaternion&);
+	Quaternion operator*(const Quaternion&);
+	Quaternion& operator+=(const Quaternion&);
+	Quaternion& operator-=(const Quaternion&);
+	Quaternion& operator*=(const Quaternion&);
 	
 #pragma endregion
 

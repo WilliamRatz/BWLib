@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\Math\Math.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="include\Math\Quaternion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -36,17 +33,17 @@
     <ClCompile Include="include\Networking\BWFloat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\Networking\Networking.cpp">
+    <ClCompile Include="include\Math\BWMath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\Physik\Physik.cpp">
+    <ClCompile Include="include\Networking\BWNet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Physik\BWPhysik.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Math\Math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Math\Matrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -71,12 +68,6 @@
     <ClInclude Include="include\Networking\BWFloat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Networking\Networking.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Physik\Physik.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Inc_BWMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -84,6 +75,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Inc_BWPhysik.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Math\BWMath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Networking\BWNet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Physik\BWPhysik.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

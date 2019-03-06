@@ -41,22 +41,22 @@ void Quaternion::operator=(const Quaternion& quad) {
 	quad4[2] = quad.quad4[2];
 	quad4[3] = quad.quad4[3];
 }
-inline Quaternion Quaternion::operator+(const Quaternion& quad) {
+Quaternion Quaternion::operator+(const Quaternion& quad) {
 
 	Quaternion temp(*this);
 	return temp += quad;
 }
-inline Quaternion Quaternion::operator-(const Quaternion& quad) {
+Quaternion Quaternion::operator-(const Quaternion& quad) {
 
 	Quaternion temp(*this);
 	return temp -= quad;
 }
-inline Quaternion Quaternion::operator*(const Quaternion& quad) {
+Quaternion Quaternion::operator*(const Quaternion& quad) {
 
 	Quaternion temp(*this);
 	return temp *= quad;
 }
-inline Quaternion& Quaternion::operator+=(const Quaternion& quad) {
+Quaternion& Quaternion::operator+=(const Quaternion& quad) {
 	quad4[0] = quad4[0] + quad.quad4[0];
 	quad4[1] = quad4[1] + quad.quad4[1];
 	quad4[2] = quad4[2] + quad.quad4[2];
@@ -64,7 +64,7 @@ inline Quaternion& Quaternion::operator+=(const Quaternion& quad) {
 
 	return *this;
 }
-inline Quaternion& Quaternion::operator-=(const Quaternion& quad) {
+Quaternion& Quaternion::operator-=(const Quaternion& quad) {
 	quad4[0] = quad4[0] - quad.quad4[0];
 	quad4[1] = quad4[1] - quad.quad4[1];
 	quad4[2] = quad4[2] - quad.quad4[2];
@@ -72,7 +72,7 @@ inline Quaternion& Quaternion::operator-=(const Quaternion& quad) {
 
 	return *this;
 }
-inline Quaternion& Quaternion::operator*=(const Quaternion& quad) {
+Quaternion& Quaternion::operator*=(const Quaternion& quad) {
 	quad4[0] = (quad4[0] * quad.quad4[0]) - (quad4[1] * quad.quad4[1]) - (quad4[2] * quad.quad4[2]) - (quad4[3] * quad.quad4[3]);
 	quad4[1] = (quad4[0] * quad.quad4[1]) + (quad4[1] * quad.quad4[0]) + (quad4[2] * quad.quad4[3]) - (quad4[3] * quad.quad4[2]);
 	quad4[2] = (quad4[0] * quad.quad4[2]) - (quad4[1] * quad.quad4[3]) + (quad4[2] * quad.quad4[0]) + (quad4[3] * quad.quad4[1]);

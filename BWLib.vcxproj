@@ -24,21 +24,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\Math\Math.cpp" />
+    <ClCompile Include="include\Math\BWMath.cpp" />
     <ClCompile Include="include\Math\Quaternion.cpp" />
     <ClCompile Include="include\Math\Vector2.cpp" />
     <ClCompile Include="include\Math\Vector3.cpp" />
     <ClCompile Include="include\Math\Vector4.cpp" />
     <ClCompile Include="include\Networking\BWDouble.cpp" />
     <ClCompile Include="include\Networking\BWFloat.cpp" />
-    <ClCompile Include="include\Networking\Networking.cpp" />
-    <ClCompile Include="include\Physik\Physik.cpp" />
+    <ClCompile Include="include\Networking\BWNet.cpp" />
+    <ClCompile Include="include\Physik\BWPhysik.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Inc_BWMath.h" />
     <ClInclude Include="include\Inc_BWNetworking.h" />
     <ClInclude Include="include\Inc_BWPhysik.h" />
-    <ClInclude Include="include\Math\Math.h" />
+    <ClInclude Include="include\Math\BWMath.h" />
     <ClInclude Include="include\Math\Matrix.h" />
     <ClInclude Include="include\Math\Quaternion.h" />
     <ClInclude Include="include\Math\Vector.h" />
@@ -47,8 +47,8 @@
     <ClInclude Include="include\Math\Vector4.h" />
     <ClInclude Include="include\Networking\BWDouble.h" />
     <ClInclude Include="include\Networking\BWFloat.h" />
-    <ClInclude Include="include\Networking\Networking.h" />
-    <ClInclude Include="include\Physik\Physik.h" />
+    <ClInclude Include="include\Networking\BWNet.h" />
+    <ClInclude Include="include\Physik\BWPhysik.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

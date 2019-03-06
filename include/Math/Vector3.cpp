@@ -7,7 +7,7 @@
 //
 #include "Vector3.h"
 #include "Matrix.h"
-#include "Math.h"
+#include "BWMath.h"
 
 
 
@@ -53,7 +53,7 @@ std::size_t Vector3::getHashCode() {
 
 float Vector3::length(const Vector3& vec)
 {
-	return static_cast<float>(MathLib::Sqrt(MathLib::pow(Vector3::x(vec), 2) + MathLib::pow(Vector3::y(vec), 2) + MathLib::pow(Vector3::z(vec), 2)));
+	return static_cast<float>(BWMath::Sqrt(BWMath::pow(Vector3::x(vec), 2) + BWMath::pow(Vector3::y(vec), 2) + BWMath::pow(Vector3::z(vec), 2)));
 }
 float  Vector3::dot(const Vector3& vec1, const Vector3& vec2)
 {
@@ -90,44 +90,44 @@ void Vector3::operator=(const Vector3& vec) {
 	vec3[1] = vec.vec3[1];
 	vec3[2] = vec.vec3[2];
 }
-inline Vector3& Vector3::operator+=(const Vector3& vec) {
+Vector3& Vector3::operator+=(const Vector3& vec) {
 	vec3[0] = vec3[0] + vec.vec3[0];
 	vec3[1] = vec3[1] + vec.vec3[1];
 	vec3[2] = vec3[2] + vec.vec3[2];
 
 	return *this;
 }
-inline Vector3& Vector3::operator-=(const Vector3& vec) {
+Vector3& Vector3::operator-=(const Vector3& vec) {
 	vec3[0] = vec3[0] - vec.vec3[0];
 	vec3[1] = vec3[1] - vec.vec3[1];
 	vec3[2] = vec3[2] - vec.vec3[2];
 
 	return *this;
 }
-inline Vector3& Vector3::operator/=(const Vector3& vec) {
+Vector3& Vector3::operator/=(const Vector3& vec) {
 	vec3[0] = vec3[0] / vec.vec3[0];
 	vec3[1] = vec3[1] / vec.vec3[1];
 	vec3[2] = vec3[2] / vec.vec3[2];
 
 	return *this;
 }
-inline Vector3 Vector3::operator+(const Vector3& vec) {
+Vector3 Vector3::operator+(const Vector3& vec) {
 
 	Vector3 temp(*this);
 	return temp += vec;
 }
-inline Vector3 Vector3::operator-(const Vector3& vec) {
+Vector3 Vector3::operator-(const Vector3& vec) {
 
 	Vector3 temp(*this);
 	return temp -= vec;
 }
-inline Vector3 Vector3::operator/(const Vector3& vec) {
+Vector3 Vector3::operator/(const Vector3& vec) {
 
 	Vector3 temp(*this);
 	return temp /= vec;
 }
 
-inline Vector3& Vector3::operator*=(const int& value)
+Vector3& Vector3::operator*=(const int& value)
 {
 	vec3[0] = vec3[0] * static_cast<float>(value);
 	vec3[1] = vec3[1] * static_cast<float>(value);
@@ -135,7 +135,7 @@ inline Vector3& Vector3::operator*=(const int& value)
 
 	return *this;
 }
-inline Vector3& Vector3::operator/=(const int& value) 
+Vector3& Vector3::operator/=(const int& value) 
 {
 	vec3[0] = vec3[0] / static_cast<float>(value);
 	vec3[1] = vec3[1] / static_cast<float>(value);
@@ -143,18 +143,18 @@ inline Vector3& Vector3::operator/=(const int& value)
 
 	return *this;
 }
-inline Vector3 Vector3::operator*(const int& value) 
+Vector3 Vector3::operator*(const int& value) 
 {
 	Vector3 temp(*this);
 	return temp *= value;
 }
-inline Vector3 Vector3::operator/(const int& value) 
+Vector3 Vector3::operator/(const int& value) 
 {
 	Vector3 temp(*this);
 	return temp /= value;
 }
 
-inline Vector3& Vector3::operator*=(const float& value) 
+Vector3& Vector3::operator*=(const float& value) 
 {
 	vec3[0] = vec3[0] * static_cast<float>(value);
 	vec3[1] = vec3[1] * static_cast<float>(value);
@@ -162,7 +162,7 @@ inline Vector3& Vector3::operator*=(const float& value)
 
 	return *this;
 }
-inline Vector3& Vector3::operator/=(const float& value) 
+Vector3& Vector3::operator/=(const float& value) 
 {
 	vec3[0] = vec3[0] / static_cast<float>(value);
 	vec3[1] = vec3[1] / static_cast<float>(value);
@@ -170,18 +170,18 @@ inline Vector3& Vector3::operator/=(const float& value)
 
 	return *this;
 }
-inline Vector3 Vector3::operator*(const float& value) 
+Vector3 Vector3::operator*(const float& value) 
 {
 	Vector3 temp(*this);
 	return temp *= value;
 }
-inline Vector3 Vector3::operator/(const float& value) 
+Vector3 Vector3::operator/(const float& value) 
 {
 	Vector3 temp(*this);
 	return temp /= value;
 }
 
-inline Vector3& Vector3::operator*=(const double& value) 
+Vector3& Vector3::operator*=(const double& value) 
 {
 	vec3[0] = vec3[0] * static_cast<float>(value);
 	vec3[1] = vec3[1] * static_cast<float>(value);
@@ -189,7 +189,7 @@ inline Vector3& Vector3::operator*=(const double& value)
 
 	return *this;
 }
-inline Vector3& Vector3::operator/=(const double& value) 
+Vector3& Vector3::operator/=(const double& value) 
 {
 	vec3[0] = vec3[0] / static_cast<float>(value);
 	vec3[1] = vec3[1] / static_cast<float>(value);
@@ -197,12 +197,12 @@ inline Vector3& Vector3::operator/=(const double& value)
 
 	return *this;
 }
-inline Vector3 Vector3::operator*(const double& value) 
+Vector3 Vector3::operator*(const double& value) 
 {
 	Vector3 temp(*this);
 	return temp *= value;
 }
-inline Vector3 Vector3::operator/(const double& value) 
+Vector3 Vector3::operator/(const double& value) 
 {
 	Vector3 temp(*this);
 	return temp /= value;

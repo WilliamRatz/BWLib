@@ -6,7 +6,7 @@
 //  Copyright © 2018 William Ratz. All rights reserved.
 //
 #include "Vector2.h"
-#include "Math.h"
+#include "BWMath.h"
 
 
 Vector2::Vector2()
@@ -50,7 +50,7 @@ Vector2 Vector2::normalized(const Vector2& vec) {
 }
 float Vector2::length(const Vector2& vec)
 {
-	return static_cast<float>(MathLib::Sqrt(MathLib::pow(Vector2::x(vec), 2) + MathLib::pow(Vector2::y(vec), 2)));
+	return static_cast<float>(BWMath::Sqrt(BWMath::pow(Vector2::x(vec), 2) + BWMath::pow(Vector2::y(vec), 2)));
 }
 float  Vector2::dot(const Vector2& vec1, const Vector2& vec2)
 {
@@ -75,110 +75,110 @@ void Vector2::operator=(const Vector2& vec) {
 	vec2[0] = vec.vec2[0];
 	vec2[1] = vec.vec2[1];
 }
-inline Vector2 Vector2::operator+(const Vector2& vec) {
+Vector2 Vector2::operator+(const Vector2& vec) {
 
 	Vector2 temp(*this);
 	return temp -= vec;
 }
-inline Vector2 Vector2::operator-(const Vector2& vec) {
+Vector2 Vector2::operator-(const Vector2& vec) {
 
 	Vector2 temp(*this);
 	return temp -= vec;
 }
-inline Vector2 Vector2::operator/(const Vector2& vec) {
+Vector2 Vector2::operator/(const Vector2& vec) {
 
 	Vector2 temp(*this);
 	return temp -= vec;
 }
-inline Vector2& Vector2::operator+=(const Vector2& vec) {
+Vector2& Vector2::operator+=(const Vector2& vec) {
 	vec2[0] = vec2[0] + vec.vec2[0];
 	vec2[1] = vec2[1] + vec.vec2[1];
 
 	return *this;
 }
-inline Vector2& Vector2::operator-=(const Vector2& vec) {
+Vector2& Vector2::operator-=(const Vector2& vec) {
 	vec2[0] = vec2[0] - vec.vec2[0];
 	vec2[1] = vec2[1] - vec.vec2[1];
 
 	return *this;
 }
-inline Vector2& Vector2::operator/=(const Vector2& vec) {
+Vector2& Vector2::operator/=(const Vector2& vec) {
 	vec2[0] = vec2[0] / vec.vec2[0];
 	vec2[1] = vec2[1] / vec.vec2[1];
 
 	return *this;
 }
 
-inline Vector2& Vector2::operator*=(const int& value)
+Vector2& Vector2::operator*=(const int& value)
 {
 	vec2[0] = vec2[0] * static_cast<float>(value);
 	vec2[1] = vec2[1] * static_cast<float>(value);
 
 	return *this;
 }
-inline Vector2& Vector2::operator/=(const int& value)
+Vector2& Vector2::operator/=(const int& value)
 {
 	vec2[0] = vec2[0] / static_cast<float>(value);
 	vec2[1] = vec2[1] / static_cast<float>(value);
 
 	return *this;
 }
-inline Vector2 Vector2::operator*(const int& value)
+Vector2 Vector2::operator*(const int& value)
 {
 	Vector2 temp(*this);
 	return temp *= value;
 }
-inline Vector2 Vector2::operator/(const int& value)
+Vector2 Vector2::operator/(const int& value)
 {
 	Vector2 temp(*this);
 	return temp /= value;
 }
 
-inline Vector2& Vector2::operator*=(const float& value)
+Vector2& Vector2::operator*=(const float& value)
 {
 	vec2[0] = vec2[0] * static_cast<float>(value);
 	vec2[1] = vec2[1] * static_cast<float>(value);
 
 	return *this;
 }
-inline Vector2& Vector2::operator/=(const float& value)
+Vector2& Vector2::operator/=(const float& value)
 {
 	vec2[0] = vec2[0] / static_cast<float>(value);
 	vec2[1] = vec2[1] / static_cast<float>(value);
 
 	return *this;
 }
-inline Vector2 Vector2::operator*(const float& value)
+Vector2 Vector2::operator*(const float& value)
 {
 	Vector2 temp(*this);
 	return temp *= value;
 }
-inline Vector2 Vector2::operator/(const float& value)
+Vector2 Vector2::operator/(const float& value)
 {
 	Vector2 temp(*this);
 	return temp /= value;
 }
 
-inline Vector2& Vector2::operator*=(const double& value)
+Vector2& Vector2::operator*=(const double& value)
 {
 	vec2[0] = vec2[0] * static_cast<float>(value);
 	vec2[1] = vec2[1] * static_cast<float>(value);
 
 	return *this;
 }
-inline Vector2& Vector2::operator/=(const double& value)
+Vector2& Vector2::operator/=(const double& value)
 {
 	vec2[0] = vec2[0] / static_cast<float>(value);
 	vec2[1] = vec2[1] / static_cast<float>(value);
 
 	return *this;
 }
-inline Vector2 Vector2::operator*(const double& value)
+Vector2 Vector2::operator*(const double& value)
 {
 	Vector2 temp(*this);
 	return temp *= value;
 }
-inline Vector2 Vector2::operator/(const double& value)
+Vector2 Vector2::operator/(const double& value)
 {
 	Vector2 temp(*this);
 	return temp /= value;

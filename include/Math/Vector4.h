@@ -54,27 +54,27 @@ public:
 
 #pragma region arithmeticOperator
 	void operator=(const Vector4&);
-	inline Vector4& operator+=(const Vector4&);
-	inline Vector4& operator-=(const Vector4&);
-	inline Vector4& operator/=(const Vector4&);
-	inline Vector4	operator+(const Vector4&);
-	inline Vector4	operator-(const Vector4&);
-	inline Vector4	operator/(const Vector4&);
-	 
-	inline Vector4& operator*=(const int&);
-	inline Vector4& operator/=(const int&);
-	inline Vector4  operator*(const int&);
-	inline Vector4  operator/(const int&);
+	Vector4& operator+=(const Vector4&);
+	Vector4& operator-=(const Vector4&);
+	Vector4& operator/=(const Vector4&);
+	Vector4	operator+(const Vector4&);
+	Vector4	operator-(const Vector4&);
+	Vector4	operator/(const Vector4&);
 	
-	inline Vector4& operator*=(const float&);
-	inline Vector4& operator/=(const float&);
-	inline Vector4	operator*(const float&);
-	inline Vector4	operator/(const float&);
+	Vector4& operator*=(const int&);
+	Vector4& operator/=(const int&);
+	Vector4  operator*(const int&);
+	Vector4  operator/(const int&);
 	
-	inline Vector4& operator*=(const double&);
-	inline Vector4& operator/=(const double&);
-	inline Vector4  operator*(const double&);
-	inline Vector4  operator/(const double&);
+	Vector4& operator*=(const float&);
+	Vector4& operator/=(const float&);
+	Vector4	operator*(const float&);
+	Vector4	operator/(const float&);
+	
+	Vector4& operator*=(const double&);
+	Vector4& operator/=(const double&);
+	Vector4  operator*(const double&);
+	Vector4  operator/(const double&);
 
 #pragma endregion
 

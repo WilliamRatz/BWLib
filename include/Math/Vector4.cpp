@@ -7,7 +7,7 @@
 //
 #include "Vector4.h"
 #include "Matrix.h"
-#include "Math.h"
+#include "BWMath.h"
 
 
 Vector4::Vector4()
@@ -53,7 +53,7 @@ std::size_t Vector4::getHashCode() {
 
 float Vector4::length(const Vector4& vec)
 {
-	return static_cast<float>(MathLib::Sqrt(MathLib::pow(Vector4::x(vec), 2) + MathLib::pow(Vector4::y(vec), 2) + MathLib::pow(Vector4::z(vec), 2)));
+	return static_cast<float>(BWMath::Sqrt(BWMath::pow(Vector4::x(vec), 2) + BWMath::pow(Vector4::y(vec), 2) + BWMath::pow(Vector4::z(vec), 2)));
 }
 float  Vector4::dot(const Vector4& vec1, const Vector4& vec2)
 {
@@ -84,7 +84,7 @@ void Vector4::operator=(const Vector4& vec) {
 	vec4[2] = vec.vec4[2];
 	vec4[3] = vec.vec4[3];
 }
-inline Vector4& Vector4::operator+=(const Vector4& vec) {
+Vector4& Vector4::operator+=(const Vector4& vec) {
 	vec4[0] = vec4[0] + vec.vec4[0];
 	vec4[1] = vec4[1] + vec.vec4[1];
 	vec4[2] = vec4[2] + vec.vec4[2];
@@ -92,7 +92,7 @@ inline Vector4& Vector4::operator+=(const Vector4& vec) {
 
 	return *this;
 }
-inline Vector4& Vector4::operator-=(const Vector4& vec) {
+Vector4& Vector4::operator-=(const Vector4& vec) {
 	vec4[0] = vec4[0] - vec.vec4[0];
 	vec4[1] = vec4[1] - vec.vec4[1];
 	vec4[2] = vec4[2] - vec.vec4[2];
@@ -100,7 +100,7 @@ inline Vector4& Vector4::operator-=(const Vector4& vec) {
 
 	return *this;
 }
-inline Vector4& Vector4::operator/=(const Vector4& vec) {
+Vector4& Vector4::operator/=(const Vector4& vec) {
 	vec4[0] = vec4[0] / vec.vec4[0];
 	vec4[1] = vec4[1] / vec.vec4[1];
 	vec4[2] = vec4[2] / vec.vec4[2];
@@ -108,23 +108,23 @@ inline Vector4& Vector4::operator/=(const Vector4& vec) {
 
 	return *this;
 }
-inline Vector4 Vector4::operator+(const Vector4& vec) {
+Vector4 Vector4::operator+(const Vector4& vec) {
 
 	Vector4 temp(*this);
 	return temp += vec;
 }
-inline Vector4 Vector4::operator-(const Vector4& vec) {
+Vector4 Vector4::operator-(const Vector4& vec) {
 
 	Vector4 temp(*this);
 	return temp -= vec;
 }
-inline Vector4 Vector4::operator/(const Vector4& vec) {
+Vector4 Vector4::operator/(const Vector4& vec) {
 
 	Vector4 temp(*this);
 	return temp /= vec;
 }
 
-inline Vector4& Vector4::operator*=(const int& value)
+Vector4& Vector4::operator*=(const int& value)
 {
 	vec4[0] = vec4[0] * static_cast<float>(value);
 	vec4[1] = vec4[1] * static_cast<float>(value);
@@ -133,7 +133,7 @@ inline Vector4& Vector4::operator*=(const int& value)
 
 	return *this;
 }
-inline Vector4& Vector4::operator/=(const int& value)
+Vector4& Vector4::operator/=(const int& value)
 {
 	vec4[0] = vec4[0] / static_cast<float>(value);
 	vec4[1] = vec4[1] / static_cast<float>(value);
@@ -142,18 +142,18 @@ inline Vector4& Vector4::operator/=(const int& value)
 
 	return *this;
 }
-inline Vector4 Vector4::operator*(const int& value)
+Vector4 Vector4::operator*(const int& value)
 {
 	Vector4 temp(*this);
 	return temp *= value;
 }
-inline Vector4 Vector4::operator/(const int& value)
+Vector4 Vector4::operator/(const int& value)
 {
 	Vector4 temp(*this);
 	return temp /= value;
 }
 
-inline Vector4& Vector4::operator*=(const float& value)
+Vector4& Vector4::operator*=(const float& value)
 {
 	vec4[0] = vec4[0] * static_cast<float>(value);
 	vec4[1] = vec4[1] * static_cast<float>(value);
@@ -162,7 +162,7 @@ inline Vector4& Vector4::operator*=(const float& value)
 
 	return *this;
 }
-inline Vector4& Vector4::operator/=(const float& value)
+Vector4& Vector4::operator/=(const float& value)
 {
 	vec4[0] = vec4[0] / static_cast<float>(value);
 	vec4[1] = vec4[1] / static_cast<float>(value);
@@ -171,18 +171,18 @@ inline Vector4& Vector4::operator/=(const float& value)
 
 	return *this;
 }
-inline Vector4 Vector4::operator*(const float& value)
+Vector4 Vector4::operator*(const float& value)
 {
 	Vector4 temp(*this);
 	return temp *= value;
 }
-inline Vector4 Vector4::operator/(const float& value)
+Vector4 Vector4::operator/(const float& value)
 {
 	Vector4 temp(*this);
 	return temp /= value;
 }
 
-inline Vector4& Vector4::operator*=(const double& value)
+Vector4& Vector4::operator*=(const double& value)
 {
 	vec4[0] = vec4[0] * static_cast<float>(value);
 	vec4[1] = vec4[1] * static_cast<float>(value);
@@ -191,7 +191,7 @@ inline Vector4& Vector4::operator*=(const double& value)
 
 	return *this;
 }
-inline Vector4& Vector4::operator/=(const double& value)
+Vector4& Vector4::operator/=(const double& value)
 {
 	vec4[0] = vec4[0] / static_cast<float>(value);
 	vec4[1] = vec4[1] / static_cast<float>(value);
@@ -200,12 +200,12 @@ inline Vector4& Vector4::operator/=(const double& value)
 
 	return *this;
 }
-inline Vector4 Vector4::operator*(const double& value)
+Vector4 Vector4::operator*(const double& value)
 {
 	Vector4 temp(*this);
 	return temp *= value;
 }
-inline Vector4 Vector4::operator/(const double& value)
+Vector4 Vector4::operator/(const double& value)
 {
 	Vector4 temp(*this);
 	return temp /= value;

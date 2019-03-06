@@ -1,0 +1,6 @@
+﻿  main.cpp
+e:\gitrepositories\bwlib\bwlibtester\main.cpp(4): warning C4326: return type of 'main' should be 'int' instead of 'void'
+main.obj : error LNK2019: unresolved external symbol "public: __thiscall BWFloat::BWFloat(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (??0BWFloat@@QAE@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) referenced in function _main
+main.obj : error LNK2019: unresolved external symbol "public: __thiscall BWFloat::~BWFloat(void)" (??1BWFloat@@QAE@XZ) referenced in function _main
+E:\GitRepositories\BWLib\library\BWLib.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'x86'
+E:\GitRepositories\BWLib\BWLibTester\Debug\BWLibTester.exe : fatal error LNK1120: 2 unresolved externals

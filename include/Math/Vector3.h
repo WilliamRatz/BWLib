@@ -52,27 +52,27 @@ public:
 
 #pragma region arithmeticOperator
 	void operator=(const Vector3&);
-	inline Vector3& operator+=(const Vector3&);
-	inline Vector3& operator-=(const Vector3&);
-	inline Vector3& operator/=(const Vector3&);
-	inline Vector3 operator+(const Vector3&);
-	inline Vector3 operator-(const Vector3&);
-	inline Vector3 operator/(const Vector3&);
+	Vector3& operator+=(const Vector3&);
+	Vector3& operator-=(const Vector3&);
+	Vector3& operator/=(const Vector3&);
+	Vector3 operator+(const Vector3&);
+	Vector3 operator-(const Vector3&);
+	Vector3 operator/(const Vector3&);
 	
-	inline Vector3& operator*=(const int&);
-	inline Vector3& operator/=(const int&);
-	inline Vector3 operator*(const int&);
-	inline Vector3 operator/(const int&);
+	Vector3& operator*=(const int&);
+	Vector3& operator/=(const int&);
+	Vector3 operator*(const int&);
+	Vector3 operator/(const int&);
 	
-	inline Vector3& operator*=(const float&);
-	inline Vector3& operator/=(const float&);
-	inline Vector3 operator*(const float&);
-	inline Vector3 operator/(const float&);
+	Vector3& operator*=(const float&);
+	Vector3& operator/=(const float&);
+	Vector3 operator*(const float&);
+	Vector3 operator/(const float&);
 	
-	inline Vector3& operator*=(const double&);
-	inline Vector3& operator/=(const double&);
-	inline Vector3 operator*(const double&);
-	inline Vector3 operator/(const double&);
+	Vector3& operator*=(const double&);
+	Vector3& operator/=(const double&);
+	Vector3 operator*(const double&);
+	Vector3 operator/(const double&);
 
 #pragma endregion
 

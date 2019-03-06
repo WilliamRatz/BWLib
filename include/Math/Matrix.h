@@ -57,13 +57,13 @@ public:
 	Matrix&			translate3D				(float x, float y, float z);
 	Matrix&			translate3D				(Vector3 vec3);
 	Matrix&			scale3D					(float width, float height, float depth);
-	Matrix&			rotation3DAroundX				(float angle);
-	Matrix&			rotation3DAroundY				(float angle);
-	Matrix&			rotation3DAroundZ				(float angle);
+	Matrix&			rotation3DAroundX		(float angle);
+	Matrix&			rotation3DAroundY		(float angle);
+	Matrix&			rotation3DAroundZ		(float angle);
 
-	Matrix&			rotation3DAroundXlocal			(float angle);
-	Matrix&			rotation3DAroundYlocal			(float angle);
-	Matrix&			rotation3DAroundZlocal			(float angle);
+	Matrix&			rotation3DAroundXlocal	(float angle);
+	Matrix&			rotation3DAroundYlocal	(float angle);
+	Matrix&			rotation3DAroundZlocal	(float angle);
 
 	Matrix&			rotation3DAroundArbitararyAxis	(float angle, Vector3 axis);
 
@@ -99,7 +99,6 @@ typeMatrix inline Matrix<T, R, C>::Matrix(const Matrix& mat)
 }
 
 #pragma endregion
-
 #pragma region Methods
 
 typeMatrix inline Vector3 Matrix<T, R, C>::Forward()
@@ -190,7 +189,7 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::rotation2D(float angle)
 	}
 
 	Matrix<T, R, C> rotat2D;
-	double degress = (double)angle * MathLib::PI / 180; // change from Rad to degrees
+	double degress = (double)angle * BWMath::PI / 180; // change from Rad to degrees
 
 	rotat2D[0][0] = (T)std::cos(degress);
 	rotat2D[0][1] = (T)std::sin(degress);
@@ -253,7 +252,7 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::rotation3DAroundX(float angl
 	}
 
 	Matrix<T, R, C> rotat3DX;
-	double degress = (double)angle * MathLib::PI / 180; // change from Rad to degrees
+	double degress = (double)angle * BWMath::PI / 180; // change from Rad to degrees
 
 	rotat3DX[1][1] = (T)std::cos(degress);
 	rotat3DX[1][2] = (T)-std::sin(degress);
@@ -270,7 +269,7 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::rotation3DAroundY(float angl
 	}
 
 	Matrix<T, R, C> rotat3DY;
-	double degress = (double)angle * MathLib::PI / 180; // change from Rad to degrees
+	double degress = (double)angle * BWMath::PI / 180; // change from Rad to degrees
 
 	rotat3DY[0][0] = (T)std::cos(degress);
 	rotat3DY[0][2] = (T)std::sin(degress);
@@ -287,7 +286,7 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::rotation3DAroundZ(float angl
 	}
 
 	Matrix<T, R, C> rotat3DZ;
-	double degress = (double)angle * MathLib::PI / 180; // change from Rad to degrees
+	double degress = (double)angle * BWMath::PI / 180; // change from Rad to degrees
 
 	rotat3DZ[0][0] = (T)std::cos(degress);
 	rotat3DZ[0][1] = (T)std::sin(degress);
@@ -366,17 +365,17 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::rotation3DAroundArbitararyAx
 	}
 
 	Matrix<T, R, C> rotat3DArbiAxis;
-	double degress = (double)angle * MathLib::PI / 180; // change from Rad to degrees
+	double degress = (double)angle * BWMath::PI / 180; // change from Rad to degrees
 
-	rotat3DArbiAxis[0][0] = (std::cos(angle) + MathLib::pow(axis.x(), 2)) * (1 - std::cos(angle));
+	rotat3DArbiAxis[0][0] = (std::cos(angle) + BWMath::pow(axis.x(), 2)) * (1 - std::cos(angle));
 	rotat3DArbiAxis[0][1] = (axis.x() * axis.y()) * (1 - std::cos(angle)) - (axis.z()*std::sin(angle));
 	rotat3DArbiAxis[0][2] = (axis.x() * axis.z()) * (1 - std::cos(angle)) + (axis.y()*std::sin(angle));
 	rotat3DArbiAxis[1][0] = (axis.y() * axis.x()) * (1 - std::cos(angle)) + (axis.z()*std::sin(angle));
-	rotat3DArbiAxis[1][1] = (std::cos(angle) + MathLib::pow(axis.y(), 2)) * (1 - std::cos(angle));
+	rotat3DArbiAxis[1][1] = (std::cos(angle) + BWMath::pow(axis.y(), 2)) * (1 - std::cos(angle));
 	rotat3DArbiAxis[1][2] = (axis.y() * axis.z()) * (1 - std::cos(angle)) - (axis.x()*std::sin(angle));
 	rotat3DArbiAxis[2][0] = (axis.z() * axis.x()) * (1 - std::cos(angle)) - (axis.y()*std::sin(angle));
 	rotat3DArbiAxis[2][1] = (axis.z() * axis.y()) * (1 - std::cos(angle)) + (axis.x()*std::sin(angle));
-	rotat3DArbiAxis[2][2] = std::cos(angle) + MathLib::pow(axis.z(), 2) * (1 - std::cos(angle));
+	rotat3DArbiAxis[2][2] = std::cos(angle) + BWMath::pow(axis.z(), 2) * (1 - std::cos(angle));
 
 	*this *= rotat3DArbiAxis;
 	return *this;
@@ -451,7 +450,6 @@ typeMatrix inline Matrix<T, C, R> Matrix<T, R, C>::transpose()
 }
 
 #pragma endregion
-
 #pragma region arithmeticOperator
 
 typeMatrix void Matrix<T, R, C>::operator=(const Matrix& mat)
@@ -515,7 +513,6 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator*=(const Matrix& mat
 	return *this;
 }
 #pragma endregion
-
 #pragma region comparisonOperator
 typeMatrix inline bool Matrix<T, R, C>::operator==(Matrix& mat)
 {
