@@ -17,15 +17,15 @@ unsigned int BWFloat::getSign(const BWFloat& p_BWFloat)
 }
 unsigned int BWFloat::getExponent(const BWFloat& p_BWFloat)
 {
-	return ((static_cast<unsigned int>(p_BWFloat.m_value) << 1) >> 24);
+	return ((p_BWFloat.m_value << 1) >> 24);
 }
 unsigned int BWFloat::getMantissa(const BWFloat& p_BWFloat)
 {
-	return ((static_cast<unsigned int>(p_BWFloat.m_value) << 9) >> 9);
+	return ((p_BWFloat.m_value << 9) >> 9);
 }
 
 BWFloat::BWFloat() {}
-BWFloat::BWFloat(const int& p_value)
+BWFloat::BWFloat(const unsigned int& p_value)
 {
 	m_value = p_value;
 }
@@ -131,7 +131,6 @@ BWFloat::BWFloat(std::string p_floatString)
 	}
 	else
 	{
-		m_value = 0;
 		return;
 	}
 
@@ -253,8 +252,8 @@ BWFloat::BWFloat(std::string p_floatString)
 	m_value |= exponent;
 	m_value |= mantissa;
 
-	//std::bitset<32> y((m_value));
-	//std::cout << y << std::endl;
+	std::bitset<32> y((m_value));
+	std::cout << y << std::endl;
 }
 BWFloat::BWFloat(const BWFloat& p_bwFloat)
 {
@@ -262,6 +261,26 @@ BWFloat::BWFloat(const BWFloat& p_bwFloat)
 }
 BWFloat::~BWFloat()
 {
+}
+
+BWFloat BWFloat::maxValue()
+{
+	return BWFloat(2139095040);//01111111100000000000000000000000
+}
+
+BWFloat BWFloat::minValue()
+{
+	return BWFloat(4286578688);//11111111100000000000000000000000
+}
+
+BWFloat BWFloat::zero()
+{
+	return BWFloat(0);
+}
+
+bool BWFloat::equalZero(const BWFloat& p_BWFloat)
+{
+	return (p_BWFloat.m_value == 0 || p_BWFloat.m_value == 2147483648) ? true : false; // 2147483648 == -0
 }
 
 #pragma region castOperations
@@ -389,7 +408,7 @@ BWFloat BWFloat::operator-(const BWFloat& p_BWFloat)
 			}
 			else
 			{
-				if(this->m_value == 0 && p_BWFloat.m_value == 0)
+				if (BWFloat::equalZero(*this) && BWFloat::equalZero(p_BWFloat))
 				{
 					return p_BWFloat;
 				}
@@ -409,11 +428,11 @@ BWFloat BWFloat::operator-(const BWFloat& p_BWFloat)
 	}
 
 	int counter = 0;
-	while(result[23] == 0)
+	while (result[23] == 0)
 	{
 		result = result << 1;
 		++counter;
-		if(counter == 23)
+		if (counter == 23)
 		{
 			return BWFloat(0);
 		}
@@ -425,10 +444,87 @@ BWFloat BWFloat::operator-(const BWFloat& p_BWFloat)
 }
 BWFloat BWFloat::operator*(const BWFloat& p_BWFloat)
 {
-	return BWFloat();
+	//zero check
+	if (BWFloat::equalZero(*this) || BWFloat::equalZero(p_BWFloat))
+	{
+		return BWFloat::zero();
+	}
+
+	//sign
+	unsigned int endSign = 0;
+	if (BWFloat::getSign(*this) != 0 && BWFloat::getSign(p_BWFloat) != 0)
+	{
+	}
+	else if (BWFloat::getSign(*this) != 0 || BWFloat::getSign(p_BWFloat) != 0)
+	{
+		std::cout << "sign1 "<< std::endl;
+		endSign = 1;
+	}
+	unsigned int tempValue = (endSign << 31);
+	std::cout << "sign " << std::bitset<32>(tempValue) << std::endl;
+	
+	
+	//exponent
+	if (std::bitset<32>(((int)BWFloat::getExponent(*this) + (int)BWFloat::getExponent(p_BWFloat)) - 127)[8] == 1)
+	{
+		return BWFloat::maxValue();
+	}
+	tempValue |= (((int)BWFloat::getExponent(*this) + (int)BWFloat::getExponent(p_BWFloat)) - 127) << 23;
+	std::cout << "exponent " << std::bitset<32>(tempValue) << std::endl;
+	
+	
+	//mantissa
+	unsigned int tempMantissa1 = BWFloat::getMantissa(*this) | (1 <<23);
+	unsigned int tempMantissa2 = BWFloat::getMantissa(p_BWFloat) | (1 << 23);
+	
+
+	unsigned long long int tempMantissa = static_cast<unsigned long long int>(tempMantissa1) * static_cast<unsigned long long int>(tempMantissa2);
+	for (int i = 0; i < 24; ++i)//until first bit of exponent
+	{
+		if (std::bitset<64>(tempMantissa)[47 - i] == 1)
+		{
+			tempMantissa = tempMantissa >> 1;
+		}
+	}
+	std::bitset<32>tempBitset(tempMantissa);
+	tempBitset[23] = 0;
+
+	tempValue |= tempBitset.to_ulong();
+
+	std::cout << "all" << std::bitset<32>(tempValue) << std::endl;
+	return BWFloat(tempValue);
+
 }
 BWFloat BWFloat::operator/(const BWFloat& p_BWFloat)
 {
+	//zero check
+	if (BWFloat::equalZero(*this))
+	{
+		return BWFloat::zero();
+	}
+	else if(BWFloat::equalZero(p_BWFloat))
+	{
+		throw std::logic_error("You try to dividing by zero !");
+	}
+
+	//sign
+	unsigned int endSign = 0;
+	if (BWFloat::getSign(*this) != 0 && BWFloat::getSign(p_BWFloat) != 0)
+	{
+	}
+	else if (BWFloat::getSign(*this) != 0 || BWFloat::getSign(p_BWFloat) != 0)
+	{
+		std::cout << "sign1 " << std::endl;
+		endSign = 1;
+	}
+	unsigned int tempValue = (endSign << 31);
+	std::cout << "sign " << std::bitset<32>(tempValue) << std::endl;
+
+
+	unsigned int tempMantissa1 = BWFloat::getMantissa(*this) | (1 << 23);
+	unsigned int tempMantissa2 = BWFloat::getMantissa(p_BWFloat) | (1 << 23);
+
+	std::cout << "mantisse " << std::bitset<32>(tempMantissa1 / tempMantissa2) << std::endl;
 	return BWFloat();
 }
 
