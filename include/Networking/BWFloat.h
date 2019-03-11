@@ -31,7 +31,6 @@ public:
 
 #pragma region castOperations
 	operator BWDouble();
-	operator float();
 	operator double();
 	operator int();
 #pragma endregion
