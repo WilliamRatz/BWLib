@@ -188,6 +188,12 @@ int  BWMath::sign(const float& p_value)
 	return (p_value > 0) ? 1 : ((p_value < 0) ? -1 : 0);
 }
 
+int BWMath::sign(const int& p_value)
+{
+	return (p_value > 0) ? 1 : ((p_value < 0) ? -1 : 0);
+}
+
+
 
 
 

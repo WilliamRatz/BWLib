@@ -5,7 +5,7 @@ using namespace std;
 
 void main()
 {
-	BWFloat a("-1043567");
+	BWFloat a("4294967294");
 	BWFloat b("-300778");
 	//BWFloat("0.0001233435567686");
 	float d = 1.0f;
@@ -14,13 +14,13 @@ void main()
 	for (int i = 0; i < 1; ++i)
 	{
 	}
-	a = a/b;
+	//a = a/b;
 	//010010010011111  1100
 	//a = -a;
 	//std::cout << (75%80) << std::endl;
 
 	//std::cout << 0.0f << std::endl;
-	//std::cout << a << std::endl;
+	std::cout << (unsigned int)a << std::endl;
 	//std::cout <<  BWMath::countDigits(5000) << std::endl ;
 	std::cin >> d;
 	//13.1875

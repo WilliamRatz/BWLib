@@ -35,6 +35,7 @@ public:
 	static int			countDigits(const std::size_t& value);
 	
 	static int			sign(const float& value);
+	static int			sign(const int& value);
 
 	static double		PI_Calc();
 	static double		E_Calc();

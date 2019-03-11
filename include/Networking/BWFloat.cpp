@@ -288,13 +288,30 @@ BWFloat::operator BWDouble()
 {
 	return BWFloat();
 }
-BWFloat::operator double()
-{
-	return BWFloat();
-}
 BWFloat::operator int()
 {
-	return BWFloat();
+	if (BWFloat::getExponent(*this) - 127 > 30)
+	{
+		return ((BWFloat::getSign(*this) == 0) ? 1 : -1) * 2147483647;// max int number
+	}
+	else if (BWFloat::getExponent(*this) - 127 < 0)
+	{
+		return 0;
+	}
+
+	return ((BWFloat::getSign(*this) == 0) ? 1 : -1) * ((int)(BWFloat::getExponent(*this) - 127 > 23 ) ? (BWFloat::getMantissa(*this) | 1 << 23) << ((BWFloat::getExponent(*this) - 127) - 23) : (BWFloat::getMantissa(*this) | 1 << 23) >> (23 - (BWFloat::getExponent(*this) - 127)));
+}
+BWFloat::operator unsigned int()
+{
+	if (BWFloat::getExponent(*this) - 127 > 31)
+	{
+		return 4294967295;// max int number
+	}
+	else if (BWFloat::getExponent(*this) - 127 < 0)
+	{
+		return 0;
+	}
+	return (int)(BWFloat::getExponent(*this) - 127 > 23) ? (BWFloat::getMantissa(*this) | 1 << 23) << ((BWFloat::getExponent(*this) - 127) - 23) : (BWFloat::getMantissa(*this) | 1 << 23) >> (23 - (BWFloat::getExponent(*this) - 127));
 }
 #pragma endregion
 
@@ -493,7 +510,7 @@ BWFloat BWFloat::operator*(const BWFloat& p_BWFloat)
 }
 BWFloat BWFloat::operator/(const BWFloat& p_BWFloat)
 {
-	unsigned int tempValue;
+	unsigned int tempValue = 0;
 
 	//zero check
 	if (BWFloat::equalZero(*this))
@@ -513,7 +530,7 @@ BWFloat BWFloat::operator/(const BWFloat& p_BWFloat)
 	{
 		tempValue = (1 << 31);
 	}
-	
+
 	//exponent
 	if ((((int)BWFloat::getExponent(*this) - (int)BWFloat::getExponent(p_BWFloat)) + 127) >= 255)
 	{
@@ -525,7 +542,8 @@ BWFloat BWFloat::operator/(const BWFloat& p_BWFloat)
 		{
 			return BWFloat::minValue();
 		}
-	}else
+	}
+	else
 	{
 		tempValue |= (((int)BWFloat::getExponent(*this) - (int)BWFloat::getExponent(p_BWFloat)) + 127) << 23;
 	}
@@ -540,7 +558,7 @@ BWFloat BWFloat::operator/(const BWFloat& p_BWFloat)
 	}
 
 	tempValue |= ((unsigned int)((tempMantissa1 / tempMantissa2) << 9)) >> 9;
-	
+
 	return BWFloat(tempValue);
 }
 
