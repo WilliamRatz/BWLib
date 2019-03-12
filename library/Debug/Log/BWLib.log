@@ -1,12 +1,15 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets(1879,5): warning : The referenced project '..\Rendering\Rendering.vcxproj' does not exist.
-  BWFloat.cpp
-e:\gitrepositories\bwlib\include\networking\bwfloat.cpp(68): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-e:\gitrepositories\bwlib\include\networking\bwfloat.cpp(68): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-e:\gitrepositories\bwlib\include\networking\bwfloat.cpp(90): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-e:\gitrepositories\bwlib\include\networking\bwfloat.cpp(99): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-e:\gitrepositories\bwlib\include\networking\bwfloat.cpp(140): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-e:\gitrepositories\bwlib\include\networking\bwfloat.cpp(140): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
-e:\gitrepositories\bwlib\include\networking\bwfloat.cpp(149): warning C4244: '*=': conversion from 'double' to 'int', possible loss of data
-e:\gitrepositories\bwlib\include\networking\bwfloat.cpp(221): warning C4554: '<<': check operator precedence for possible error; use parentheses to clarify precedence
-e:\gitrepositories\bwlib\include\networking\bwfloat.cpp(290): warning C4717: 'BWFloat::operator BWDouble': recursive on all control paths, function will cause runtime stack overflow
-  BWLib.vcxproj -> E:\GitRepositories\BWLib\library\BWLib.lib
+  BWNet.cpp
+e:\gitrepositories\bwlib\include\networking\bwnet.h(13): error C3646: 'SendPackage': unknown override specifier
+e:\gitrepositories\bwlib\include\networking\bwnet.h(13): error C2059: syntax error: ')'
+e:\gitrepositories\bwlib\include\networking\bwnet.h(13): error C2238: unexpected token(s) preceding ';'
+e:\gitrepositories\bwlib\include\networking\bwnet.cpp(44): error C2039: 'SendPackage': is not a member of 'BWNet'
+  e:\gitrepositories\bwlib\include\networking\bwnet.h(4): note: see declaration of 'BWNet'
+  NetSocket.cpp
+e:\gitrepositories\bwlib\include\networking\netsocket.cpp(13): error C2039: 'ShutdownSockets': is not a member of 'NetSocket'
+  e:\gitrepositories\bwlib\include\networking\netsocket.h(2): note: see declaration of 'NetSocket'
+e:\gitrepositories\bwlib\include\networking\netsocket.cpp(16): error C3861: 'WSACleanup': identifier not found
+  NetPackage.cpp
+e:\gitrepositories\bwlib\include\networking\netpackage.h(8): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  e:\gitrepositories\bwlib\include\networking\netpackage.h(8): note: This member will be ignored by a defaulted constructor or copy/move assignment operator
+  Generating Code...

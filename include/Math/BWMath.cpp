@@ -89,7 +89,7 @@ double BWMath::pow(const double& p_base, const double& p_exponent)
 
 	return result;
 }
-std::size_t BWMath::faculty(const std::size_t& p_value)
+unsigned int BWMath::faculty(const unsigned int& p_value)
 {
 	if (p_value < 0) {
 		throw std::out_of_range("no negativ faculty");
@@ -103,7 +103,7 @@ std::size_t BWMath::faculty(const std::size_t& p_value)
 
 	return result;
 }
-std::size_t BWMath::Abs(const int & p_value)
+unsigned int BWMath::Abs(const int & p_value)
 {
 	if (p_value >= 0)
 		return p_value;
@@ -150,13 +150,13 @@ double BWMath::ceil(const double& p_value, const int& p_position)
 	return temp;
 }
 
-int BWMath::crossSum(const std::size_t& p_value)
+unsigned int BWMath::crossSum(const unsigned int& p_value)
 {
 	if (p_value == NULL)
 		return 0;
 
-	std::size_t tempValue = p_value;
-	int result = 0;
+	unsigned int tempValue = p_value;
+	unsigned int result = 0;
 
 	while (tempValue > 0) {
 		result += tempValue % 10;
@@ -165,12 +165,12 @@ int BWMath::crossSum(const std::size_t& p_value)
 	return result;
 }
 
-int BWMath::countDigits(const std::size_t & p_value)
+unsigned int BWMath::countDigits(const unsigned int & p_value)
 {
 	if (p_value == NULL)
 		return 0;
 
-	std::size_t tempValue = p_value;
+	unsigned int tempValue = p_value;
 	int result = 0;
 
 	while (tempValue > 9) {
@@ -182,7 +182,7 @@ int BWMath::countDigits(const std::size_t & p_value)
 	return result;
 }
 
-int  BWMath::sign(const float& p_value)
+int BWMath::sign(const float& p_value)
 {
 	//return (p_value > 0) - (p_value < 0);
 	return (p_value > 0) ? 1 : ((p_value < 0) ? -1 : 0);

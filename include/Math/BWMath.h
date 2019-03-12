@@ -7,45 +7,43 @@
 //
 #ifndef Math_H
 #define Math_H
-#include <iostream>
 
 class BWMath {
+
 public:
-
-	virtual ~BWMath() = 0;
-
-	static double		Sqrt(const double& value);
-	static double		Sin(const double& angle);
-	static double		Cos(const double& angle);
-	static double		Tan(const double& angle);
-
-	static double		ArcSin(const double& angle);
-	static double		ArcCos(const double& angle);
-	static double		ArcTan(const double& angle);
-
-	static double		pow(const double& base, const double& exponent);
-	static std::size_t	faculty(const std::size_t& value);
-	static std::size_t	Abs(const int& value);
-
-	static double		fract(const double& value);
-	static double		round(const double& value, const int& position);
-	static double		floor(const double& value, const int& position);
-	static double		ceil(const double& value, const int& position);
-	static int			crossSum(const std::size_t& value);
-	static int			countDigits(const std::size_t& value);
 	
-	static int			sign(const float& value);
-	static int			sign(const int& value);
+	static double			Sqrt		(const double& value);
+	static double			Sin			(const double& angle);
+	static double			Cos			(const double& angle);
+	static double			Tan			(const double& angle);
 
-	static double		PI_Calc();
-	static double		E_Calc();
+	static double			ArcSin		(const double& angle);
+	static double			ArcCos		(const double& angle);
+	static double			ArcTan		(const double& angle);
 
-	static const double PI;
-	static const double TAU;
-	static const double EULER;
+	static double			pow			(const double& base, const double& exponent);
+	static unsigned int		faculty		(const unsigned int& value);
+	static unsigned int		Abs			(const int& value);
 
-	static const double toDeg;
-	static const double toRad;
+	static double			fract		(const double& value);
+	static double			round		(const double& value, const int& position);
+	static double			floor		(const double& value, const int& position);
+	static double			ceil		(const double& value, const int& position);
+	static unsigned int		crossSum	(const unsigned int& value);
+	static unsigned int		countDigits	(const unsigned int& value);
+	
+	static int				sign		(const float& value);
+	static int				sign		(const int& value);
+
+	static double			PI_Calc		();
+	static double			E_Calc		();
+
+	static const double		PI;
+	static const double		TAU;
+	static const double		EULER;
+
+	static const double		toDeg;
+	static const double		toRad;
 };
 
 

@@ -33,6 +33,8 @@
     <ClCompile Include="include\Networking\BWFloat.cpp" />
     <ClCompile Include="include\Networking\BWNet.cpp" />
     <ClCompile Include="include\Physik\BWPhysik.cpp" />
+    <ClCompile Include="include\Networking\NetSocket.cpp" />
+    <ClCompile Include="include\Networking\NetPackage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Inc_BWMath.h" />
@@ -49,6 +51,8 @@
     <ClInclude Include="include\Networking\BWFloat.h" />
     <ClInclude Include="include\Networking\BWNet.h" />
     <ClInclude Include="include\Physik\BWPhysik.h" />
+    <ClInclude Include="include\Networking\NetSocket.h" />
+    <ClInclude Include="include\Networking\NetPackage.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
