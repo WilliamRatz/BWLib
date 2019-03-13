@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "NetDefine.h"
 
 class BWNet
 {
@@ -7,18 +8,11 @@ public:
 	BWNet();
 	~BWNet();
 
-
+	static NetResult InitializeSocketLayer();
 	static void ShutdownSockets();
-
-	static NetResult SendPackage();
-
+	
 	std::string ErrorDecoder(short errorCode);
 
 };
 
-struct NetResult
-{
-	bool authorized = true;
-	short errorCode = 0;
-};
 

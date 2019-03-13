@@ -1,14 +1,20 @@
 #pragma once
+#include "NetAddress.h"
 
 class NetPackage
 {
 private:
-	short socketPort;
-	unsigned int adress;
-	unsigned char data[];
+	NetAddress*		m_adress;
+	unsigned char*	m_dataArray;
+	unsigned int	m_dataSize;
 
 public:
-	NetPackage();
-	~NetPackage();
+	NetPackage		(NetAddress* netAdress, unsigned char* dataArray, unsigned int dataSize);
+	NetPackage		(const NetPackage&);
+	~NetPackage		();
+
+	NetAddress*		GetNetAddressRef();
+	unsigned char*	GetDataArrayPtr();
+	unsigned int&	GetDataSizeRef();
 };
 

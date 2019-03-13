@@ -42,10 +42,13 @@
     <ClCompile Include="include\Physik\BWPhysik.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\Networking\NetSocket.cpp">
+    <ClCompile Include="include\Networking\NetPackage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\Networking\NetPackage.cpp">
+    <ClCompile Include="include\Networking\NetAddress.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Networking\NetSocketUDP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,10 +95,19 @@
     <ClInclude Include="include\Physik\BWPhysik.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Networking\NetSocket.h">
+    <ClInclude Include="include\Networking\NetPackage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Networking\NetPackage.h">
+    <ClInclude Include="include\Networking\NetDefine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Inc_SmartMacros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Networking\NetAddress.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Networking\NetSocketUDP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

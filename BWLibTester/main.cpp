@@ -1,28 +1,31 @@
 #include "Inc_BWNetworking.h"
+#include "Inc_SmartMacros.h"
 #include "Inc_BWMath.h"
 #include <bitset>
 using namespace std;
 
 void main()
 {
-	BWFloat a("4294967294");
-	BWFloat b("-300778");
-	//BWFloat("0.0001233435567686");
-	float d = 1.0f;
-	float c = 1016666666.0f;
 
-	for (int i = 0; i < 1; ++i)
+	NetSocketUDP udpSocket;
+	NetAddress	adress(127, 0, 0, 1, 4000);
+
+	unsigned char sendArray[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
+	NetPackage	package(&adress, sendArray, sizeof(sendArray));
+
+
+	Println(BWNet::InitializeSocketLayer().m_errorCode);
+	Println(udpSocket.OpenSocket(4000).m_errorCode);
+	Println(udpSocket.Send(package).m_errorCode);
+
+
+
+
+	int a = NULL;
+	if (!a) 
 	{
-	}
-	//a = a/b;
-	//010010010011111  1100
-	//a = -a;
-	//std::cout << (75%80) << std::endl;
+	Println("drf" );
 
-	//std::cout << 0.0f << std::endl;
-	std::cout << (unsigned int)a << std::endl;
-	//std::cout <<  BWMath::countDigits(5000) << std::endl ;
-	std::cin >> d;
-	//13.1875
-	//01000001010100110000000000000000
+	}
+	std::cin >> a;
 }

@@ -1,15 +1,2 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\Microsoft.Common.CurrentVersion.targets(1879,5): warning : The referenced project '..\Rendering\Rendering.vcxproj' does not exist.
-  BWNet.cpp
-e:\gitrepositories\bwlib\include\networking\bwnet.h(13): error C3646: 'SendPackage': unknown override specifier
-e:\gitrepositories\bwlib\include\networking\bwnet.h(13): error C2059: syntax error: ')'
-e:\gitrepositories\bwlib\include\networking\bwnet.h(13): error C2238: unexpected token(s) preceding ';'
-e:\gitrepositories\bwlib\include\networking\bwnet.cpp(44): error C2039: 'SendPackage': is not a member of 'BWNet'
-  e:\gitrepositories\bwlib\include\networking\bwnet.h(4): note: see declaration of 'BWNet'
-  NetSocket.cpp
-e:\gitrepositories\bwlib\include\networking\netsocket.cpp(13): error C2039: 'ShutdownSockets': is not a member of 'NetSocket'
-  e:\gitrepositories\bwlib\include\networking\netsocket.h(2): note: see declaration of 'NetSocket'
-e:\gitrepositories\bwlib\include\networking\netsocket.cpp(16): error C3861: 'WSACleanup': identifier not found
-  NetPackage.cpp
-e:\gitrepositories\bwlib\include\networking\netpackage.h(8): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  e:\gitrepositories\bwlib\include\networking\netpackage.h(8): note: This member will be ignored by a defaulted constructor or copy/move assignment operator
-  Generating Code...
+﻿  NetSocketUDP.cpp
+  BWLib.vcxproj -> E:\GitRepositories\BWLib\library\BWLib.lib

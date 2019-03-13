@@ -1,28 +1,3 @@
-// platform detection
-#define PLATFORM_WINDOWS  1
-#define PLATFORM_MAC      2
-#define PLATFORM_UNIX     3
-
-#if defined(_WIN32)
-#define PLATFORM PLATFORM_WINDOWS
-#elif defined(__APPLE__)
-#define PLATFORM PLATFORM_MAC
-#else
-#define PLATFORM PLATFORM_UNIX
-#endif
-#if PLATFORM == PLATFORM_WINDOWS
-
-#include <winsock2.h>
-#pragma comment( lib, "wsock32.lib" )
-
-#elif PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
-
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <fcntl.h>
-
-#endif
-
 #include "BWNet.h"
 
 BWNet::BWNet()
@@ -34,15 +9,29 @@ BWNet::~BWNet()
 {
 }
 
+NetResult BWNet::InitializeSocketLayer()
+{
+#if PLATFORM == PLATFORM_WINDOWS
+	WSADATA WsaData;
+	if(WSAStartup(MAKEWORD(2, 2),&WsaData) == NO_ERROR)
+	{
+		return NetResult(true, 0);
+	}
+	else
+	{
+		return NetResult(false, 1);
+	}
+#else
+	return true;
+#endif
+}
+
 void BWNet::ShutdownSockets()
 {
 #if PLATFORM == PLATFORM_WINDOWS
 	WSACleanup();
 #endif
 }
-
-NetResult BWNet::SendPackage()
-{}
 
 std::string BWNet::ErrorDecoder(short errorCode)
 {
@@ -52,7 +41,25 @@ std::string BWNet::ErrorDecoder(short errorCode)
 			return "No Error occurred"; 
 			break;
 		case 1:
-			return "Failed to send packet";
+			return "Failed to initialize the sockets layer";
+			break;
+		case 2:
+			return "Failed to open the socket, did you initialized the sockets layer (BWNet::InitializeSocketLayer())";
+			break;
+		case 3:
+			return "Failed to open the socket on your port number, please use an unused port between 1025 and 49999. Or use 0 to get an random free port";
+			break;
+		case 4:
+			return "Failed to enable NonBlocking on your socket. Check if you initialized the sockets layer (BWNet::InitializeSocketLayer()) and if you opened the socket or did you ShutdownSockets (BWNet::ShutdownSockets()) all sockets allready";
+			break;
+		case 5:
+			return "Failed to disable NonBlocking on your socket. Check if you allready initialized the sockets layer (BWNet::InitializeSocketLayer()) and if you opened the socket or did you ShutdownSockets (BWNet::ShutdownSockets()) all sockets allready";
+			break;
+		case 6:
+			return "Sending failed check your socket if you setup everything correctly";
+			break;
+		case 7:
+			return "Closeing of socket failed is the socket allready created?";
 			break;
 		
 		

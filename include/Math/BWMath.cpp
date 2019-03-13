@@ -94,9 +94,9 @@ unsigned int BWMath::faculty(const unsigned int& p_value)
 	if (p_value < 0) {
 		throw std::out_of_range("no negativ faculty");
 	}
-	std::size_t result = 1;
+	unsigned int result = 1;
 
-	for (std::size_t i = 2; i <= p_value; ++i)
+	for (unsigned int i = 2; i <= p_value; ++i)
 	{
 		result *= i;
 	}
