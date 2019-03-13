@@ -15,7 +15,7 @@ public:
 	NetResult CloseSocket();
 	
 	NetResult Send(NetPackage& netPackage);
-	int Receive(NetAddress& receiveAdress, void* callbackData, int size);
+	void Receive(NetAddress& receiveAdress, void callbackData(unsigned char* dataArray, unsigned int arraySize), unsigned int maxReceiveSize);
 
 	NetResult EnableNonBlocking();
 	NetResult DisableNonBlocking();

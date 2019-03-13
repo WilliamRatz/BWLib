@@ -72,6 +72,34 @@ NetResult NetSocketUDP::Send(NetPackage& p_netPackage)
 	return NetResult(true, 0);
 }
 
+void NetSocketUDP::Receive(NetAddress& p_receiveAdress, void callbackData(unsigned char* dataArray, unsigned int arraySize), unsigned int p_maxReceiveSize)
+{
+	unsigned char packet_data[256];
+
+
+#if PLATFORM == PLATFORM_WINDOWS
+	typedef int socklen_t;
+#endif
+
+	sockaddr_in from;
+	socklen_t fromLength = sizeof(from);
+
+	int bytes = recvfrom(m_handle,
+		(char *)packet_data,
+		sizeof(packet_data),
+		0,
+		(sockaddr*)&from,
+		&fromLength);
+
+	if (bytes <= 0)
+		return;
+
+	unsigned int from_address = ntohl(from.sin_addr.s_addr);
+	unsigned int from_port = ntohs(from.sin_port);
+
+	callbackData((unsigned char*)packet_data, sizeof(packet_data));
+}
+
 
 NetResult NetSocketUDP::EnableNonBlocking()
 {
