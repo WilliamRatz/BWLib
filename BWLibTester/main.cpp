@@ -2,22 +2,11 @@
 #include "Inc_SmartMacros.h"
 #include "Inc_BWMath.h"
 #include <bitset>
-using namespace std;
 
-void callbackfunc(unsigned char* dataArray, unsigned int arraySize)
-{
-	Print(dataArray[0]);
-	Print(dataArray[1]);
-	Print(dataArray[2]);
-	Print(dataArray[3]);
-	Print(dataArray[4]);
-	Print(dataArray[5]);
-	Print(dataArray[6]);
-}
 
 void main()
 {
-	NetSocketUDP udpSocket;
+	/*NetSocketUDP udpSocket;
 	NetAddress	adress(127, 0, 0, 1, 4000);
 
 	unsigned char sendArray[]{'a', 'b', 'r', 'd', 'e', 'f', 'g', 'h', 'i'};
@@ -31,7 +20,7 @@ void main()
 	while (true)
 	{
 
-	udpSocket.Receive(adress, callbackfunc, 500);
+	udpSocket.Receive(adress, 500);
 	}
 
 	int b = NULL;
@@ -41,5 +30,5 @@ void main()
 
 	}
 
-	std::cin >> b;
+	std::cin >> b;*/
 }

@@ -8,17 +8,17 @@
 
 #ifndef Matrix_H
 #define Matrix_H
+#include "Vector2.h"
 #include "Vector3.h"
+#include "Vector4.h"
+#include "Quaternion.h"
 
 #define typeMatrix template<typename T, std::size_t R, std::size_t C>
-
-//N = rows
-//M = columns
 
 typeMatrix
 class Matrix {
 private:
-	Vector<T, C> columns[R];
+	Vector<T, C> mat[R];
 
 public:
 	Matrix		();
@@ -27,9 +27,9 @@ public:
 
 	Vector<T, C>& operator[](const std::size_t index) {
 		if (index >= R) {
-			throw std::out_of_range("Indexüberschreitung!");
+			throw std::out_of_range("Index out of Range");
 		}
-		return columns[index];
+		return mat[index];
 	}
 
 #pragma region Methods
@@ -71,7 +71,13 @@ public:
 	Matrix&			orthogonalProjection	(float windowWidth, float windowHeight, float nearPlane, float farPlane);
 
 #pragma endregion
-#pragma region arithmeticOperator
+#pragma region castOperations
+	operator Vector2();
+	operator Vector3();
+	operator Vector4();
+	operator Quaternion();
+#pragma endregion
+#pragma region arithmeticOperations
 	void		operator=			(const Matrix&);
 	Matrix		operator+			(const Matrix&);
 	Matrix		operator-			(const Matrix&);
@@ -80,7 +86,7 @@ public:
 	Matrix&		operator-=			(const Matrix&);
 	Matrix&		operator*=			(const Matrix&);
 #pragma endregion
-#pragma region comparisonOperator
+#pragma region comparisonOperations
 	bool		operator==			(Matrix&);
 	bool		operator!=			(Matrix&);
 #pragma endregion
@@ -93,9 +99,9 @@ typeMatrix inline Matrix<T, R, C>::Matrix()
 {
 	this->identity();
 }
-typeMatrix inline Matrix<T, R, C>::Matrix(const Matrix& mat)
+typeMatrix inline Matrix<T, R, C>::Matrix(const Matrix& mat1)
 {
-	*this = mat;
+	*this = mat1;
 }
 
 #pragma endregion
@@ -103,32 +109,32 @@ typeMatrix inline Matrix<T, R, C>::Matrix(const Matrix& mat)
 
 typeMatrix inline Vector3 Matrix<T, R, C>::Forward()
 {
-	return Vector3(columns[0][2], columns[1][2], columns[2][2]);
+	return Vector3(mat[0][2], mat[1][2], mat[2][2]);
 }
 
 typeMatrix inline Vector3 Matrix<T, R, C>::Backwards()
 {
-	return Vector3(-columns[0][2], -columns[1][2], -columns[2][2]);
+	return Vector3(-mat[0][2], -mat[1][2], -mat[2][2]);
 }
 
 typeMatrix inline Vector3 Matrix<T, R, C>::Left()
 {
-	return Vector3(-columns[0][0], -columns[1][0], -columns[2][0]);
+	return Vector3(-mat[0][0], -mat[1][0], -mat[2][0]);
 }
 
 typeMatrix inline Vector3 Matrix<T, R, C>::Right()
 {
-	return Vector3(columns[0][0], columns[1][0], columns[2][0]);
+	return Vector3(mat[0][0], mat[1][0], mat[2][0]);
 }
 
 typeMatrix inline Vector3 Matrix<T, R, C>::Up()
 {
-	return Vector3(columns[0][1], columns[1][1], columns[2][1]);
+	return Vector3(mat[0][1], mat[1][1], mat[2][1]);
 }
 
 typeMatrix inline Vector3 Matrix<T, R, C>::Down()
 {
-	return Vector3(-columns[0][1], -columns[1][1], -columns[2][1]);
+	return Vector3(-mat[0][1], -mat[1][1], -mat[2][1]);
 }
 
 typeMatrix inline std::size_t Matrix<T, R, C>::getHashCode()
@@ -137,7 +143,7 @@ typeMatrix inline std::size_t Matrix<T, R, C>::getHashCode()
 
 	for (std::size_t i = 0; i < R; ++i) {
 		for (std::size_t ii = 0; ii < C; ++ii) {
-			hash *= static_cast<std::size_t>(23 + std::hash<T>()(columns[i][ii]));
+			hash *= static_cast<std::size_t>(23 + std::hash<T>()(mat[i][ii]));
 		}
 	}
 
@@ -302,17 +308,17 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::rotation3DAroundXlocal(float
 	if (R < 3 && C < 3) {
 		throw std::out_of_range("Your Matrix dont fit for 3D rotation around \"X\" check your dimensions");
 	}
-	Vector3 transformation(columns[0][3], columns[1][3], columns[2][3]);
+	Vector3 transformation(mat[0][3], mat[1][3], mat[2][3]);
 
-	this->columns[0][3] = 0;
-	this->columns[1][3] = 0;
-	this->columns[2][3] = 0;
+	this->mat[0][3] = 0;
+	this->mat[1][3] = 0;
+	this->mat[2][3] = 0;
 
 	this->rotation3DAroundX(angle);
 
-	this->columns[0][3] = transformation.x();
-	this->columns[1][3] = transformation.y();
-	this->columns[2][3] = transformation.z();
+	this->mat[0][3] = transformation.x();
+	this->mat[1][3] = transformation.y();
+	this->mat[2][3] = transformation.z();
 
 	return *this;
 }
@@ -322,17 +328,17 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::rotation3DAroundYlocal(float
 		throw std::out_of_range("Your Matrix dont fit for 3D rotation around \"Y\" check your dimensions");
 	}
 
-	Vector3 transformation(columns[0][3], columns[1][3], columns[2][3]);
+	Vector3 transformation(mat[0][3], mat[1][3], mat[2][3]);
 
-	this->columns[0][3] = 0;
-	this->columns[1][3] = 0;
-	this->columns[2][3] = 0;
+	this->mat[0][3] = 0;
+	this->mat[1][3] = 0;
+	this->mat[2][3] = 0;
 
 	this->rotation3DAroundY(angle);
 
-	this->columns[0][3] = transformation.x();
-	this->columns[1][3] = transformation.y();
-	this->columns[2][3] = transformation.z();
+	this->mat[0][3] = transformation.x();
+	this->mat[1][3] = transformation.y();
+	this->mat[2][3] = transformation.z();
 
 	return *this;
 }
@@ -342,17 +348,17 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::rotation3DAroundZlocal(float
 		throw std::out_of_range("Your Matrix dont fit for 3D rotation around \"Z\" check your dimensions");
 	}
 
-	Vector3 transformation(columns[0][3], columns[1][3], columns[2][3]);
+	Vector3 transformation(mat[0][3], mat[1][3], mat[2][3]);
 
-	this->columns[0][3] = 0;
-	this->columns[1][3] = 0;
-	this->columns[2][3] = 0;
+	this->mat[0][3] = 0;
+	this->mat[1][3] = 0;
+	this->mat[2][3] = 0;
 
 	this->rotation3DAroundZ(angle);
 
-	this->columns[0][3] = transformation.x();
-	this->columns[1][3] = transformation.y();
-	this->columns[2][3] = transformation.z();
+	this->mat[0][3] = transformation.x();
+	this->mat[1][3] = transformation.y();
+	this->mat[2][3] = transformation.z();
 
 	return *this;
 
@@ -423,14 +429,14 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::orthogonalProjection(float w
 
 typeMatrix inline Vector3 Matrix<T, R, C>::getTransform()
 {
-	return Vector3(columns[0][3], columns[1][3], columns[2][3]);
+	return Vector3(mat[0][3], mat[1][3], mat[2][3]);
 }
 
 typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::identity() {
 
 	for (std::size_t i = 0; i < C; ++i) {
 		for (std::size_t ii = 0; ii < R; ++ii) {
-			columns[ii][i] = (i == ii) ? T(1) : T(0);
+			mat[ii][i] = (i == ii) ? T(1) : T(0);
 		}
 	}
 	return *this;
@@ -442,7 +448,7 @@ typeMatrix inline Matrix<T, C, R> Matrix<T, R, C>::transpose()
 
 	for (std::size_t i = 0; i < C; ++i) {
 		for (std::size_t ii = 0; ii < R; ++ii) {
-			temp[i][ii] = columns[ii][i];
+			temp[i][ii] = mat[ii][i];
 		}
 	}
 
@@ -450,52 +456,70 @@ typeMatrix inline Matrix<T, C, R> Matrix<T, R, C>::transpose()
 }
 
 #pragma endregion
-#pragma region arithmeticOperator
+#pragma region castOperations
+typeMatrix inline Matrix<T, R, C>::operator Vector2()
+{
+	return Vector2(mat[0][3], mat[1][3]);
+}
+typeMatrix inline Matrix<T, R, C>::operator Vector3()
+{
+	return Vector3(mat[0][3], mat[1][3], mat[2][3]);
+}
+typeMatrix inline Matrix<T, R, C>::operator Vector4()
+{
+	return Vector4(mat[0][3], mat[1][3], mat[2][3], mat[3][3]);
+}
+typeMatrix inline Matrix<T, R, C>::operator Quaternion()
+{
+	return Quaternion(mat[0][3], mat[1][3], mat[2][3], mat[3][3]);
+}
+#pragma endregion
+#pragma region arithmeticOperations
 
-typeMatrix void Matrix<T, R, C>::operator=(const Matrix& mat)
+typeMatrix void Matrix<T, R, C>::operator=(const Matrix& mat1)
 {
 	for (std::size_t i = 0; i < C; ++i) {
 		for (std::size_t ii = 0; ii < R; ++ii) {
-			columns[ii][i] = mat.columns[ii][i];
+			mat[ii][i] = mat1.mat[ii][i];
 		}
 	}
 }
 
-typeMatrix inline Matrix<T, R, C> Matrix<T, R, C>::operator+(const Matrix& mat) {
+typeMatrix inline Matrix<T, R, C> Matrix<T, R, C>::operator+(const Matrix& mat1) {
 
 	Matrix<T, R, C> temp(*this);
-	return temp += mat;
+	return temp += mat1;
 }
-typeMatrix inline Matrix<T, R, C> Matrix<T, R, C>::operator-(const Matrix& mat) {
+typeMatrix inline Matrix<T, R, C> Matrix<T, R, C>::operator-(const Matrix& mat1) {
 
 	Matrix<T, R, C> temp(*this);
-	return temp -= mat;
+	return temp -= mat1;
 }
-typeMatrix inline Matrix<T, R, C> Matrix<T, R, C>::operator*(const Matrix& mat) {
+typeMatrix inline Matrix<T, R, C> Matrix<T, R, C>::operator*(const Matrix& mat1) {
 
 	Matrix<T, R, C> temp(*this);
-	return temp *= mat;
+	return temp *= mat1;
 }
 						
-typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator+=(const Matrix& mat)
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator+=(const Matrix& mat1)
 {
 	for (std::size_t i = 0; i < R; ++i) {
 		for (std::size_t ii = 0; ii < C; ++ii) {
-			columns[i][ii] = columns[i][ii] + mat.columns[i][ii];
+			mat[i][ii] = mat[i][ii] + mat1.mat[i][ii];
 		}
 	}
 	return *this;
 }
-typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator-=(const Matrix& mat)
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator-=(const Matrix& mat1)
 {
 	for (std::size_t i = 0; i < R; ++i) {
 		for (std::size_t ii = 0; ii < C; ++ii) {
-			columns[i][ii] = columns[i][ii] - mat.columns[i][ii];
+			mat[i][ii] = mat[i][ii] - mat1.mat[i][ii];
 		}
 	}
 	return *this;
 }
-typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator*=(const Matrix& mat)
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator*=(const Matrix& mat1)
 {
 	T tempValue = (T)0;
 	Matrix<T, R, R> tempMat;
@@ -503,7 +527,7 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator*=(const Matrix& mat
 	for (std::size_t i = 0; i < R; ++i) {
 		for (std::size_t ii = 0; ii < R; ++ii) {
 			for (std::size_t iii = 0; iii < C; ++iii) {
-				tempValue += columns[i][iii] * mat.columns[iii][ii];
+				tempValue += mat[i][iii] * mat1.mat[iii][ii];
 			}
 			tempMat[i][ii] = tempValue;
 			tempValue = (T)0;
@@ -513,22 +537,22 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator*=(const Matrix& mat
 	return *this;
 }
 #pragma endregion
-#pragma region comparisonOperator
-typeMatrix inline bool Matrix<T, R, C>::operator==(Matrix& mat)
+#pragma region comparisonOperations
+typeMatrix inline bool Matrix<T, R, C>::operator==(Matrix& mat1)
 {
 	for (std::size_t i = 0; i < R; ++i) {
 		for (std::size_t ii = 0; ii < C; ++ii) {
-			if (columns[i][ii] != mat[i][ii])
+			if (mat[i][ii] != mat1[i][ii])
 				return false;
 		}
 	}
 	return true;
 }
-typeMatrix inline bool Matrix<T, R, C>::operator!=(Matrix& mat)
+typeMatrix inline bool Matrix<T, R, C>::operator!=(Matrix& mat1)
 {
 	for (std::size_t i = 0; i < R; ++i) {
 		for (std::size_t ii = 0; ii < C; ++ii) {
-			if (columns[i][ii] != mat[i][ii])
+			if (mat[i][ii] != mat1[i][ii])
 				return true;
 		}
 	}
@@ -537,12 +561,12 @@ typeMatrix inline bool Matrix<T, R, C>::operator!=(Matrix& mat)
 
 #pragma endregion	
 
-typeMatrix inline std::ostream& operator<<(std::ostream& os, Matrix<T, R, C>& mat) {
+typeMatrix inline std::ostream& operator<<(std::ostream& os, Matrix<T, R, C>& mat1) {
 	for (std::size_t i = 0; i < R; ++i) {
 		os << '|';
 		for (std::size_t ii = 0; ii < C; ++ii) {
 
-			os << mat[i][ii];
+			os << mat1[i][ii];
 			if (ii < C - 1)
 				os << ' ';
 		}

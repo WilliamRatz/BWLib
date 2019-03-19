@@ -12,7 +12,6 @@ public:
 	static void ShutdownSockets();
 	
 	std::string ErrorDecoder(short errorCode);
-
 };
 
 

@@ -8,7 +8,12 @@
 #ifndef Vector2_H
 #define Vector2_H
 #include "Vector.h"
-#include "Matrix.h"
+
+class Vector3;
+class Vector4;
+class Quaternion;
+template<typename T, std::size_t R, std::size_t C>
+class Matrix;
 
 class Vector2 {
 private:
@@ -30,9 +35,8 @@ public:
 	Vector2(const Vector2&);
 
 #pragma region Methods
-
 	void normalize();
-	std::size_t getHashCode();
+	unsigned int getHashCode();
 
 	static Vector2 normalized(const Vector2&);
 	static float length(const Vector2&);
@@ -40,7 +44,13 @@ public:
 
 	static Vector2 One();
 	static Vector2 Zero();
+#pragma endregion
 
+#pragma region castOperations
+	operator Vector3();
+	operator Vector4();
+	operator Quaternion();
+	operator Matrix<float, 4, 4>();
 #pragma endregion
 
 #pragma region arithmeticOperator

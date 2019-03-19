@@ -8,7 +8,12 @@
 #ifndef Quaternion_H
 #define Quaternion_H
 #include "Vector.h"
-#include "Matrix.h"
+
+class Vector2;
+class Vector3;
+class Vector4;
+template<typename T, std::size_t R, std::size_t C>
+class Matrix; 
 
 
 class Quaternion {
@@ -35,15 +40,20 @@ public:
 	Quaternion(float p_x, float p_y, float p_z, float p_w);
 	Quaternion(const Quaternion&);
 
-#pragma region Math
+#pragma region Methods
 	
-	int getHashCode();
-
-	float length();
+	unsigned int getHashCode();
 
 #pragma endregion
 
-#pragma region arithmeticOperator
+#pragma region castOperations
+	operator Vector2();
+	operator Vector3();
+	operator Vector4();
+	operator Matrix<float, 4, 4>();
+#pragma endregion
+
+#pragma region arithmeticOperations
 	void operator=(const Quaternion&);
 	Quaternion operator-();
 
@@ -53,10 +63,9 @@ public:
 	Quaternion& operator+=(const Quaternion&);
 	Quaternion& operator-=(const Quaternion&);
 	Quaternion& operator*=(const Quaternion&);
-	
 #pragma endregion
 
-#pragma region comparisonOperator
+#pragma region comparisonOperations
 	bool operator==(Quaternion&);
 	bool operator!=(Quaternion&);
 #pragma endregion

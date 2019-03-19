@@ -10,7 +10,11 @@
 #define Vector4_H
 #include "Vector.h"
 
-template<typename T, std::size_t R, std::size_t C> class Matrix;
+class Vector2;
+class Vector3;
+class Quaternion;
+template<typename T, std::size_t R, std::size_t C>
+class Matrix;
 
 class Vector4 {
 
@@ -39,9 +43,8 @@ public:
 	Vector4(const Vector4&);
 
 #pragma region Methods
-
 	Vector4 normalize();
-	std::size_t getHashCode();
+	unsigned int getHashCode();
 
 	static Vector4 normalized(const Vector4&);
 	static float length(const Vector4&);
@@ -49,7 +52,13 @@ public:
 
 	static Vector4 One();
 	static Vector4 Zero();
+#pragma endregion
 
+#pragma region castOperations
+	operator Vector2();
+	operator Vector3();
+	operator Quaternion();
+	operator Matrix<float, 4, 4>();
 #pragma endregion
 
 #pragma region arithmeticOperator

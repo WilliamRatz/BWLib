@@ -1,6 +1,31 @@
 #pragma once
 #include "NetPackage.h"
 
+struct ReceiveResult
+{
+	unsigned int m_fromAddress = NULL;
+	unsigned int m_fromPort = NULL;
+
+	ReceiveResult()
+	{
+	}
+	ReceiveResult(unsigned int fromAdress, unsigned int fromPort)
+	{
+		m_fromAddress = fromAdress;
+		m_fromPort = fromPort;
+	}
+
+	unsigned int GetAdress()
+	{
+		return m_fromAddress;
+	}
+	unsigned int GetPort()
+	{
+		return m_fromPort;
+	}
+
+};
+
 class NetSocketUDP
 {
 private:
@@ -15,12 +40,9 @@ public:
 	NetResult CloseSocket();
 	
 	NetResult Send(NetPackage& netPackage);
-	void Receive(NetAddress& receiveAdress, void callbackData(unsigned char* dataArray, unsigned int arraySize), unsigned int maxReceiveSize);
+	ReceiveResult Receive(unsigned char* dataArray, unsigned int dataArrayLength);
 
 	NetResult EnableNonBlocking();
 	NetResult DisableNonBlocking();
 	bool IsOpen() const;
-
-
 };
-

@@ -46,14 +46,13 @@ NetResult NetSocketUDP::CloseSocket()
 		return NetResult(false, 7);
 	}
 #elif PLATFORM == PLATFORM_WINDOWS
-	if(closesocket(m_handle) != 0)
+	if (closesocket(m_handle) != 0)
 	{
 		return NetResult(false, 7);
 	}
 #endif
 	return NetResult(true, 0);
 }
-
 
 NetResult NetSocketUDP::Send(NetPackage& p_netPackage)
 {
@@ -71,12 +70,8 @@ NetResult NetSocketUDP::Send(NetPackage& p_netPackage)
 
 	return NetResult(true, 0);
 }
-
-void NetSocketUDP::Receive(NetAddress& p_receiveAdress, void callbackData(unsigned char* dataArray, unsigned int arraySize), unsigned int p_maxReceiveSize)
+ReceiveResult NetSocketUDP::Receive(unsigned char* p_dataArray, unsigned int p_dataArrayLength)
 {
-	unsigned char packet_data[256];
-
-
 #if PLATFORM == PLATFORM_WINDOWS
 	typedef int socklen_t;
 #endif
@@ -85,21 +80,17 @@ void NetSocketUDP::Receive(NetAddress& p_receiveAdress, void callbackData(unsign
 	socklen_t fromLength = sizeof(from);
 
 	int bytes = recvfrom(m_handle,
-		(char *)packet_data,
-		sizeof(packet_data),
+		(char *)p_dataArray,
+		p_dataArrayLength,
 		0,
 		(sockaddr*)&from,
 		&fromLength);
 
 	if (bytes <= 0)
-		return;
+		return ReceiveResult();
 
-	unsigned int from_address = ntohl(from.sin_addr.s_addr);
-	unsigned int from_port = ntohs(from.sin_port);
-
-	callbackData((unsigned char*)packet_data, sizeof(packet_data));
+	return ReceiveResult(ntohl(from.sin_addr.s_addr), ntohs(from.sin_port));
 }
-
 
 NetResult NetSocketUDP::EnableNonBlocking()
 {
@@ -160,6 +151,3 @@ bool NetSocketUDP::IsOpen() const
 	}
 	return true;
 }
-
-
-

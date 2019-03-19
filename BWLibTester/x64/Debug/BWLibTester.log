@@ -1,3 +1,4 @@
 ﻿  main.cpp
-e:\gitrepositories\bwlib\bwlibtester\main.cpp(19): warning C4326: return type of 'main' should be 'int' instead of 'void'
+e:\gitrepositories\bwlib\bwlibtester\main.cpp(8): warning C4326: return type of 'main' should be 'int' instead of 'void'
+  LINK : E:\GitRepositories\BWLib\BWLibTester\x64\Debug\BWLibTester.exe not found or not built by the last incremental link; performing full link
   BWLibTester.vcxproj -> E:\GitRepositories\BWLib\BWLibTester\x64\Debug\BWLibTester.exe

@@ -11,7 +11,8 @@ const double BWMath::EULER = 2.71828182845904523;
 const double BWMath::toDeg = BWMath::PI / 180;
 const double BWMath::toRad = 180 / BWMath::PI;
 
-double BWMath::Sqrt(const double& p_value) {
+double BWMath::Sqrt(const double& p_value) 
+{
 
 	double result;
 	result = (p_value + 1) / 2;
@@ -20,7 +21,8 @@ double BWMath::Sqrt(const double& p_value) {
 	}
 	return result;
 }
-double BWMath::Sin(const double& p_angle) {
+double BWMath::Sin(const double& p_angle) 
+{
 
 	double angleRad = p_angle * toRad;
 	short size = (int)angleRad % 180;
@@ -37,7 +39,8 @@ double BWMath::Sin(const double& p_angle) {
 
 	return BWMath::floor(result, 4);
 }
-double BWMath::Cos(const double& p_angle) {
+double BWMath::Cos(const double& p_angle) 
+{
 
 	double angleRad = p_angle * toRad;
 	double result = ((int)angleRad % 180) + BWMath::fract(angleRad);
@@ -54,20 +57,24 @@ double BWMath::Cos(const double& p_angle) {
 
 	return BWMath::floor(result, 4);
 }
-double BWMath::Tan(const double& p_angle) {
+double BWMath::Tan(const double& p_angle) 
+{
 
 	return BWMath::floor(BWMath::Sin(p_angle) / BWMath::Cos(p_angle), 4);
 }
 
-double BWMath::ArcSin(const double& p_angle) {
+double BWMath::ArcSin(const double& p_angle) 
+{
 
 	return 3.3;
 }
-double BWMath::ArcCos(const double& p_angle) {
+double BWMath::ArcCos(const double& p_angle) 
+{
 
 	return 3.3;
 }
-double BWMath::ArcTan(const double& p_angle) {
+double BWMath::ArcTan(const double& p_angle) 
+{
 	//TODO
 
 	short size = (int)p_angle % 180;
@@ -164,7 +171,6 @@ unsigned int BWMath::crossSum(const unsigned int& p_value)
 	}
 	return result;
 }
-
 unsigned int BWMath::countDigits(const unsigned int & p_value)
 {
 	if (p_value == NULL)
@@ -187,14 +193,7 @@ int BWMath::sign(const float& p_value)
 	//return (p_value > 0) - (p_value < 0);
 	return (p_value > 0) ? 1 : ((p_value < 0) ? -1 : 0);
 }
-
 int BWMath::sign(const int& p_value)
 {
 	return (p_value > 0) ? 1 : ((p_value < 0) ? -1 : 0);
 }
-
-
-
-
-
-
