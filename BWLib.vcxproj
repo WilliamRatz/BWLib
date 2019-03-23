@@ -34,7 +34,6 @@
     <ClCompile Include="include\Networking\BWNet.cpp" />
     <ClCompile Include="include\Physik\BWPhysik.cpp" />
     <ClCompile Include="include\Networking\NetSocketUDP.cpp" />
-    <ClCompile Include="include\Networking\NetPackage.cpp" />
     <ClCompile Include="include\Networking\NetAddress.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -55,7 +54,6 @@
     <ClInclude Include="include\Networking\NetDefine.h" />
     <ClInclude Include="include\Physik\BWPhysik.h" />
     <ClInclude Include="include\Networking\NetSocketUDP.h" />
-    <ClInclude Include="include\Networking\NetPackage.h" />
     <ClInclude Include="include\Networking\NetAddress.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

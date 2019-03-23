@@ -1,6 +1,5 @@
-#include "NetDefine.h"
 #include "NetSocketUDP.h"
-
+//NetDefine allready included by NetAddress
 #include "../Inc_SmartMacros.h"
 
 
@@ -54,23 +53,16 @@ NetResult NetSocketUDP::CloseSocket()
 	return NetResult(true, 0);
 }
 
-NetResult NetSocketUDP::Send(NetPackage& p_netPackage)
+NetResult NetSocketUDP::Send(NetAddress netAddress, char* dataArray, unsigned int dataArrayLength)
 {
-	sockaddr_in addr;
-	addr.sin_family = AF_INET;
-	addr.sin_addr.s_addr = htonl(p_netPackage.GetNetAddressRef()->GetAddressRef());
-	addr.sin_port = htons(p_netPackage.GetNetAddressRef()->GetPortRef());
-
-	int sent_bytes = sendto(m_handle, (const char*)p_netPackage.GetDataArrayPtr(), p_netPackage.GetDataSizeRef(), 0, (sockaddr*)&addr, sizeof(sockaddr_in));
-
-	if (sent_bytes != p_netPackage.GetDataSizeRef())
+	if (sendto(m_handle, (const char*)dataArray, dataArrayLength, 0, (sockaddr*)&netAddress.GetTransportAddress(), sizeof(sockaddr_in)) != dataArrayLength)
 	{
 		return NetResult(false, 6);
 	}
 
 	return NetResult(true, 0);
 }
-ReceiveResult NetSocketUDP::Receive(unsigned char* p_dataArray, unsigned int p_dataArrayLength)
+NetAddress NetSocketUDP::Receive(char* p_dataArray, unsigned int p_dataArrayLength)
 {
 #if PLATFORM == PLATFORM_WINDOWS
 	typedef int socklen_t;
@@ -79,17 +71,18 @@ ReceiveResult NetSocketUDP::Receive(unsigned char* p_dataArray, unsigned int p_d
 	sockaddr_in from;
 	socklen_t fromLength = sizeof(from);
 
-	int bytes = recvfrom(m_handle,
+	if (recvfrom(m_handle,
 		(char *)p_dataArray,
 		p_dataArrayLength,
 		0,
 		(sockaddr*)&from,
-		&fromLength);
+		&fromLength)
+		<= 0)
+	{
+		return NetAddress(NULL, NULL);
+	}
 
-	if (bytes <= 0)
-		return ReceiveResult();
-
-	return ReceiveResult(ntohl(from.sin_addr.s_addr), ntohs(from.sin_port));
+	return NetAddress(ntohl(from.sin_addr.s_addr), from.sin_port);
 }
 
 NetResult NetSocketUDP::EnableNonBlocking()
