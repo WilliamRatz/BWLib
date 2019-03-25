@@ -53,7 +53,7 @@ NetResult NetSocketUDP::CloseSocket()
 	return NetResult(0);
 }
 
-NetResult NetSocketUDP::Send(NetAddress netAddress, char* dataArray, unsigned int dataArrayLength)
+NetResult NetSocketUDP::Send(NetAddress netAddress, char* dataArray, int dataArrayLength)
 {
 	if (sendto(m_handle, (const char*)dataArray, dataArrayLength, 0, (sockaddr*)&netAddress.GetTransportAddress(), sizeof(sockaddr_in)) != dataArrayLength)
 	{
@@ -62,7 +62,7 @@ NetResult NetSocketUDP::Send(NetAddress netAddress, char* dataArray, unsigned in
 
 	return NetResult(0);
 }
-NetAddress NetSocketUDP::Receive(char* p_dataArray, unsigned int p_dataArrayLength)
+NetAddress NetSocketUDP::Receive(char* p_dataArray, int p_dataArrayLength)
 {
 #if PLATFORM == PLATFORM_WINDOWS
 	typedef int socklen_t;

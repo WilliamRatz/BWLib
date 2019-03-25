@@ -9,11 +9,9 @@ PC and no one else
 class NetSocketTCP
 {
 private:
-	SOCKET m_handle = 0;
-
-	void SetHandle(SOCKET);
 
 public:
+	SOCKET m_handle = -1;
 	NetSocketTCP();
 	NetSocketTCP(const NetSocketTCP&);
 	~NetSocketTCP();
@@ -21,8 +19,8 @@ public:
 	NetResult OpenSocket(unsigned short port);
 	NetResult CloseSocket();
 
-	NetResult Send(char* dataArray, unsigned int dataArrayLength);
-	NetResult Receive(char* dataArray, unsigned int dataArrayLength);
+	NetResult Send(char* dataArray, int dataArrayLength);
+	NetResult Receive(char* dataArray, int dataArrayLength);
 
 	//To disable the ListeningMode you have to close the socket
 	NetResult SetListeningMode();
@@ -32,6 +30,7 @@ public:
 		if a acceptConnection happens a new socket will be created wich can send an receive 
 	*/
 	NetResult AcceptConnection(NetSocketTCP& newSocket, NetAddress& connectedAddress);
+	NetResult AcceptConnection(NetSocketTCP& newSocket);
 	
 	/*
 		connecting to a TCP Port wich is in listening mode

@@ -1,9 +1,5 @@
 #include "NetSocketTCP.h"
 
-void NetSocketTCP::SetHandle(SOCKET)
-{
-}
-
 NetSocketTCP::NetSocketTCP()
 {
 }
@@ -55,7 +51,7 @@ NetResult NetSocketTCP::CloseSocket()
 	return NetResult(0);
 }
 
-NetResult NetSocketTCP::Send(char* dataArray, unsigned int dataArrayLength)
+NetResult NetSocketTCP::Send(char* dataArray, int dataArrayLength)
 {
 	if (send(m_handle, dataArray, dataArrayLength, 0) == SOCKET_ERROR)
 	{
@@ -64,12 +60,11 @@ NetResult NetSocketTCP::Send(char* dataArray, unsigned int dataArrayLength)
 	return NetResult(0);
 }
 
-NetResult NetSocketTCP::Receive(char* dataArray, unsigned int dataArrayLength)
+NetResult NetSocketTCP::Receive(char* dataArray, int dataArrayLength)
 {
 	if (recv(m_handle, dataArray, dataArrayLength, 0) == SOCKET_ERROR)
 	{
 		return NetResult(12);
-
 	}
 	return NetResult(0);
 }
@@ -86,7 +81,18 @@ NetResult NetSocketTCP::SetListeningMode()
 NetResult NetSocketTCP::AcceptConnection(NetSocketTCP& newSocket, NetAddress& connectedAddress)
 {
 	int tempSize = sizeof(sockaddr_in);
-	newSocket.SetHandle(accept(m_handle, (sockaddr*)&connectedAddress.GetTransportAddress(), &tempSize));
+	newSocket.m_handle = accept(m_handle, (sockaddr*)&connectedAddress.GetTransportAddress(), &tempSize);
+	if (newSocket.m_handle == INVALID_SOCKET)
+	{
+		return NetResult(9);
+	}
+	return NetResult(0);
+}
+
+NetResult NetSocketTCP::AcceptConnection(NetSocketTCP& newSocket)
+{
+	int tempSize = sizeof(sockaddr_in);
+	newSocket.m_handle =  accept(m_handle, NULL, NULL);
 	if (newSocket.m_handle == INVALID_SOCKET)
 	{
 		return NetResult(9);

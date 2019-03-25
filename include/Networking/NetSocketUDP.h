@@ -4,7 +4,7 @@
 class NetSocketUDP
 {
 private:
-	SOCKET m_handle = 0;
+	SOCKET m_handle = -1;
 public:
 
 	NetSocketUDP();
@@ -14,8 +14,8 @@ public:
 	NetResult OpenSocket(unsigned short port);
 	NetResult CloseSocket();
 	
-	NetResult Send(NetAddress netAddress, char* dataArray, unsigned int dataArrayLength);
-	NetAddress Receive(char* dataArray, unsigned int dataArrayLength);
+	NetResult Send(NetAddress netAddress, char* dataArray, int dataArrayLength);
+	NetAddress Receive(char* dataArray, int dataArrayLength);
 
 	NetResult EnableNonBlocking();
 	NetResult DisableNonBlocking();
