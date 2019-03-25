@@ -4,9 +4,21 @@
 #include "Inc_SmartMacros.h"
 #include "Inc_BWMath.h"
 
+
+/*coole classe
+
+*/
+class alpha {
+	
+	//fette sache
+	alpha(int a)
+	{
+	
+	}
+};
+
 void main()
 {
-	
 	int i;
 	std::cin >> i;
 }

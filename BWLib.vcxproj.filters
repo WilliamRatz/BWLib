@@ -48,6 +48,9 @@
     <ClCompile Include="include\Networking\NetSocketUDP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="include\Networking\NetSocketTCP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Math\Matrix.h">
@@ -102,6 +105,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Networking\NetSocketUDP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Networking\NetSocketTCP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿  NetSocketUDP.cpp
-  NetAddress.cpp
+﻿  BWMath.cpp
+  NetSocketTCP.cpp
   Generating Code...
   BWLib.vcxproj -> E:\GitRepositories\BWLib\library\BWLib.lib

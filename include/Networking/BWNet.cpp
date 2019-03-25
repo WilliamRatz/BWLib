@@ -15,11 +15,11 @@ NetResult BWNet::InitializeSocketLayer()
 	WSADATA WsaData;
 	if(WSAStartup(MAKEWORD(2, 2),&WsaData) == NO_ERROR)
 	{
-		return NetResult(true, 0);
+		return NetResult(0);
 	}
 	else
 	{
-		return NetResult(false, 1);
+		return NetResult(1);
 	}
 #else
 	return true;
@@ -50,7 +50,7 @@ std::string BWNet::ErrorDecoder(short errorCode)
 			return "Failed to open the socket on your port number, please use an unused port between 1025 and 49999. Or use 0 to get an random free port";
 			break;
 		case 4:
-			return "Failed to enable NonBlocking on your socket. Check if you initialized the sockets layer (BWNet::InitializeSocketLayer()) and if you opened the socket or did you ShutdownSockets (BWNet::ShutdownSockets()) all sockets allready";
+			return "Failed to enable NonBlocking on your socket. Check if you initialized the sockets layer (BWNet::InitializeSocketLayer()) and if you opened the socket or did you shutdown (BWNet::ShutdownSockets()) all sockets allready";
 			break;
 		case 5:
 			return "Failed to disable NonBlocking on your socket. Check if you allready initialized the sockets layer (BWNet::InitializeSocketLayer()) and if you opened the socket or did you ShutdownSockets (BWNet::ShutdownSockets()) all sockets allready";
@@ -59,8 +59,25 @@ std::string BWNet::ErrorDecoder(short errorCode)
 			return "Sending failed check your socket if you setup everything correctly";
 			break;
 		case 7:
-			return "Closeing of socket failed is the socket allready created?";
+			return "Closing of socket failed is the socket allready created?";
 			break;
+		case 8:
+			return "No connection established, did you initialized the sockets layer (BWNet::InitializeSocketLayer()) and is your socket allready open?";
+			break;
+		case 9:
+			return "No connection could be established, are you initialized the sockets layer (BWNet::InitializeSocketLayer()) allready";
+			break;
+		case 10:
+			return "The Socket couldn't be set to listen mode, are you initialized the sockets layer (BWNet::InitializeSocketLayer()) allready or do you have over 65335 connections ?";
+			break;
+		case 11:
+			return "Sending wasen't possible is the Socket allready connected with the receiver? Did you initialized the sockets layer (BWNet::InitializeSocketLayer())? ";
+			break;
+		case 12:
+			return "No data received is the Socket allready connected with the transmitter? Did you initialized the sockets layer (BWNet::InitializeSocketLayer())? ";
+			break;
+
+
 		
 		
 		default:

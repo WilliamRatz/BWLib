@@ -25,14 +25,17 @@
 
 #endif
 
+/*
+	errorCode < 0 its working but ...
+	errorCode == 0 everything is fine
+	errorCode > 0 its isen't working ...
+*/
 struct NetResult
 {
-	bool m_authorized = true;
 	short m_errorCode = 0;
 
-	NetResult(bool p_authorized, short p_errorCode)
+	NetResult(short p_errorCode)
 	{
-		m_authorized = p_authorized;
 		m_errorCode = p_errorCode;
 	}
 };

@@ -16,51 +16,51 @@ NetSocketUDP::~NetSocketUDP()
 {
 }
 
-NetResult NetSocketUDP::OpenSocket(short p_port)
+NetResult NetSocketUDP::OpenSocket(unsigned short p_port)
 {
-	m_handle = static_cast<int>(socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP));
+	m_handle = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
-	if (m_handle <= 0)
+	if (m_handle == INVALID_SOCKET)
 	{
-		return NetResult(false, 2);
+		return NetResult(2);
 	}
 
 	sockaddr_in address;
 	address.sin_family = AF_INET;
-	address.sin_addr.s_addr = INADDR_ANY;
-	address.sin_port = htons((unsigned short)p_port);
+	address.sin_addr.S_un.S_addr = INADDR_ANY;
+	address.sin_port = htons(p_port);
 
-	if (bind(m_handle, (const sockaddr*)&address, sizeof(sockaddr_in)) < 0)
+	if (bind(m_handle, (const sockaddr*)&address, sizeof(address)) < 0)
 	{
-		return NetResult(false, 3);
+		return NetResult(3);
 	}
 
-	return NetResult(true, 0);
+	return NetResult(0);
 }
 NetResult NetSocketUDP::CloseSocket()
 {
 #if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
 	if (close(m_handle) != 0)
 	{
-		return NetResult(false, 7);
+		return NetResult(7);
 	}
 #elif PLATFORM == PLATFORM_WINDOWS
 	if (closesocket(m_handle) != 0)
 	{
-		return NetResult(false, 7);
+		return NetResult(7);
 	}
 #endif
-	return NetResult(true, 0);
+	return NetResult(0);
 }
 
 NetResult NetSocketUDP::Send(NetAddress netAddress, char* dataArray, unsigned int dataArrayLength)
 {
 	if (sendto(m_handle, (const char*)dataArray, dataArrayLength, 0, (sockaddr*)&netAddress.GetTransportAddress(), sizeof(sockaddr_in)) != dataArrayLength)
 	{
-		return NetResult(false, 6);
+		return NetResult(6);
 	}
 
-	return NetResult(true, 0);
+	return NetResult(0);
 }
 NetAddress NetSocketUDP::Receive(char* p_dataArray, unsigned int p_dataArrayLength)
 {
@@ -94,7 +94,7 @@ NetResult NetSocketUDP::EnableNonBlocking()
 		O_NONBLOCK,
 		nonBlocking) == -1)
 	{
-		return NetResult(false, 4);
+		return NetResult(4);
 	}
 
 #elif PLATFORM == PLATFORM_WINDOWS
@@ -104,11 +104,11 @@ NetResult NetSocketUDP::EnableNonBlocking()
 		FIONBIO,
 		&nonBlocking) != 0)
 	{
-		return NetResult(false, 4);
+		return NetResult(4);
 	}
 
 #endif
-	return NetResult(true, 0);
+	return NetResult(0);
 }
 NetResult NetSocketUDP::DisableNonBlocking()
 {
@@ -119,7 +119,7 @@ NetResult NetSocketUDP::DisableNonBlocking()
 		O_NONBLOCK,
 		nonBlocking) == -1)
 	{
-		return NetResult(false, 5);
+		return NetResult(5);
 	}
 
 #elif PLATFORM == PLATFORM_WINDOWS
@@ -129,16 +129,16 @@ NetResult NetSocketUDP::DisableNonBlocking()
 		FIONBIO,
 		&nonBlocking) != 0)
 	{
-		return NetResult(false, 5);
+		return NetResult(5);
 	}
 
 #endif
 
-	return NetResult(true, 0);
+	return NetResult(0);
 }
 bool NetSocketUDP::IsOpen() const
 {
-	if (m_handle <= 0)
+	if (m_handle == INVALID_SOCKET)
 	{
 		return false;
 	}
