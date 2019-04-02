@@ -51,7 +51,7 @@ unsigned int Vector4::getHashCode() {
 
 float Vector4::length(const Vector4& vec)
 {
-	return static_cast<float>(BWMath::Sqrt(BWMath::pow(Vector4::x(vec), 2) + BWMath::pow(Vector4::y(vec), 2) + BWMath::pow(Vector4::z(vec), 2)));
+	return static_cast<float>(BWMath::sqrt(BWMath::pow(Vector4::x(vec), 2) + BWMath::pow(Vector4::y(vec), 2) + BWMath::pow(Vector4::z(vec), 2)));
 }
 float  Vector4::dot(const Vector4& vec1, const Vector4& vec2)
 {

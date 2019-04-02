@@ -51,7 +51,7 @@ Vector2 Vector2::normalized(const Vector2& vec) {
 }
 float Vector2::length(const Vector2& vec)
 {
-	return static_cast<float>(BWMath::Sqrt(BWMath::pow(Vector2::x(vec), 2) + BWMath::pow(Vector2::y(vec), 2)));
+	return static_cast<float>(BWMath::sqrt(BWMath::pow(Vector2::x(vec), 2) + BWMath::pow(Vector2::y(vec), 2)));
 }
 float  Vector2::dot(const Vector2& vec1, const Vector2& vec2)
 {

@@ -65,10 +65,10 @@ BWFloat::BWFloat(std::string p_floatString)
 	int maxBitsForComata = 0;
 	if (p_floatString != "" && p_floatString != "0") {
 		std::bitset<129> mantisseBitSet;
-		const int preCommaLength = (overNull.length() % 8 == 0) ? overNull.length() / 8 : overNull.length() / 8 + 1;
+		const unsigned int preCommaLength = (static_cast<unsigned int>(overNull.length()) % 8 == 0) ? static_cast<unsigned int>(overNull.length()) / 8 : static_cast<unsigned int>(overNull.length()) / 8 + 1;
 		SplittetInt* preCommaArray = new SplittetInt[preCommaLength];
 
-		for (int i = 0; i < preCommaLength; ++i)
+		for (unsigned int i = 0; i < preCommaLength; ++i)
 		{
 			preCommaArray[i].m_value = std::stoi(overNull.substr(i * 8, 8));
 			preCommaArray[i].m_valueLength = BWMath::countDigits(preCommaArray[i].m_value);
@@ -79,7 +79,7 @@ BWFloat::BWFloat(std::string p_floatString)
 			bool oldplus5 = false;
 			bool newplus5 = false;
 
-			for (int i = 0; i < preCommaLength; ++i)
+			for (unsigned int i = 0; i < preCommaLength; ++i)
 			{
 				if (i == preCommaLength - 1)
 				{
@@ -87,7 +87,7 @@ BWFloat::BWFloat(std::string p_floatString)
 					{
 						mantisseBitSet[maxBitsForComata] = 1;
 					}
-					preCommaArray[i].m_value = (preCommaArray[i].m_value / 2) + ((5 * BWMath::pow(10, preCommaArray[i].m_valueLength - 1) * oldplus5));
+					preCommaArray[i].m_value = (preCommaArray[i].m_value / 2) + ((5 * static_cast<int>(BWMath::pow(10, preCommaArray[i].m_valueLength - 1)) * oldplus5));
 					newplus5 = false;
 				}
 				else
@@ -96,7 +96,7 @@ BWFloat::BWFloat(std::string p_floatString)
 					{
 						newplus5 = true;
 					}
-					preCommaArray[i].m_value = (preCommaArray[i].m_value / 2) + ((5 * BWMath::pow(10, preCommaArray[i].m_valueLength - 1) * oldplus5));
+					preCommaArray[i].m_value = (preCommaArray[i].m_value / 2) + ((5 * static_cast<int>(BWMath::pow(10, preCommaArray[i].m_valueLength - 1)) * oldplus5));
 				}
 				oldplus5 = newplus5;
 				newplus5 = false;
@@ -104,7 +104,7 @@ BWFloat::BWFloat(std::string p_floatString)
 
 			++maxBitsForComata;
 			bool doBreake = true;
-			for (int i = 0; i < preCommaLength; ++i)
+			for (unsigned  int i = 0; i < preCommaLength; ++i)
 			{
 				if (preCommaArray[i].m_value != 0)
 				{
@@ -137,16 +137,16 @@ BWFloat::BWFloat(std::string p_floatString)
 	//mantissa calculation post kommata
 	if (underNull != "") {
 
-		const int postCommaLength = (underNull.length() % 8 == 0) ? underNull.length() / 8 : underNull.length() / 8 + 1;
+		const unsigned int postCommaLength = (static_cast<unsigned int>(underNull.length()) % 8 == 0) ? static_cast<unsigned int>(underNull.length()) / 8 : static_cast<unsigned int>(underNull.length()) / 8 + 1;
 		int* postCommaArray = new int[postCommaLength];
 
 
-		for (int i = 0; i < postCommaLength; ++i)
+		for (unsigned  int i = 0; i < postCommaLength; ++i)
 		{
 			postCommaArray[i] = std::stoi(underNull.substr(i * 8, 8));
 			if (i == postCommaLength - 1)
 			{
-				postCommaArray[i] *= BWMath::pow(10, 8 - BWMath::countDigits(postCommaArray[i]));
+				postCommaArray[i] *= static_cast<int>(BWMath::pow(10, 8 - BWMath::countDigits(postCommaArray[i])));
 			}
 		}
 
@@ -188,7 +188,7 @@ BWFloat::BWFloat(std::string p_floatString)
 					break;
 				}
 				bool doBreake = true;
-				for (int i = 0; i < postCommaLength; ++i)
+				for (unsigned int i = 0; i < postCommaLength; ++i)
 				{
 					if (postCommaArray[i] != 0)
 					{
@@ -218,7 +218,7 @@ BWFloat::BWFloat(std::string p_floatString)
 						postCommaArray[i] -= 100000000;
 						if (i == 0)
 						{
-							int tempint = 1 << maxBitsForComata - 1;
+							int tempint = 1 << (maxBitsForComata - 1);
 							mantissa |= tempint;
 						}
 						else
@@ -229,7 +229,7 @@ BWFloat::BWFloat(std::string p_floatString)
 				}
 				--maxBitsForComata;
 				bool doBreake = true;
-				for (int i = 0; i < postCommaLength; ++i)
+				for (unsigned int i = 0; i < postCommaLength; ++i)
 				{
 					if (postCommaArray[i] != 0)
 					{
@@ -267,12 +267,10 @@ BWFloat BWFloat::maxValue()
 {
 	return BWFloat(2139095040);//01111111100000000000000000000000
 }
-
 BWFloat BWFloat::minValue()
 {
 	return BWFloat(4286578688);//11111111100000000000000000000000
 }
-
 BWFloat BWFloat::zero()
 {
 	return BWFloat(0);
@@ -286,7 +284,7 @@ bool BWFloat::equalZero(const BWFloat& p_BWFloat)
 #pragma region castOperations
 BWFloat::operator BWDouble()
 {
-	return BWFloat();
+	return BWDouble();
 }
 BWFloat::operator int()
 {
@@ -367,11 +365,11 @@ BWFloat BWFloat::operator+(const BWFloat& p_BWFloat)
 	std::bitset<32> result;
 	if (BWFloat::getExponent(*this) > BWFloat::getExponent(p_BWFloat))
 	{
-		result = (BWFloat::getMantissa(*this) | 1 << 23) + ((BWFloat::getMantissa(p_BWFloat) | 1 << 23) >> BWMath::Abs(static_cast<int>(BWFloat::getExponent(*this)) - static_cast<int>(BWFloat::getExponent(p_BWFloat))));
+		result = (BWFloat::getMantissa(*this) | 1 << 23) + ((BWFloat::getMantissa(p_BWFloat) | 1 << 23) >> BWMath::abs(static_cast<int>(BWFloat::getExponent(*this)) - static_cast<int>(BWFloat::getExponent(p_BWFloat))));
 	}
 	else
 	{
-		result = ((BWFloat::getMantissa(*this) | 1 << 23) >> BWMath::Abs(static_cast<int>(BWFloat::getExponent(*this)) - static_cast<int>(BWFloat::getExponent(p_BWFloat)))) + (BWFloat::getMantissa(p_BWFloat) | 1 << 23);
+		result = ((BWFloat::getMantissa(*this) | 1 << 23) >> BWMath::abs(static_cast<int>(BWFloat::getExponent(*this)) - static_cast<int>(BWFloat::getExponent(p_BWFloat)))) + (BWFloat::getMantissa(p_BWFloat) | 1 << 23);
 	}
 
 	if (result[24] == 1) {
@@ -433,11 +431,11 @@ BWFloat BWFloat::operator-(const BWFloat& p_BWFloat)
 	std::bitset<32> result;
 	if (BWFloat::getExponent(*this) > BWFloat::getExponent(p_BWFloat))
 	{
-		result = (BWFloat::getMantissa(*this) | 1 << 23) - ((BWFloat::getMantissa(p_BWFloat) | 1 << 23) >> BWMath::Abs(static_cast<int>(BWFloat::getExponent(*this)) - static_cast<int>(BWFloat::getExponent(p_BWFloat))));
+		result = (BWFloat::getMantissa(*this) | 1 << 23) - ((BWFloat::getMantissa(p_BWFloat) | 1 << 23) >> BWMath::abs(static_cast<int>(BWFloat::getExponent(*this)) - static_cast<int>(BWFloat::getExponent(p_BWFloat))));
 	}
 	else
 	{
-		result = ((BWFloat::getMantissa(*this) | 1 << 23) >> BWMath::Abs(static_cast<int>(BWFloat::getExponent(*this)) - static_cast<int>(BWFloat::getExponent(p_BWFloat)))) - (BWFloat::getMantissa(p_BWFloat) | 1 << 23);
+		result = ((BWFloat::getMantissa(*this) | 1 << 23) >> BWMath::abs(static_cast<int>(BWFloat::getExponent(*this)) - static_cast<int>(BWFloat::getExponent(p_BWFloat)))) - (BWFloat::getMantissa(p_BWFloat) | 1 << 23);
 	}
 
 	int counter = 0;
@@ -807,7 +805,7 @@ bool BWFloat::operator<=(const BWFloat& p_BWFloat)
 }
 #pragma endregion
 
-std::ostream & operator<<(std::ostream& output, BWFloat& p_BWFloat)
+std::ostream& operator<<(std::ostream& output, BWFloat& p_BWFloat)
 {
 	output << "Output not finished yet";
 	return output;

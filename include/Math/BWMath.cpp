@@ -11,9 +11,126 @@ const double BWMath::EULER = 2.71828182845904523;
 const double BWMath::toDeg = BWMath::PI / 180;
 const double BWMath::toRad = 180 / BWMath::PI;
 
-double BWMath::Sqrt(const double& p_value) 
+double BWMath::sin(const double& p_angle) 
 {
+	double result = std::fmod(p_angle * toRad, 180);
+	result *= toDeg;
+	result = result	-(BWMath::pow(result, 3.0) / 6.0) 
+					+(BWMath::pow(result, 5.0) / 120.0)
+					-(BWMath::pow(result, 7.0) / 5040.0)
+					+(BWMath::pow(result, 9.0) / 362880.0)
+					-(BWMath::pow(result, 11.0) / 39916800.0);
+					/*result^13 / 13!*/
 
+
+	//works wenn p_angle was multiplied with toDeg
+	if (std::fmod(p_angle * toRad, 360) > 180) {
+		result *= -1;
+	}
+
+	return BWMath::floor(result, 7);
+}
+double BWMath::cos(const double& p_angle) 
+{
+	double result = std::fmod(p_angle * toRad, 180);
+	result *= toDeg;
+	result = 1.0	-(BWMath::pow(result, 2.0) / 2.0)
+					+(BWMath::pow(result, 4.0) / 24.0)
+					-(BWMath::pow(result, 6.0) / 720.0)
+					+(BWMath::pow(result, 8.0) / 40320.0)
+					-(BWMath::pow(result, 10.0) / 3628800.0);
+					/*result^12 / 12!*/
+	
+	if (std::fmod(p_angle * toRad, 360) > 90 && std::fmod(p_angle * toRad, 360) < 270) 
+	{
+		if(BWMath::sign((float)result) != -1)
+		{
+			result *= -1;
+		}
+	}
+
+	return BWMath::floor(result, 7);
+}
+double BWMath::tan(const double& p_angle) 
+{
+	double result = std::fmod(p_angle * toRad, 180);
+	result *= toDeg;
+	result = result + (BWMath::pow(result, 3.0) * (1.0 / 3.0))
+					+ (BWMath::pow(result, 5.0) * (2.0 / 15.0))
+					+ (BWMath::pow(result, 7.0) * (17.0 / 315.0))
+					+ (BWMath::pow(result, 9.0) * (62.0 / 2835.0))
+					+ (BWMath::pow(result, 11.0) * (1382.0 / 155925.0))
+					+ (BWMath::pow(result, 13.0) * (21844.0 / 6081075.0));
+					/*taylor series for n = 8 */
+
+	return BWMath::floor(result, 7);
+}
+double BWMath::cot(const double& p_angle)
+{
+	double result = std::fmod(p_angle * toRad, 180);
+	result *= toDeg;
+	result = (1 / result)
+		- (result * (1.0 / 3.0))
+		- (BWMath::pow(result, 3.0) * (1.0 / 45.0))
+		- (BWMath::pow(result, 5.0) * (2.0 / 945.0))
+		- (BWMath::pow(result, 7.0) * (1.0 / 4725.0))
+		- (BWMath::pow(result, 9.0) * (2.0 / 93555.0));
+		/*taylor series for n = 6 is to inaccurate with double */
+
+	return BWMath::floor(result, 7);
+}
+
+double BWMath::arcSin(const double& p_angle) 
+{
+	//if p_angle is bigger than 0.9 the calculation isn't exact
+
+	double result = std::fmod(p_angle * toRad, 180);
+	result *= toDeg;
+	result = result + (0.5 * (BWMath::pow(result, 3.0) / 3.0))
+		+ ((3.0 / 8.0) * (BWMath::pow(result, 5.0) / 5.0))
+		+ ((5.0 / 16.0) * (BWMath::pow(result, 7.0) / 7.0))
+		+ ((35.0 / 128.0) * (BWMath::pow(result, 9.0) / 9.0))
+		+ ((63.0 / 256.0) * (BWMath::pow(result, 11.0) / 11.0))
+		+ ((231.0 / 1024.0) * (BWMath::pow(result, 13.0) / 13.0))
+		+ ((429.0 / 2048.0) * (BWMath::pow(result, 15.0) / 15.0))
+		+ ((6435.0 / 32768.0) * (BWMath::pow(result, 17.0) / 17.0));
+		/*taylor series for n = 8 = 1*3*5*7*9*11*13*15*17 / 2*4*6*8*10*12*14*16*18 * x^15 / 15 */
+
+	return BWMath::floor(result, 7);
+}
+double BWMath::arcCos(const double& p_angle) 
+{
+	return BWMath::floor((BWMath::PI / 2) - BWMath::arcSin(p_angle), 7);
+}
+double BWMath::arcTan(const double& p_angle) 
+{
+	double result = std::fmod(p_angle * toRad, 180);
+	result *= toDeg;
+	result = result - ((1.0/3.0) * (BWMath::pow(result, 3.0)))
+		+ ((1.0/5.0) * (BWMath::pow(result, 5.0)))
+		- ((1.0/7.0) * (BWMath::pow(result, 7.0)))
+		+ ((1.0/9.0) * (BWMath::pow(result, 9.0)))
+		- ((1.0/11.0) * (BWMath::pow(result, 11.0)))
+		+ ((1.0/13.0) * (BWMath::pow(result, 13.0)));
+	/*taylor series for n = 8 = 1*3*5*7*9*11*13 / 2*4*6*8*10*12*14 * x^15 / 15 */
+
+/*if (std::fmod(p_angle * toRad, 360) > 90 && std::fmod(p_angle * toRad, 360) < 270)
+{
+	if (BWMath::sign((float)result) != -1)
+	{
+		result *= -1;
+	}
+}*/
+
+	return BWMath::floor(result, 7);
+}
+double BWMath::arcCot(const double& p_angle)
+{
+	return BWMath::floor((BWMath::PI / 2) - BWMath::arcTan(p_angle), 7);
+}
+
+double BWMath::sqrt(const double& p_value) 
+{
 	double result;
 	result = (p_value + 1) / 2;
 	for (int i = 0; i < 5; ++i) {
@@ -21,69 +138,9 @@ double BWMath::Sqrt(const double& p_value)
 	}
 	return result;
 }
-double BWMath::Sin(const double& p_angle) 
+double BWMath::sqrt(const double & value, const double & n)
 {
-
-	double angleRad = p_angle * toRad;
-	short size = (int)angleRad % 180;
-	double result = size + BWMath::fract(angleRad);
-	result *= toDeg;
-	result = result - BWMath::pow(result, 3) / BWMath::faculty(3) + BWMath::pow(result, 5) / BWMath::faculty(5) - BWMath::pow(result, 7) / BWMath::faculty(7) + BWMath::pow(result, 9) / BWMath::faculty(9);
-
-
-	//works wenn p_angle was multiplied with toDeg
-	if ((int)angleRad % 360 > 180) {
-		result *= -1;
-
-	}
-
-	return BWMath::floor(result, 4);
-}
-double BWMath::Cos(const double& p_angle) 
-{
-
-	double angleRad = p_angle * toRad;
-	double result = ((int)angleRad % 180) + BWMath::fract(angleRad);
-	result *= toDeg;
-	result = (double)1 - (BWMath::pow(result, 2) / BWMath::faculty(2)) + (BWMath::pow(result, 4) / BWMath::faculty(4)) - (BWMath::pow(result, 6) / BWMath::faculty(6)) + (BWMath::pow(result, 8) / BWMath::faculty(8));
-	/*if ((int)(p_angle) % 270 > 90) {
-		result = ((result*result)/result)* -1;
-	}else
-	{
-		result = ((result*result)/result);
-	}*/
-
-
-
-	return BWMath::floor(result, 4);
-}
-double BWMath::Tan(const double& p_angle) 
-{
-
-	return BWMath::floor(BWMath::Sin(p_angle) / BWMath::Cos(p_angle), 4);
-}
-
-double BWMath::ArcSin(const double& p_angle) 
-{
-
-	return 3.3;
-}
-double BWMath::ArcCos(const double& p_angle) 
-{
-
-	return 3.3;
-}
-double BWMath::ArcTan(const double& p_angle) 
-{
-	//TODO
-
-	short size = (int)p_angle % 180;
-	double result = size + BWMath::fract(p_angle);
-	result *= toDeg;
-	result = result - (BWMath::pow(result, 3) * 1 / 3) + (BWMath::pow(result, 5) * 1 / 5) - (BWMath::pow(result, 7) * 1 / 7) + (BWMath::pow(result, 9) * 1 / 9);
-	result *= BWMath::sign(size);
-
-	return BWMath::floor(result, 4);
+	return 0.0;
 }
 
 double BWMath::pow(const double& p_base, const double& p_exponent)
@@ -110,7 +167,7 @@ unsigned int BWMath::faculty(const unsigned int& p_value)
 
 	return result;
 }
-unsigned int BWMath::Abs(const int & p_value)
+unsigned int BWMath::abs(const int & p_value)
 {
 	if (p_value >= 0)
 		return p_value;
@@ -119,7 +176,14 @@ unsigned int BWMath::Abs(const int & p_value)
 }
 double BWMath::fract(const double& p_value)
 {
-	return p_value - (int)p_value;
+	if(p_value < 18446744073709551615.0)
+	{
+		return p_value - (long long int)p_value;
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 double BWMath::round(const double& p_value, const int& p_position)

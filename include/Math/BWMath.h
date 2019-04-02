@@ -12,18 +12,21 @@ class BWMath {
 
 public:
 	
-	static double			Sqrt		(const double& value);
-	static double			Sin			(const double& angle);
-	static double			Cos			(const double& angle);
-	static double			Tan			(const double& angle);
+	static double			sin			(const double& angle);
+	static double			cos			(const double& angle);
+	static double			tan			(const double& angle);
+	static double			cot			(const double& angle);
 
-	static double			ArcSin		(const double& angle);
-	static double			ArcCos		(const double& angle);
-	static double			ArcTan		(const double& angle);
+	static double			arcSin		(const double& angle);
+	static double			arcCos		(const double& angle);
+	static double			arcTan		(const double& angle);
+	static double			arcCot		(const double& angle);
 
+	static double			sqrt		(const double& value);
+	static double			sqrt		(const double& value, const double& n);
 	static double			pow			(const double& base, const double& exponent);
 	static unsigned int		faculty		(const unsigned int& value);
-	static unsigned int		Abs			(const int& value);
+	static unsigned int		abs			(const int& value);
 
 	static double			fract		(const double& value);
 	static double			round		(const double& value, const int& position);
@@ -34,9 +37,6 @@ public:
 	
 	static int				sign		(const float& value);
 	static int				sign		(const int& value);
-
-	static double			PI_Calc		();
-	static double			E_Calc		();
 
 	static const double		PI;
 	static const double		TAU;

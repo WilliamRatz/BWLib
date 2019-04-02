@@ -32,7 +32,7 @@ public:
 		return mat[index];
 	}
 
-#pragma region Methods
+#pragma region methods
 
 	Vector3			Forward					();
 	Vector3			Backwards				();
@@ -40,6 +40,11 @@ public:
 	Vector3			Right					();
 	Vector3			Up						();
 	Vector3			Down					();
+
+	Vector2			toVector2				();
+	Vector3			toVector3				();
+	Vector4			toVector4				();
+	Quaternion		toQuaternion			();
 
 	std::size_t		getHashCode				();
 	std::size_t		countRows				();
@@ -93,7 +98,7 @@ public:
 
 };
 
-#pragma region Constructor
+#pragma region constructor
 
 typeMatrix inline Matrix<T, R, C>::Matrix()
 {
@@ -105,36 +110,48 @@ typeMatrix inline Matrix<T, R, C>::Matrix(const Matrix& mat1)
 }
 
 #pragma endregion
-#pragma region Methods
+#pragma region methods
 
 typeMatrix inline Vector3 Matrix<T, R, C>::Forward()
 {
 	return Vector3(mat[0][2], mat[1][2], mat[2][2]);
 }
-
 typeMatrix inline Vector3 Matrix<T, R, C>::Backwards()
 {
 	return Vector3(-mat[0][2], -mat[1][2], -mat[2][2]);
 }
-
 typeMatrix inline Vector3 Matrix<T, R, C>::Left()
 {
 	return Vector3(-mat[0][0], -mat[1][0], -mat[2][0]);
 }
-
 typeMatrix inline Vector3 Matrix<T, R, C>::Right()
 {
 	return Vector3(mat[0][0], mat[1][0], mat[2][0]);
 }
-
 typeMatrix inline Vector3 Matrix<T, R, C>::Up()
 {
 	return Vector3(mat[0][1], mat[1][1], mat[2][1]);
 }
-
 typeMatrix inline Vector3 Matrix<T, R, C>::Down()
 {
 	return Vector3(-mat[0][1], -mat[1][1], -mat[2][1]);
+}
+
+typeMatrix inline Vector2 Matrix<T, R, C>::toVector2()
+{
+	return static_cast<Vector2>(*this);
+}
+typeMatrix inline Vector3 Matrix<T, R, C>::toVector3()
+{
+	return static_cast<Vector3>(*this);
+}
+typeMatrix inline Vector4 Matrix<T, R, C>::toVector4()
+{
+	return static_cast<Vector4>(*this);
+}
+typeMatrix inline Quaternion Matrix<T, R, C>::toQuaternion()
+{
+	return static_cast<Quaternion>(*this);
 }
 
 typeMatrix inline std::size_t Matrix<T, R, C>::getHashCode()
