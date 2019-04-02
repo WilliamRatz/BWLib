@@ -11,7 +11,38 @@ const double BWMath::EULER = 2.71828182845904523;
 const double BWMath::toDeg = BWMath::PI / 180;
 const double BWMath::toRad = 180 / BWMath::PI;
 
-double BWMath::sin(const double& p_angle) 
+double BWMath::log(const double& p_value)
+{
+	if (p_value < 0)
+		return NAN;
+
+	double copieValue = p_value;
+	double result = 0;
+
+	for(double a = 1; a < 1000000; a*=10)
+	{
+		double count = 0;
+		while(copieValue >= BWMath::pow(10, count))
+		{
+			++count;
+		}
+		result += ((count == 0) ? count : --count / a) ;
+
+		copieValue /= BWMath::pow(10, count);
+		copieValue = BWMath::pow(copieValue, 10);
+	}
+
+	return result;
+}
+double BWMath::ln(const double& p_value)
+{
+	if (p_value < 0)
+		return NAN;
+
+	return BWMath::log(p_value) / BWMath::log(BWMath::EULER);
+}
+
+double BWMath::sin(const double& p_angle)
 {
 	double result = std::fmod(p_angle * toRad, 180);
 	result *= toDeg;
@@ -138,7 +169,7 @@ double BWMath::sqrt(const double& p_value)
 	}
 	return result;
 }
-double BWMath::sqrt(const double & value, const double & n)
+double BWMath::sqrt(const double& value, const double& n)
 {
 	return 0.0;
 }

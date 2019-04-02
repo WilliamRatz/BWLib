@@ -11,7 +11,17 @@
 class BWMath {
 
 public:
+
+	static const double		PI;
+	static const double		TAU;
+	static const double		EULER;
+
+	static const double		toDeg;
+	static const double		toRad;
 	
+	static double			log			(const double& value);
+	static double			ln			(const double& value);
+
 	static double			sin			(const double& angle);
 	static double			cos			(const double& angle);
 	static double			tan			(const double& angle);
@@ -37,13 +47,6 @@ public:
 	
 	static int				sign		(const float& value);
 	static int				sign		(const int& value);
-
-	static const double		PI;
-	static const double		TAU;
-	static const double		EULER;
-
-	static const double		toDeg;
-	static const double		toRad;
 };
 
 
