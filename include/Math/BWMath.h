@@ -11,7 +11,19 @@
 class BWMath {
 
 public:
+
+	static const double		PI;
+	static const double		TAU;
+	static const double		EULER;
+
+	static const double		toDeg;
+	static const double		toRad;
 	
+	static double			exp		(const double& value);
+
+	static double			log			(const double& value);
+	static double			ln			(const double& value);
+
 	static double			sin			(const double& angle);
 	static double			cos			(const double& angle);
 	static double			tan			(const double& angle);
@@ -25,8 +37,8 @@ public:
 	static double			sqrt		(const double& value);
 	static double			sqrt		(const double& value, const double& n);
 	static double			pow			(const double& base, const double& exponent);
-	static unsigned int		faculty		(const unsigned int& value);
-	static unsigned int		abs			(const int& value);
+	static double			faculty		(const unsigned int& value);
+	static double			abs			(const double& value);
 
 	static double			fract		(const double& value);
 	static double			round		(const double& value, const int& position);
@@ -37,13 +49,6 @@ public:
 	
 	static int				sign		(const float& value);
 	static int				sign		(const int& value);
-
-	static const double		PI;
-	static const double		TAU;
-	static const double		EULER;
-
-	static const double		toDeg;
-	static const double		toRad;
 };
 
 
