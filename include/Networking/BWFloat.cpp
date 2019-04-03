@@ -365,11 +365,11 @@ BWFloat BWFloat::operator+(const BWFloat& p_BWFloat)
 	std::bitset<32> result;
 	if (BWFloat::getExponent(*this) > BWFloat::getExponent(p_BWFloat))
 	{
-		result = (BWFloat::getMantissa(*this) | 1 << 23) + ((BWFloat::getMantissa(p_BWFloat) | 1 << 23) >> BWMath::abs(static_cast<int>(BWFloat::getExponent(*this)) - static_cast<int>(BWFloat::getExponent(p_BWFloat))));
+		result = (BWFloat::getMantissa(*this) | 1 << 23) + ((BWFloat::getMantissa(p_BWFloat) | 1 << 23) >> static_cast<unsigned int>(BWMath::abs(static_cast<int>(BWFloat::getExponent(*this))) - static_cast<int>(BWFloat::getExponent(p_BWFloat))));
 	}
 	else
 	{
-		result = ((BWFloat::getMantissa(*this) | 1 << 23) >> BWMath::abs(static_cast<int>(BWFloat::getExponent(*this)) - static_cast<int>(BWFloat::getExponent(p_BWFloat)))) + (BWFloat::getMantissa(p_BWFloat) | 1 << 23);
+		result = ((BWFloat::getMantissa(*this) | 1 << 23) >> static_cast<unsigned int>(BWMath::abs(static_cast<int>(BWFloat::getExponent(*this))) - static_cast<int>(BWFloat::getExponent(p_BWFloat)))) + (BWFloat::getMantissa(p_BWFloat) | 1 << 23);
 	}
 
 	if (result[24] == 1) {
@@ -431,11 +431,11 @@ BWFloat BWFloat::operator-(const BWFloat& p_BWFloat)
 	std::bitset<32> result;
 	if (BWFloat::getExponent(*this) > BWFloat::getExponent(p_BWFloat))
 	{
-		result = (BWFloat::getMantissa(*this) | 1 << 23) - ((BWFloat::getMantissa(p_BWFloat) | 1 << 23) >> BWMath::abs(static_cast<int>(BWFloat::getExponent(*this)) - static_cast<int>(BWFloat::getExponent(p_BWFloat))));
+		result = (BWFloat::getMantissa(*this) | 1 << 23) - ((BWFloat::getMantissa(p_BWFloat) | 1 << 23) >> static_cast<unsigned int>(BWMath::abs(static_cast<int>(BWFloat::getExponent(*this))) - static_cast<int>(BWFloat::getExponent(p_BWFloat))));
 	}
 	else
 	{
-		result = ((BWFloat::getMantissa(*this) | 1 << 23) >> BWMath::abs(static_cast<int>(BWFloat::getExponent(*this)) - static_cast<int>(BWFloat::getExponent(p_BWFloat)))) - (BWFloat::getMantissa(p_BWFloat) | 1 << 23);
+		result = ((BWFloat::getMantissa(*this) | 1 << 23) >> static_cast<unsigned int>(BWMath::abs(static_cast<int>(BWFloat::getExponent(*this))) - static_cast<int>(BWFloat::getExponent(p_BWFloat)))) - (BWFloat::getMantissa(p_BWFloat) | 1 << 23);
 	}
 
 	int counter = 0;

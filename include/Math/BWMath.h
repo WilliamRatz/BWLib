@@ -19,6 +19,8 @@ public:
 	static const double		toDeg;
 	static const double		toRad;
 	
+	static double			exp		(const double& value);
+
 	static double			log			(const double& value);
 	static double			ln			(const double& value);
 
@@ -35,8 +37,8 @@ public:
 	static double			sqrt		(const double& value);
 	static double			sqrt		(const double& value, const double& n);
 	static double			pow			(const double& base, const double& exponent);
-	static unsigned int		faculty		(const unsigned int& value);
-	static unsigned int		abs			(const int& value);
+	static double			faculty		(const unsigned int& value);
+	static double			abs			(const double& value);
 
 	static double			fract		(const double& value);
 	static double			round		(const double& value, const int& position);
