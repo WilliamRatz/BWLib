@@ -1,17 +1,14 @@
 #include "BWPhysik.h"
+#include "../Inc_BWMath.h"
 
 
 
-BWPhysik::BWPhysik()
+double BWPhysik::FreeFall(double p_gravity, double p_time)
 {
+	return (p_gravity * BWMath::pow(p_time, 2)) / 2;
 }
 
-
-BWPhysik::~BWPhysik()
+Vector3 BWPhysik::Reflect(Vector3 p_direction, Vector3 p_normal)
 {
-}
-
-double BWPhysik::CalcAccelaration(double v1, double t1, double v2, double t2)
-{
-	return (v2 - v1) / (t2 - t1);
+	return (p_direction - (p_normal * 2 * (Vector3::dot(p_direction, p_normal))));
 }

@@ -1,4 +1,13 @@
-#pragma once
+//
+//  BWFloat.h
+//  BWLib
+//
+//  Created by William Ratz on 11.04.19
+//  Copyright © 2019 William Ratz. All rights reserved.
+//
+
+#ifndef BWFLOAT_H
+#define BWFLOAT_H
 
 #include "BWDouble.h"
 #include <iostream>
@@ -93,4 +102,6 @@ public:
 };
 
 std::ostream& operator<<(std::ostream&, BWFloat&);
+std::ostream& operator<<(std::ostream&, BWFloat);
 
+#endif

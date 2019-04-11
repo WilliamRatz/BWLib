@@ -1,4 +1,13 @@
-#pragma once
+//
+//  NetAddress.h
+//  BWLib
+//
+//  Created by William Ratz on 11.04.19
+//  Copyright © 2019 William Ratz. All rights reserved.
+//
+
+#ifndef NETADDRESS_H
+#define NETADDRESS_H
 
 #include "NetDefine.h"
 class NetAddress
@@ -24,3 +33,4 @@ public:
 	const unsigned short	GetPortRef();
 };
 
+#endif

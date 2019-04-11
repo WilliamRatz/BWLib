@@ -1,9 +1,9 @@
- //
-//  Vector3.h
-//  MathLibery
 //
-//  Created by William Ratz on 18.09.18.
-//  Copyright © 2018 William Ratz. All rights reserved.
+//  Vector3.h
+//  BWLib
+//
+//  Created by William Ratz on 11.04.19
+//  Copyright © 2019 William Ratz. All rights reserved.
 //
 
 #ifndef Vector3_H
@@ -19,21 +19,21 @@ class Matrix;
 class Vector3 {
 
 private:
-	Vector<float, 3> vec3;
+	Vector<float, 3> m_vec3;
 
 public:
 
-	static float x(Vector3 vec) { return vec.vec3[0]; } const
-	static float y(Vector3 vec) { return vec.vec3[1]; } const
-	static float z(Vector3 vec) { return vec.vec3[2]; } const
+	static float x(Vector3 m_vec3) { return m_vec3.m_vec3[0]; } const
+	static float y(Vector3 m_vec3) { return m_vec3.m_vec3[1]; } const
+	static float z(Vector3 m_vec3) { return m_vec3.m_vec3[2]; } const
 
-	float x() { return vec3[0]; }
-	float y() { return vec3[1]; }
-	float z() { return vec3[2]; }
+	float x() { return m_vec3[0]; }
+	float y() { return m_vec3[1]; }
+	float z() { return m_vec3[2]; }
 
-	void x(float p_x) { vec3[0] = p_x; }
-	void y(float p_y) { vec3[1] = p_y; }
-	void z(float p_z) { vec3[2] = p_z; }
+	void x(float p_x) { m_vec3[0] = p_x; }
+	void y(float p_y) { m_vec3[1] = p_y; }
+	void z(float p_z) { m_vec3[2] = p_z; }
 
 	Vector3();
 	Vector3(float p_x, float p_y, float p_z);
@@ -97,11 +97,11 @@ public:
 };
 
 template<typename T, std::size_t M, std::size_t N>
-Vector3 operator*(Matrix<T, M, N>& mat, Vector3& vec) {
+Vector3 operator*(Matrix<T, M, N>& p_mat, Vector3& p_vec3) {
 
-	float a1 = mat[0][0] * (T)vec.x() + mat[0][1] * (T)vec.y() + mat[0][2] * (T)vec.z() + mat[0][3] * (T)1;
-	float a2 = mat[1][0] * (T)vec.x() + mat[1][1] * (T)vec.y() + mat[1][2] * (T)vec.z() + mat[1][3] * (T)1;
-	float a3 = mat[2][0] * (T)vec.x() + mat[2][1] * (T)vec.y() + mat[2][2] * (T)vec.z() + mat[2][3] * (T)1;
+	float a1 = p_mat[0][0] * (T)p_vec3.x() + p_mat[0][1] * (T)p_vec3.y() + p_mat[0][2] * (T)p_vec3.z() + p_mat[0][3] * (T)1;
+	float a2 = p_mat[1][0] * (T)p_vec3.x() + p_mat[1][1] * (T)p_vec3.y() + p_mat[1][2] * (T)p_vec3.z() + p_mat[1][3] * (T)1;
+	float a3 = p_mat[2][0] * (T)p_vec3.x() + p_mat[2][1] * (T)p_vec3.y() + p_mat[2][2] * (T)p_vec3.z() + p_mat[2][3] * (T)1;
 	
 	Vector3 a(a1, a2, a3);
 
@@ -109,6 +109,7 @@ Vector3 operator*(Matrix<T, M, N>& mat, Vector3& vec) {
 }
 
 std::ostream& operator<<(std::ostream&, Vector3&);
+std::ostream& operator<<(std::ostream&, Vector3);
 
 
 #endif /* Vector3_h */

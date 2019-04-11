@@ -1,10 +1,11 @@
 //
-//  Math.h
-//  MathLibery
+//  BWMath.h
+//  BWLib
 //
-//  Created by William Ratz on 18.09.18.
-//  Copyright © 2018 William Ratz. All rights reserved.
+//  Created by William Ratz on 11.04.19
+//  Copyright © 2019 William Ratz. All rights reserved.
 //
+
 #ifndef Math_H
 #define Math_H
 

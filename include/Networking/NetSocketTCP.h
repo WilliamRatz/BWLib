@@ -1,4 +1,13 @@
-#pragma once
+//
+//  NetSocketTCP.h
+//  BWLib
+//
+//  Created by William Ratz on 11.04.19
+//  Copyright © 2019 William Ratz. All rights reserved.
+//
+
+#ifndef NETSOCKETTCP_H
+#define NETSOCKETTCP_H
 #include "NetAddress.h"
 
 /*
@@ -67,3 +76,4 @@ public:
 	bool IsOpen() const;
 };
 
+#endif

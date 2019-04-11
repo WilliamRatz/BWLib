@@ -1,4 +1,13 @@
-#pragma once
+//
+//  NetDefine.h
+//  BWLib
+//
+//  Created by William Ratz on 11.04.19
+//  Copyright © 2019 William Ratz. All rights reserved.
+//
+
+#ifndef NETDEFINE_H
+#define NETDEFINE_H
 
 // platform detection
 #define PLATFORM_WINDOWS  1
@@ -39,3 +48,5 @@ struct NetResult
 		m_errorCode = p_errorCode;
 	}
 };
+
+#endif

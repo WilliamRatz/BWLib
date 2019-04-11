@@ -1,4 +1,13 @@
-#pragma once
+//
+//  NetSocketUDP.h
+//  BWLib
+//
+//  Created by William Ratz on 11.04.19
+//  Copyright © 2019 William Ratz. All rights reserved.
+//
+
+#ifndef NETSOCKETUDP_H
+#define NETSOCKETUDP_H
 #include "NetAddress.h"
 
 /*
@@ -56,3 +65,5 @@ public:
 	//Check if this port is allready opened 
 	bool IsOpen() const;
 };
+
+#endif

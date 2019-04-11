@@ -1,10 +1,4 @@
-//
-//  Vector4.cpp
-//  MathLibery
-//
-//  Created by William Ratz on 18.09.18.
-//  Copyright © 2018 William Ratz. All rights reserved.
-//
+
 #include "Vector2.h"
 #include "Vector3.h"
 #include "Vector4.h"
@@ -13,21 +7,21 @@
 
 Quaternion::Quaternion()
 {
-	quad4[0] = NULL;
-	quad4[1] = NULL;
-	quad4[2] = NULL;
-	quad4[3] = NULL;
+	m_quad[0] = NULL;
+	m_quad[1] = NULL;
+	m_quad[2] = NULL;
+	m_quad[3] = NULL;
 }
 Quaternion::Quaternion(float p_x, float p_y, float p_z, float p_w)
 {
-	quad4[0] = p_x;
-	quad4[1] = p_y;
-	quad4[2] = p_z;
-	quad4[3] = p_w;
+	m_quad[0] = p_x;
+	m_quad[1] = p_y;
+	m_quad[2] = p_z;
+	m_quad[3] = p_w;
 }
-Quaternion::Quaternion(const Quaternion& quad)
+Quaternion::Quaternion(const Quaternion& p_quad)
 {
-	quad4 = quad.quad4;
+	m_quad = p_quad.m_quad;
 }
 
 #pragma region Methods
@@ -35,10 +29,10 @@ unsigned int Quaternion::getHashCode()
 {
 	unsigned int hash = 17;
 
-	hash *= static_cast<unsigned int>(23 + std::hash<float>()(quad4[0]));
-	hash *= static_cast<unsigned int>(23 + std::hash<float>()(quad4[1]));
-	hash *= static_cast<unsigned int>(23 + std::hash<float>()(quad4[2]));
-	hash *= static_cast<unsigned int>(23 + std::hash<float>()(quad4[3]));
+	hash *= static_cast<unsigned int>(23 + std::hash<float>()(m_quad[0]));
+	hash *= static_cast<unsigned int>(23 + std::hash<float>()(m_quad[1]));
+	hash *= static_cast<unsigned int>(23 + std::hash<float>()(m_quad[2]));
+	hash *= static_cast<unsigned int>(23 + std::hash<float>()(m_quad[3]));
 
 	return hash;
 }
@@ -59,80 +53,80 @@ Quaternion::operator Vector4()
 }
 Quaternion::operator Matrix<float, 4, 4>()
 {
-	Matrix<float, 4, 4> mat;
-	mat[0][3] = x();
-	mat[1][3] = y();
-	mat[2][3] = z();
-	mat[3][3] = w();
-	return mat;
+	Matrix<float, 4, 4> p_mat;
+	p_mat[0][3] = x();
+	p_mat[1][3] = y();
+	p_mat[2][3] = z();
+	p_mat[3][3] = w();
+	return p_mat;
 }
 #pragma endregion
 
 #pragma region arithmeticOperator
-void Quaternion::operator=(const Quaternion& quad) {
+void Quaternion::operator=(const Quaternion& p_quad) {
 
-	quad4[0] = quad.quad4[0];
-	quad4[1] = quad.quad4[1];
-	quad4[2] = quad.quad4[2];
-	quad4[3] = quad.quad4[3];
+	m_quad[0] = p_quad.m_quad[0];
+	m_quad[1] = p_quad.m_quad[1];
+	m_quad[2] = p_quad.m_quad[2];
+	m_quad[3] = p_quad.m_quad[3];
 }
 Quaternion Quaternion::operator-()
 {
-	quad4[0] = -quad4[0];
-	quad4[1] = -quad4[1];
-	quad4[2] = -quad4[2];
-	quad4[3] = -quad4[3];
+	m_quad[0] = -m_quad[0];
+	m_quad[1] = -m_quad[1];
+	m_quad[2] = -m_quad[2];
+	m_quad[3] = -m_quad[3];
 
 	return *this;
 }
-Quaternion Quaternion::operator+(const Quaternion& quad) {
+Quaternion Quaternion::operator+(const Quaternion& p_quad) {
 
 	Quaternion temp(*this);
-	return temp += quad;
+	return temp += p_quad;
 }
-Quaternion Quaternion::operator-(const Quaternion& quad) {
+Quaternion Quaternion::operator-(const Quaternion& p_quad) {
 
 	Quaternion temp(*this);
-	return temp -= quad;
+	return temp -= p_quad;
 }
-Quaternion Quaternion::operator*(const Quaternion& quad) {
+Quaternion Quaternion::operator*(const Quaternion& p_quad) {
 
 	Quaternion temp(*this);
-	return temp *= quad;
+	return temp *= p_quad;
 }
-Quaternion& Quaternion::operator+=(const Quaternion& quad) {
-	quad4[0] = quad4[0] + quad.quad4[0];
-	quad4[1] = quad4[1] + quad.quad4[1];
-	quad4[2] = quad4[2] + quad.quad4[2];
-	quad4[3] = quad4[3] + quad.quad4[3];
+Quaternion& Quaternion::operator+=(const Quaternion& p_quad) {
+	m_quad[0] = m_quad[0] + p_quad.m_quad[0];
+	m_quad[1] = m_quad[1] + p_quad.m_quad[1];
+	m_quad[2] = m_quad[2] + p_quad.m_quad[2];
+	m_quad[3] = m_quad[3] + p_quad.m_quad[3];
 
 	return *this;
 }
-Quaternion& Quaternion::operator-=(const Quaternion& quad) {
-	quad4[0] = quad4[0] - quad.quad4[0];
-	quad4[1] = quad4[1] - quad.quad4[1];
-	quad4[2] = quad4[2] - quad.quad4[2];
-	quad4[3] = quad4[3] - quad.quad4[3];
+Quaternion& Quaternion::operator-=(const Quaternion& p_quad) {
+	m_quad[0] = m_quad[0] - p_quad.m_quad[0];
+	m_quad[1] = m_quad[1] - p_quad.m_quad[1];
+	m_quad[2] = m_quad[2] - p_quad.m_quad[2];
+	m_quad[3] = m_quad[3] - p_quad.m_quad[3];
 
 	return *this;
 }
-Quaternion& Quaternion::operator*=(const Quaternion& quad) {
-	quad4[0] = (quad4[0] * quad.quad4[0]) - (quad4[1] * quad.quad4[1]) - (quad4[2] * quad.quad4[2]) - (quad4[3] * quad.quad4[3]);
-	quad4[1] = (quad4[0] * quad.quad4[1]) + (quad4[1] * quad.quad4[0]) + (quad4[2] * quad.quad4[3]) - (quad4[3] * quad.quad4[2]);
-	quad4[2] = (quad4[0] * quad.quad4[2]) - (quad4[1] * quad.quad4[3]) + (quad4[2] * quad.quad4[0]) + (quad4[3] * quad.quad4[1]);
-	quad4[3] = (quad4[0] * quad.quad4[3]) + (quad4[1] * quad.quad4[2]) - (quad4[2] * quad.quad4[1]) - (quad4[3] * quad.quad4[0]);
+Quaternion& Quaternion::operator*=(const Quaternion& p_quad) {
+	m_quad[0] = (m_quad[0] * p_quad.m_quad[0]) - (m_quad[1] * p_quad.m_quad[1]) - (m_quad[2] * p_quad.m_quad[2]) - (m_quad[3] * p_quad.m_quad[3]);
+	m_quad[1] = (m_quad[0] * p_quad.m_quad[1]) + (m_quad[1] * p_quad.m_quad[0]) + (m_quad[2] * p_quad.m_quad[3]) - (m_quad[3] * p_quad.m_quad[2]);
+	m_quad[2] = (m_quad[0] * p_quad.m_quad[2]) - (m_quad[1] * p_quad.m_quad[3]) + (m_quad[2] * p_quad.m_quad[0]) + (m_quad[3] * p_quad.m_quad[1]);
+	m_quad[3] = (m_quad[0] * p_quad.m_quad[3]) + (m_quad[1] * p_quad.m_quad[2]) - (m_quad[2] * p_quad.m_quad[1]) - (m_quad[3] * p_quad.m_quad[0]);
 
 	return *this;
 }
 #pragma endregion
 
 #pragma region comparisonOperator
-bool Quaternion::operator==(Quaternion& quad) {
+bool Quaternion::operator==(Quaternion& p_quad) {
 
-	if (quad4[0] == quad.quad4[0] &&
-		quad4[1] == quad.quad4[1] &&
-		quad4[2] == quad.quad4[2] &&
-		quad4[3] == quad.quad4[3]) {
+	if (m_quad[0] == p_quad.m_quad[0] &&
+		m_quad[1] == p_quad.m_quad[1] &&
+		m_quad[2] == p_quad.m_quad[2] &&
+		m_quad[3] == p_quad.m_quad[3]) {
 
 		return true;
 	}
@@ -142,12 +136,12 @@ bool Quaternion::operator==(Quaternion& quad) {
 	}
 
 }
-bool Quaternion::operator!=(Quaternion& quad) {
+bool Quaternion::operator!=(Quaternion& p_quad) {
 
-	if (quad4[0] != quad.quad4[0] ||
-		quad4[1] != quad.quad4[1] ||
-		quad4[2] != quad.quad4[2] ||
-		quad4[3] != quad.quad4[3]) {
+	if (m_quad[0] != p_quad.m_quad[0] ||
+		m_quad[1] != p_quad.m_quad[1] ||
+		m_quad[2] != p_quad.m_quad[2] ||
+		m_quad[3] != p_quad.m_quad[3]) {
 
 		return true;
 	}
@@ -158,8 +152,14 @@ bool Quaternion::operator!=(Quaternion& quad) {
 }
 #pragma endregion
 
-std::ostream& operator<<(std::ostream& ausgabe, Quaternion& a)
+std::ostream& operator<<(std::ostream& p_output, Quaternion& p_quad)
 {
-	ausgabe << '(' << a.x() << '/' << a.y() << '/' << a.z() << '/' << a.w() << ')';
-	return ausgabe;
+	p_output << '(' << p_quad.x() << '/' << p_quad.y() << '/' << p_quad.z() << '/' << p_quad.w() << ')';
+	return p_output;
+}
+
+std::ostream & operator<<(std::ostream& p_output, Quaternion p_quad)
+{
+	p_output << '(' << p_quad.x() << '/' << p_quad.y() << '/' << p_quad.z() << '/' << p_quad.w() << ')';
+	return p_output;
 }

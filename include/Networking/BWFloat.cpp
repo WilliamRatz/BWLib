@@ -810,3 +810,9 @@ std::ostream& operator<<(std::ostream& output, BWFloat& p_BWFloat)
 	output << "Output not finished yet";
 	return output;
 }
+
+std::ostream& operator<<(std::ostream&  output, BWFloat p_BWFloat)
+{
+	output << "Output not finished yet";
+	return output;
+}
