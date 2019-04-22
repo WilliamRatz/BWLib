@@ -39,9 +39,6 @@
     <ClCompile Include="include\Networking\BWNet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\Physik\BWPhysik.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="include\Networking\NetAddress.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -49,6 +46,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="include\Networking\NetSocketTCP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Physik\BWPhysik2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Physik\BWPhysik3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="include\Physik\BWPhysik.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BWPHYSIK.CPP">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,9 +101,6 @@
     <ClInclude Include="include\Networking\BWNet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Physik\BWPhysik.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Networking\NetDefine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -108,6 +114,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Networking\NetSocketTCP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Physik\BWPhysik2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Physik\BWPhysik3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Physik\BWPhysik.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

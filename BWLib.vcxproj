@@ -24,6 +24,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BWPHYSIK.CPP" />
+    <ClCompile Include="include\Physik\BWPhysik.cpp" />
+    <ClCompile Include="include\Physik\BWPhysik2D.cpp" />
     <ClCompile Include="include\Math\BWMath.cpp" />
     <ClCompile Include="include\Math\Quaternion.cpp" />
     <ClCompile Include="include\Math\Vector2.cpp" />
@@ -32,12 +35,14 @@
     <ClCompile Include="include\Networking\BWDouble.cpp" />
     <ClCompile Include="include\Networking\BWFloat.cpp" />
     <ClCompile Include="include\Networking\BWNet.cpp" />
-    <ClCompile Include="include\Physik\BWPhysik.cpp" />
+    <ClCompile Include="include\Physik\BWPhysik3D.cpp" />
     <ClCompile Include="include\Networking\NetSocketUDP.cpp" />
     <ClCompile Include="include\Networking\NetAddress.cpp" />
     <ClCompile Include="include\Networking\NetSocketTCP.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Physik\BWPhysik.h" />
+    <ClInclude Include="include\Physik\BWPhysik2D.h" />
     <ClInclude Include="include\Inc_BWMath.h" />
     <ClInclude Include="include\Inc_BWNetworking.h" />
     <ClInclude Include="include\Inc_BWPhysik.h" />
@@ -53,7 +58,7 @@
     <ClInclude Include="include\Networking\BWFloat.h" />
     <ClInclude Include="include\Networking\BWNet.h" />
     <ClInclude Include="include\Networking\NetDefine.h" />
-    <ClInclude Include="include\Physik\BWPhysik.h" />
+    <ClInclude Include="include\Physik\BWPhysik3D.h" />
     <ClInclude Include="include\Networking\NetSocketUDP.h" />
     <ClInclude Include="include\Networking\NetAddress.h" />
     <ClInclude Include="include\Networking\NetSocketTCP.h" />
