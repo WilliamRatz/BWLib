@@ -12,6 +12,7 @@ NetAddress::NetAddress(unsigned char p_ip_A, unsigned char p_ip_B, unsigned char
 }
 NetAddress::NetAddress(unsigned int p_ipv4, unsigned short p_port)
 {
+	m_addr.sin_family = AF_INET;
 	m_addr.sin_addr.s_addr = htonl(p_ipv4);
 	m_addr.sin_port = htons(p_port);
 }

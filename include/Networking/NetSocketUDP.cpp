@@ -82,7 +82,7 @@ NetAddress NetSocketUDP::Receive(char* p_dataArray, int p_dataArrayLength)
 		return NetAddress(NULL, NULL);
 	}
 
-	return NetAddress(ntohl(from.sin_addr.s_addr), from.sin_port);
+	return NetAddress(ntohl(from.sin_addr.s_addr), ntohs(from.sin_port));
 }
 
 NetResult NetSocketUDP::EnableNonBlocking()
