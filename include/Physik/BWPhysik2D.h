@@ -12,7 +12,7 @@ public:
 	normal = the normal of the reflected surface
 
 	returns the refected vector
-*/
+	*/
 	static Vector2 Reflect(Vector2& direction, Vector2& normal);
 
 	//position converted to velocity in  Space
