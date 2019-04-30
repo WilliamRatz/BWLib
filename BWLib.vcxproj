@@ -24,7 +24,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BWPHYSIK.CPP" />
     <ClCompile Include="include\Physik\BWPhysik.cpp" />
     <ClCompile Include="include\Physik\BWPhysik2D.cpp" />
     <ClCompile Include="include\Math\BWMath.cpp" />

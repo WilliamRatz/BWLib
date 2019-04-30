@@ -57,9 +57,6 @@
     <ClCompile Include="include\Physik\BWPhysik.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BWPHYSIK.CPP">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Math\Matrix.h">
