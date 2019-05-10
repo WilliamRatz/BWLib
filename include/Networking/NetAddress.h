@@ -31,6 +31,12 @@ public:
 	sockaddr_in&			GetTransportAddress();
 	const unsigned int		GetIpv4Ref();
 	const unsigned short	GetPortRef();
+
+#pragma region comparisonOperations
+	bool operator==(const NetAddress&);
+	bool operator!=(const NetAddress&);
+
+#pragma endregion
 };
 
 #endif

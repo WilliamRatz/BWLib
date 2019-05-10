@@ -30,7 +30,7 @@ NetResult NetSocketUDP::OpenSocket(unsigned short p_port)
 	address.sin_addr.S_un.S_addr = INADDR_ANY;
 	address.sin_port = htons(p_port);
 
-	if (bind(m_handle, (const sockaddr*)&address, sizeof(address)) < 0)
+	if (bind(m_handle, (const sockaddr*)& address, sizeof(address)) < 0)
 	{
 		return NetResult(3);
 	}
@@ -55,7 +55,7 @@ NetResult NetSocketUDP::CloseSocket()
 
 NetResult NetSocketUDP::Send(NetAddress netAddress, char* dataArray, int dataArrayLength)
 {
-	if (sendto(m_handle, (const char*)dataArray, dataArrayLength, 0, (sockaddr*)&netAddress.GetTransportAddress(), sizeof(sockaddr_in)) != dataArrayLength)
+	if (sendto(m_handle, (const char*)dataArray, dataArrayLength, 0, (sockaddr*)& netAddress.GetTransportAddress(), sizeof(sockaddr_in)) != dataArrayLength)
 	{
 		return NetResult(6);
 	}
@@ -72,16 +72,15 @@ NetAddress NetSocketUDP::Receive(char* p_dataArray, int p_dataArrayLength)
 	socklen_t fromLength = sizeof(from);
 
 	if (recvfrom(m_handle,
-		(char *)p_dataArray,
+		(char*)p_dataArray,
 		p_dataArrayLength,
 		0,
-		(sockaddr*)&from,
+		(sockaddr*)& from,
 		&fromLength)
 		<= 0)
 	{
 		return NetAddress(NULL, NULL);
 	}
-
 	return NetAddress(ntohl(from.sin_addr.s_addr), ntohs(from.sin_port));
 }
 
