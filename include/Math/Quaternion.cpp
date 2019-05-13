@@ -27,14 +27,8 @@ Quaternion::Quaternion(const Quaternion& p_quad)
 #pragma region Methods
 unsigned int Quaternion::getHashCode()
 {
-	unsigned int hash = 17;
+	return ((((((static_cast<unsigned int>(m_quad[0])) * 397) ^ static_cast<unsigned int>(m_quad[1])) * 397) ^ static_cast<unsigned int>(m_quad[2])) * 397) ^ static_cast<unsigned int>(m_quad[3]);
 
-	hash *= static_cast<unsigned int>(23 + std::hash<float>()(m_quad[0]));
-	hash *= static_cast<unsigned int>(23 + std::hash<float>()(m_quad[1]));
-	hash *= static_cast<unsigned int>(23 + std::hash<float>()(m_quad[2]));
-	hash *= static_cast<unsigned int>(23 + std::hash<float>()(m_quad[3]));
-
-	return hash;
 }
 #pragma endregion
 
