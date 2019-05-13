@@ -1,5 +1,5 @@
 //
-//  BWPhysik.h
+//  BWPhysik3D.h
 //  BWLib
 //
 //  Created by William Ratz on 11.04.19
@@ -14,34 +14,6 @@
 class BWPhysik3D : public BWPhysik
 {
 public:
-
-	static Vector3 PosToVelo(Vector3& position, double& time);
-	static Vector3 PosToAccel(Vector3& position, double& time);
-	static Vector3 PosToMomentum(Vector3& position, double& time, double& mass);
-	static Vector3 PosToForce(Vector3& position, double& time, double& mass);
-
-	static Vector3 VeloToPos(Vector3& velocity, Vector3& startPosition, double& time);
-	static Vector3 VeloToAccel(Vector3& velocity, double& time);
-	static Vector3 VeloToMomentum(Vector3& velocity, double& mass);
-	static Vector3 VeloToForce(Vector3& velocity, double& mass, double& time);
-
-	static Vector3 AccelToPos(Vector3& acceleration, Vector3& startVelocity, Vector3& startPosition, double& time);
-	static Vector3 AccelToVelo(Vector3& acceleration, Vector3& startVelocity, double& time);
-	static Vector3 AccelMomentum(Vector3& acceleration, Vector3& startVelocity, double& time, double& mass);
-	static Vector3 AccelForce(Vector3& acceleration, double& mass);
-
-	static Vector3 MomentumToPos(Vector3& momentum, double& mass, Vector3& startPosition, double& time); //maybe startVelocity 
-	static Vector3 MomentumToVelo(Vector3& momentum, double& mass);
-	static Vector3 MomentumToAccel(Vector3& momentum, double& mass, double& time); //maybe startVelocity , startAcceleration
-	static Vector3 MomentumToForce(Vector3& momentum, double& time);
-	static Vector3 MomentumToMass(Vector3& p_momentum, Vector3& p_acceleration, double& p_time);
-
-	static Vector3 ForceToPos(Vector3& force, Vector3& startVelocity, Vector3& startPosition, double& mass, double& time);//maybe startAcceleration
-	static Vector3 ForceToVelo(Vector3& force, Vector3& startVelocity, double& mass, double& time); //maybe startAcceleration
-	static Vector3 ForceToAccel(Vector3& force, double& mass);
-	static Vector3 ForceToMomentum(Vector3& force, double& time);
-	static Vector3 ForceToMass(Vector3& force, Vector3& acceleration);
-
 	/*
 		direction = the vector which have to be refected
 		normal = the normal of the reflected surface
@@ -49,6 +21,57 @@ public:
 		returns the refected vector
 	*/
 	static Vector3 Reflect(Vector3& direction, Vector3& normal);
+
+#pragma region UniformMotion
+	//Uniform Motion
+	class UM
+	{
+		static Vector3 GetElapseTime(Vector3& distance, Vector3& velocity);
+
+		static Vector3 GetPosition(Vector3& velocity, double& elapsedTime);
+		static Vector3 GetPosition(Vector3& velocity, double& elapsedTime, Vector3& startDistance);
+
+		static Vector3 GetVelocity(Vector3& distance, double& elapsedTime);
+	};
+#pragma endregion
+
+#pragma region Kinematics
+	//Kinematics
+	class K
+	{
+		static Vector3 GetElapseTime(Vector3& velocity, Vector3& acceleration);
+		static Vector3 GetElapseTime(Vector3& velocity, Vector3& acceleration, Vector3& initialVelocity);
+
+		static Vector3 GetPosition(Vector3& acceleration, double& elapsedTime);
+		static Vector3 GetPosition(Vector3& acceleration, double& elapsedTime, Vector3& initialVelocity, Vector3& startDistance);
+
+		static Vector3 GetVelocity(Vector3& acceleration, double& elapsedTime);
+		static Vector3 GetVelocity(Vector3& acceleration, double& elapsedTime, Vector3& initialVelocity);
+
+		static Vector3 GetAcceleration(Vector3& velocity, double& elapsedTime);
+		static Vector3 GetAcceleration(Vector3& velocity, double& elapsedTime, Vector3& initialVelocity);
+
+	};
+#pragma endregion
+
+#pragma region Dynamics
+	//Dynamics
+	class D
+	{
+		static Vector3 GetVelocity(Vector3& momentum, double& mass);
+
+		static Vector3 GetAcceleration(Vector3& force, double& mass);
+
+		static Vector3 GetMomentum(Vector3& velocity, double& mass);
+
+		static Vector3 GetForce(Vector3& acceleration, double& mass);
+
+		static Vector3 GetMassP(Vector3& momentum, Vector3& velocity);
+		static Vector3 GetMassF(Vector3& force, Vector3& acceleration);
+	};
+#pragma endregion
+
+	
 };
 
 #endif
