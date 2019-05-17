@@ -10,23 +10,23 @@
 #define NETDEFINE_H
 
 // platform detection
-#define PLATFORM_WINDOWS  1
-#define PLATFORM_MAC      2
-#define PLATFORM_UNIX     3
+#define BWLIB_PLATFORM_WINDOWS  1
+#define BWLIB_PLATFORM_MAC      2
+#define BWLIB_PLATFORM_UNIX     3
 
 #if defined(_WIN32)
-#define PLATFORM PLATFORM_WINDOWS
+#define PLATFORM BWLIB_PLATFORM_WINDOWS
 #elif defined(__APPLE__)
 #define PLATFORM PLATFORM_MAC
 #else
 #define PLATFORM PLATFORM_UNIX
 #endif
-#if PLATFORM == PLATFORM_WINDOWS
+#if PLATFORM == BWLIB_PLATFORM_WINDOWS
 
 #include <winsock2.h>
 #pragma comment( lib, "wsock32.lib" )
 
-#elif PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
+#elif PLATFORM == BWLIB_PLATFORM_MAC || PLATFORM == BWLIB_PLATFORM_UNIX
 
 #include <sys/socket.h>
 #include <netinet/in.h>

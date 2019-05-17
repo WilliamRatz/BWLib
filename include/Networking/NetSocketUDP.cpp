@@ -39,12 +39,12 @@ NetResult NetSocketUDP::OpenSocket(unsigned short p_port)
 }
 NetResult NetSocketUDP::CloseSocket()
 {
-#if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
+#if PLATFORM == BWLIB_PLATFORM_MAC || PLATFORM == BWLIB_PLATFORM_UNIX
 	if (close(m_handle) != 0)
 	{
 		return NetResult(7);
 	}
-#elif PLATFORM == PLATFORM_WINDOWS
+#elif PLATFORM == BWLIB_PLATFORM_WINDOWS
 	if (closesocket(m_handle) != 0)
 	{
 		return NetResult(7);
@@ -64,7 +64,7 @@ NetResult NetSocketUDP::Send(NetAddress netAddress, char* dataArray, int dataArr
 }
 NetAddress NetSocketUDP::Receive(char* p_dataArray, int p_dataArrayLength)
 {
-#if PLATFORM == PLATFORM_WINDOWS
+#if PLATFORM == BWLIB_PLATFORM_WINDOWS
 	typedef int socklen_t;
 #endif
 
@@ -87,7 +87,7 @@ NetAddress NetSocketUDP::Receive(char* p_dataArray, int p_dataArrayLength)
 
 NetResult NetSocketUDP::EnableNonBlocking()
 {
-#if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
+#if PLATFORM == BWLIB_PLATFORM_MAC || PLATFORM == BWLIB_PLATFORM_UNIX
 	int nonBlocking = 1;
 	if (fcntl(m_handle,
 		F_SETFL,
@@ -97,7 +97,7 @@ NetResult NetSocketUDP::EnableNonBlocking()
 		return NetResult(4);
 	}
 
-#elif PLATFORM == PLATFORM_WINDOWS
+#elif PLATFORM == BWLIB_PLATFORM_WINDOWS
 
 	DWORD nonBlocking = 1;
 	if (ioctlsocket(m_handle,
@@ -112,7 +112,7 @@ NetResult NetSocketUDP::EnableNonBlocking()
 }
 NetResult NetSocketUDP::DisableNonBlocking()
 {
-#if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
+#if PLATFORM == BWLIB_PLATFORM_MAC || PLATFORM == BWLIB_PLATFORM_UNIX
 	int nonBlocking = 0;
 	if (fcntl(m_handle,
 		F_SETFL,
@@ -122,7 +122,7 @@ NetResult NetSocketUDP::DisableNonBlocking()
 		return NetResult(5);
 	}
 
-#elif PLATFORM == PLATFORM_WINDOWS
+#elif PLATFORM == BWLIB_PLATFORM_WINDOWS
 
 	DWORD nonBlocking = 0;
 	if (ioctlsocket(m_handle,

@@ -28,7 +28,6 @@ Quaternion::Quaternion(const Quaternion& p_quad)
 unsigned int Quaternion::getHashCode()
 {
 	return ((((((static_cast<unsigned int>(m_quad[0])) * 397) ^ static_cast<unsigned int>(m_quad[1])) * 397) ^ static_cast<unsigned int>(m_quad[2])) * 397) ^ static_cast<unsigned int>(m_quad[3]);
-
 }
 #pragma endregion
 

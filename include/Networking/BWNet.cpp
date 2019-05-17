@@ -11,7 +11,7 @@ BWNet::~BWNet()
 
 NetResult BWNet::InitializeSocketLayer()
 {
-#if PLATFORM == PLATFORM_WINDOWS
+#if PLATFORM == BWLIB_PLATFORM_WINDOWS
 	WSADATA WsaData;
 	if(WSAStartup(MAKEWORD(2, 2),&WsaData) == NO_ERROR)
 	{
@@ -28,7 +28,7 @@ NetResult BWNet::InitializeSocketLayer()
 
 void BWNet::ShutdownSockets()
 {
-#if PLATFORM == PLATFORM_WINDOWS
+#if PLATFORM == BWLIB_PLATFORM_WINDOWS
 	WSACleanup();
 #endif
 }
