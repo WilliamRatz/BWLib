@@ -37,12 +37,12 @@ NetResult NetSocketTCP::OpenSocket(unsigned short p_port)
 
 NetResult NetSocketTCP::CloseSocket()
 {
-#if PLATFORM == PLATFORM_MAC || PLATFORM == PLATFORM_UNIX
+#if PLATFORM == BWLIB_PLATFORM_MAC || PLATFORM == BWLIB_PLATFORM_UNIX
 	if (close(m_handle) != 0)
 	{
 		return NetResult(7);
 	}
-#elif PLATFORM == PLATFORM_WINDOWS
+#elif PLATFORM == BWLIB_PLATFORM_WINDOWS
 	if (closesocket(m_handle) != 0)
 	{
 		return NetResult(7);

@@ -34,13 +34,8 @@ Vector4 Vector4::normalize()
 	return *this;
 }
 unsigned int Vector4::getHashCode() {
-	unsigned int hash = 17;
-
-	hash *= static_cast<unsigned int>(23 + std::hash<float>()(m_vec4[0]));
-	hash *= static_cast<unsigned int>(23 + std::hash<float>()(m_vec4[1]));
-	hash *= static_cast<unsigned int>(23 + std::hash<float>()(m_vec4[2]));
-
-	return hash;
+	
+	return ((((((static_cast<unsigned int>(m_vec4[0])) * 397) ^ static_cast<unsigned int>(m_vec4[1])) * 397) ^ static_cast<unsigned int>(m_vec4[2])) * 397) ^ static_cast<unsigned int>(m_vec4[3]);
 }
 
 float Vector4::length(const Vector4& p_vec4)

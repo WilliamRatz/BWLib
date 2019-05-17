@@ -156,11 +156,11 @@ typeMatrix inline Quaternion Matrix<T, R, C>::toQuaternion()
 
 typeMatrix inline std::size_t Matrix<T, R, C>::getHashCode()
 {
-	std::size_t hash = 17;
+	long long hash = m_mat[0][0];
 
-	for (std::size_t i = 0; i < R; ++i) {
-		for (std::size_t ii = 0; ii < C; ++ii) {
-			hash *= static_cast<std::size_t>(23 + std::hash<T>()(m_mat[i][ii]));
+	for (long long i = 0; i < R; ++i) {
+		for (long long ii = 0; ii < C; ++ii) {
+			hash = (hash * 397) ^ static_cast<long long>(m_mat[i][ii]);
 		}
 	}
 

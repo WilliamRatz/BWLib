@@ -1,8 +1,6 @@
 #include "BWMath.h"
-#include "Vector2.h"
-#include "Vector3.h"
-#include "Quaternion.h"
-#include "Matrix.h"
+#include <cmath>
+#include <stdexcept>
 
 
 const double BWMath::PI = 3.14159265358979323;
@@ -26,12 +24,12 @@ double BWMath::exp(const double& p_value)
 double BWMath::log(const double& p_value)
 {
 	if (p_value < 0)
-		return NAN;
+		throw std::logic_error("log of negative value is undefined");
 
 	double copieValue = p_value;
 	double result = 0;
 
-	for (double a = 1; a < 1000000; a *= 10)
+	for (double a = 1; a < 1000000.0; a *= 10)
 	{
 		double count = 0;
 		while (copieValue >= BWMath::pow(10, count))
@@ -49,7 +47,7 @@ double BWMath::log(const double& p_value)
 double BWMath::ln(const double& p_value)
 {
 	if (p_value < 0)
-		return NAN;
+		throw std::logic_error("ln of negative value is undefined");
 
 	return BWMath::log(p_value) / BWMath::log(BWMath::EULER);
 }
@@ -192,7 +190,7 @@ double BWMath::pow(const double& p_base, const double& p_exponent)
 	if (static_cast<long long int>(p_exponent) == p_exponent)
 	{
 		//exponent has a hole number
-		double result = 1;
+		double result = 1.0;
 		for (int i = 0; i < p_exponent; ++i)
 		{
 			result *= p_base;
@@ -210,7 +208,7 @@ double BWMath::faculty(const unsigned int& p_value)
 	if (p_value < 0) {
 		throw std::out_of_range("no negativ faculty");
 	}
-	double result = 1;
+	double result = 1.0;
 
 	for (unsigned int i = 2; i <= p_value; ++i)
 	{
@@ -240,11 +238,11 @@ double BWMath::fract(const double& p_value)
 
 double BWMath::round(const double& p_value, const int& p_position)
 {
-	double temp = p_value * BWMath::pow(10, p_position + 1);
+	double temp = p_value * BWMath::pow(10.0, static_cast<double>(p_position) + 1.0);
 	temp = static_cast<int>(temp);
-	temp -= static_cast<int>(p_value * BWMath::pow(10, p_position)) * 10;
+	temp -= static_cast<int>(p_value * BWMath::pow(static_cast<double>(10), static_cast<double>(p_position))) * 10.0;
 
-	if (temp > 4)
+	if (temp > 4.0)
 	{
 		return BWMath::ceil(p_value, p_position);
 	}
@@ -255,20 +253,20 @@ double BWMath::round(const double& p_value, const int& p_position)
 }
 double BWMath::floor(const double& p_value, const int& p_position)
 {
-	double temp = p_value * BWMath::pow(10, p_position);
+	double temp = p_value * BWMath::pow(10.0, p_position);
 	temp = static_cast<int>(temp);
-	temp *= 10;
-	temp /= BWMath::pow(10, p_position + 1);
+	temp *= 10.0;
+	temp /= BWMath::pow(10.0, static_cast<double>(p_position) + 1.0);
 
 	return temp;
 }
 double BWMath::ceil(const double& p_value, const int& p_position)
 {
-	double temp = p_value * BWMath::pow(10, p_position);
+	double temp = p_value * BWMath::pow(10.0, static_cast<double>(p_position));
 	temp = static_cast<int>(temp);
-	temp *= 10;
-	temp += 10;
-	temp /= BWMath::pow(10, p_position + 1);
+	temp *= 10.0;
+	temp += 10.0;
+	temp /= BWMath::pow(10.0, static_cast<double>(p_position) + 1.0);
 
 	return temp;
 }

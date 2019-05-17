@@ -31,12 +31,8 @@ void Vector2::normalize()
 	m_vec2[2] /= Vector2::length(*this);
 }
 unsigned int Vector2::getHashCode() {
-	unsigned int hash = 17;
 
-	hash *= static_cast<unsigned int>(23 + std::hash<float>()(m_vec2[0]));
-	hash *= static_cast<unsigned int>(23 + std::hash<float>()(m_vec2[1]));
-
-	return hash;
+	return (static_cast<unsigned int>(m_vec2[0]) * 397) ^ static_cast<unsigned int>(m_vec2[1]);
 }
 
 Vector2 Vector2::normalized(const Vector2& p_vec2) {

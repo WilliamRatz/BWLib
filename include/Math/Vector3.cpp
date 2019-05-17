@@ -34,13 +34,8 @@ Vector3 Vector3::normalize()
 	return *this;
 }
 unsigned int Vector3::getHashCode() {
-	unsigned int hash = 17;
 
-	hash *= static_cast<unsigned int>(23 + std::hash<float>()(m_vec3[0]));
-	hash *= static_cast<unsigned int>(23 + std::hash<float>()(m_vec3[1]));
-	hash *= static_cast<unsigned int>(23 + std::hash<float>()(m_vec3[2]));
-
-	return hash;
+	return (((static_cast<unsigned int>(m_vec3[0]) * 397) ^ static_cast<unsigned int>(m_vec3[1])) * 397) ^ static_cast<unsigned int>(m_vec3[2]);
 }
 
 float Vector3::length(const Vector3& p_vec3)
