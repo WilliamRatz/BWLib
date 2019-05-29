@@ -52,6 +52,7 @@ public:
 	
 	Vector3			getTransform			();
 	Matrix&			identity				();
+	Matrix&			normalize				();
 	Matrix&			inverse					();
 	Matrix<T, C, R>	transpose				();
 
@@ -312,8 +313,8 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::rotation3DAroundZ(float p_an
 	double degress = (double)p_angle * BWMath::PI / 180; // change from Rad to degrees
 
 	rotat3DZ[0][0] = (T)std::cos(degress);
-	rotat3DZ[0][1] = (T)std::sin(degress);
-	rotat3DZ[1][0] = (T)-std::sin(degress);
+	rotat3DZ[0][1] = (T)-std::sin(degress);
+	rotat3DZ[1][0] = (T)std::sin(degress);
 	rotat3DZ[1][1] = (T)std::cos(degress);
 
 	this->operator*=(rotat3DZ);
@@ -381,27 +382,35 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::rotation3DAroundZlocal(float
 
 }
 			
-typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::rotation3DAroundArbitararyAxis(float p_angle, Vector3 p_axis)
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::rotation3DAroundArbitararyAxis(float angle, Vector3 axis)
 {
 	if (R < 3 && C < 3) {
 		throw std::out_of_range("Your Matrix dont fit for 3D rotation around \"Z\" check your dimensions");
 	}
 
+
+
+	double degress = (double)angle * BWMath::PI / 180; // change from Rad to degrees
+
+	axis.normalize();
+
 	Matrix<T, R, C> rotat3DArbiAxis;
-	double degress = (double)p_angle * BWMath::PI / 180; // change from Rad to degrees
 
-	rotat3DArbiAxis[0][0] = (std::cos(p_angle) + BWMath::pow(p_axis.x(), 2)) * (1 - std::cos(p_angle));
-	rotat3DArbiAxis[0][1] = (p_axis.x() * p_axis.y()) * (1 - std::cos(p_angle)) - (p_axis.z()*std::sin(p_angle));
-	rotat3DArbiAxis[0][2] = (p_axis.x() * p_axis.z()) * (1 - std::cos(p_angle)) + (p_axis.y()*std::sin(p_angle));
-	rotat3DArbiAxis[1][0] = (p_axis.y() * p_axis.x()) * (1 - std::cos(p_angle)) + (p_axis.z()*std::sin(p_angle));
-	rotat3DArbiAxis[1][1] = (std::cos(p_angle) + BWMath::pow(p_axis.y(), 2)) * (1 - std::cos(p_angle));
-	rotat3DArbiAxis[1][2] = (p_axis.y() * p_axis.z()) * (1 - std::cos(p_angle)) - (p_axis.x()*std::sin(p_angle));
-	rotat3DArbiAxis[2][0] = (p_axis.z() * p_axis.x()) * (1 - std::cos(p_angle)) - (p_axis.y()*std::sin(p_angle));
-	rotat3DArbiAxis[2][1] = (p_axis.z() * p_axis.y()) * (1 - std::cos(p_angle)) + (p_axis.x()*std::sin(p_angle));
-	rotat3DArbiAxis[2][2] = std::cos(p_angle) + BWMath::pow(p_axis.z(), 2) * (1 - std::cos(p_angle));
-
-	*this *= rotat3DArbiAxis;
+	rotat3DArbiAxis[0][0] = (axis.x() * axis.x()) + ((axis.y() * axis.y()) + (axis.z() * axis.z())) * std::cos(degress);
+	rotat3DArbiAxis[0][1] = axis.x() * axis.y() * (1 - std::cos(degress)) - axis.z() * std::sin(degress);
+	rotat3DArbiAxis[0][2] = axis.x() * axis.z() * (1 - std::cos(degress)) + axis.y() * std::sin(degress);
+	rotat3DArbiAxis[0][3] = (m_mat[0][3] * ((axis.y() * axis.y()) + (axis.z() * axis.z())) - axis.x() * (m_mat[1][3] * axis.y() + m_mat[2][3] * axis.z())) * (1 - std::cos(degress)) + (m_mat[1][3] * axis.z() - m_mat[2][3] * axis.y()) * std::sin(degress);
+	rotat3DArbiAxis[1][0] = axis.x() * axis.y() * (1 - std::cos(degress)) + axis.z() * std::sin(degress);
+	rotat3DArbiAxis[1][1] = (axis.y() * axis.y()) + ((axis.x() * axis.x()) + (axis.z() * axis.z())) * std::cos(degress);
+	rotat3DArbiAxis[1][2] = axis.y() * axis.z() * (1 - std::cos(degress)) - axis.x() * std::sin(degress);
+	rotat3DArbiAxis[1][3] = (m_mat[1][3] * ((axis.x() * axis.x()) + (axis.z() * axis.z())) - axis.y() * (m_mat[0][3] * axis.x() + m_mat[2][3] * axis.z())) * (1 - std::cos(degress)) + (m_mat[2][3] * axis.x() - m_mat[0][3] * axis.z()) * std::sin(degress);
+	rotat3DArbiAxis[2][0] = axis.x() * axis.z() * (1 - std::cos(degress)) - axis.y() * std::sin(degress);
+	rotat3DArbiAxis[2][1] = axis.y() * axis.z() * (1 - std::cos(degress)) + axis.x() * std::sin(degress);
+	rotat3DArbiAxis[2][2] = (axis.z() * axis.z()) + ((axis.x() * axis.x()) + (axis.y() * axis.y())) * std::cos(degress);
+	rotat3DArbiAxis[2][3] = (m_mat[2][3] * ((axis.x() * axis.x()) + (axis.y() * axis.y())) - axis.z() * (m_mat[0][3] * axis.x() + m_mat[1][3] * axis.y())) * (1 - std::cos(degress)) + (m_mat[0][3] * axis.y() - m_mat[1][3] * axis.x()) * std::sin(degress);
+	this->operator*=(rotat3DArbiAxis);
 	return *this;
+
 }
 
 typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::perspectivProjection(float p_windowWidth, float p_windowHeight, float p_nearPlane, float p_farPlane)
@@ -458,6 +467,10 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::identity() {
 	}
 	return *this;
 
+}
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::normalize()
+{
+	// TODO: insert return statement here
 }
 typeMatrix inline Matrix<T, C, R> Matrix<T, R, C>::transpose()
 {
@@ -578,20 +591,7 @@ typeMatrix inline bool Matrix<T, R, C>::operator!=(Matrix& p_mat)
 
 #pragma endregion	
 
-typeMatrix inline std::ostream& operator<<(std::ostream& p_output, Matrix<T, R, C>& p_mat) {
-	for (std::size_t i = 0; i < R; ++i) {
-		p_output << '|';
-		for (std::size_t ii = 0; ii < C; ++ii) {
-
-			p_output << p_mat[i][ii];
-			if (ii < C - 1)
-				p_output << ' ';
-		}
-		p_output << '|' << std::endl;
-	}
-	return p_output;
-}
-typeMatrix inline std::ostream& operator<<(std::ostream& p_output, Matrix<T, R, C> p_mat) {
+typeMatrix std::ostream& operator<<(std::ostream& p_output, Matrix<T, R, C>& p_mat) {
 	for (std::size_t i = 0; i < R; ++i) {
 		p_output << '|';
 		for (std::size_t ii = 0; ii < C; ++ii) {
