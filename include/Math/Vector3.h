@@ -41,7 +41,7 @@ public:
 
 #pragma region Methods
 	
-	Vector3 normalize();
+	void normalize();
 	unsigned int getHashCode();
 
 	static Vector3 normalized(const Vector3&);

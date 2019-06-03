@@ -25,16 +25,12 @@ Vector3::Vector3(const Vector3& p_vec3)
 }
 
 #pragma region Methods
-Vector3 Vector3::normalize()
+void Vector3::normalize()
 {
-	m_vec3[0] /= Vector3::length(*this);
-	m_vec3[1] /= Vector3::length(*this);
-	m_vec3[2] /= Vector3::length(*this);
-
-	return *this;
+	*this = Vector3(this->x() / Vector3::length(*this), this->y() / Vector3::length(*this), this->z() / Vector3::length(*this));
 }
-unsigned int Vector3::getHashCode() {
-
+unsigned int Vector3::getHashCode() 
+{
 	return (((static_cast<unsigned int>(m_vec3[0]) * 397) ^ static_cast<unsigned int>(m_vec3[1])) * 397) ^ static_cast<unsigned int>(m_vec3[2]);
 }
 
@@ -48,7 +44,6 @@ float Vector3::dot(const Vector3& p_vec3_1, const Vector3& p_vec3_2)
 }
 Vector3 Vector3::cross(const Vector3& p_vec3_1, const Vector3& p_vec3_2)
 {
-
 	return Vector3((Vector3::y(p_vec3_1) * Vector3::z(p_vec3_2)) - (Vector3::z(p_vec3_1) * Vector3::y(p_vec3_2)),
 		(Vector3::z(p_vec3_1) * Vector3::x(p_vec3_2)) - (Vector3::x(p_vec3_1) * Vector3::z(p_vec3_2)),
 		(Vector3::x(p_vec3_1) * Vector3::y(p_vec3_2)) - (Vector3::y(p_vec3_1) * Vector3::x(p_vec3_2)));

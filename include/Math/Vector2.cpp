@@ -26,9 +26,7 @@ Vector2::Vector2(const Vector2& p_vec2)
 #pragma region Methods
 void Vector2::normalize()
 {
-	m_vec2[0] /= Vector2::length(*this);
-	m_vec2[1] /= Vector2::length(*this);
-	m_vec2[2] /= Vector2::length(*this);
+	*this = Vector2(this->x() / Vector2::length(*this), this->y() / Vector2::length(*this));
 }
 unsigned int Vector2::getHashCode() {
 

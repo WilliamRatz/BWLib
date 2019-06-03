@@ -21,9 +21,9 @@ private:
 	Vector<T, C> m_mat[R];
 
 public:
-	Matrix		();
-	Matrix		(const Matrix&);
-	~Matrix		() {};
+	Matrix();
+	Matrix(const Matrix&);
+	~Matrix() {};
 
 	Vector<T, C>& operator[](const std::size_t index) {
 		if (index >= R) {
@@ -34,53 +34,47 @@ public:
 
 #pragma region methods
 
-	Vector3			Forward					();
-	Vector3			Backwards				();
-	Vector3			Left					();
-	Vector3			Right					();
-	Vector3			Up						();
-	Vector3			Down					();
+	Vector3			Forward							();
+	Vector3			Backwards						();
+	Vector3			Left							();
+	Vector3			Right							();
+	Vector3			Up								();
+	Vector3			Down							();
 
-	Vector2			toVector2				();
-	Vector3			toVector3				();
-	Vector4			toVector4				();
-	Quaternion		toQuaternion			();
+	double			Yaw								();
+	double			Pitch							();
+	double			Roll							();
 
-	std::size_t		getHashCode				();
-	std::size_t		countRows				();
-	std::size_t		countColumns			();
-	
-	Vector3			getTransform			();
-	Matrix&			identity				();
-	Matrix&			inverse					();
-	Matrix<T, C, R>	transpose				();
+	std::size_t		getHashCode						();
+	std::size_t		countRows						();
+	std::size_t		countColumns					();
 
-	Matrix&			translate2D				(float x, float y);
-	Matrix&			scale2D					(float width, float height);
-	Matrix&			rotation2D				(float angle);
+	Vector3			getTransform					();
+	Matrix&			identity						();
+	Matrix&			normalize						();
+	Matrix&			inverse							();
+	Matrix<T, C, R>	transpose						();
 
-	Matrix&			translate3D				(float x, float y, float z);
-	Matrix&			translate3D				(Vector3 vec3);
-	Matrix&			scale3D					(float width, float height, float depth);
-	Matrix&			rotation3DAroundX		(float angle);
-	Matrix&			rotation3DAroundY		(float angle);
-	Matrix&			rotation3DAroundZ		(float angle);
+	Matrix&			translate2D						(float x, float y);
+	Matrix&			scale2D							(float width, float height);
+	Matrix&			rotation2D						(float angle);
 
-	Matrix&			rotation3DAroundXlocal	(float angle);
-	Matrix&			rotation3DAroundYlocal	(float angle);
-	Matrix&			rotation3DAroundZlocal	(float angle);
+	Matrix&			translate3D						(float x, float y, float z);
+	Matrix&			translate3D						(Vector3 vec3);
+	Matrix&			scale3D							(float width, float height, float depth);
+	Matrix&			rotation3DAroundX				(float angle);
+	Matrix&			rotation3DAroundY				(float angle);
+	Matrix&			rotation3DAroundZ				(float angle);
+
+	Matrix&			rotation3DAroundXlocal			(float angle);
+	Matrix&			rotation3DAroundYlocal			(float angle);
+	Matrix&			rotation3DAroundZlocal			(float angle);
 
 	Matrix&			rotation3DAroundArbitararyAxis	(float angle, Vector3 axis);
 
-	Matrix&			perspectivProjection	(float windowWidth, float windowHeight, float nearPlane, float farPlane);
-	Matrix&			orthogonalProjection	(float windowWidth, float windowHeight, float nearPlane, float farPlane);
+	Matrix&			perspectivProjection			(float windowWidth, float windowHeight, float nearPlane, float farPlane);
+	Matrix&			orthogonalProjection			(float windowWidth, float windowHeight, float nearPlane, float farPlane);
 
-#pragma endregion
-#pragma region castOperations
-	operator Vector2();
-	operator Vector3();
-	operator Vector4();
-	operator Quaternion();
 #pragma endregion
 #pragma region arithmeticOperations
 	void		operator=			(const Matrix&);
@@ -137,21 +131,17 @@ typeMatrix inline Vector3 Matrix<T, R, C>::Down()
 	return Vector3(-m_mat[0][1], -m_mat[1][1], -m_mat[2][1]);
 }
 
-typeMatrix inline Vector2 Matrix<T, R, C>::toVector2()
+typeMatrix inline double Matrix<T, R, C>::Yaw()
 {
-	return static_cast<Vector2>(*this);
+	return (m_mat[0][0] == (T)1 || m_mat[0][0] == (T)-1) ? std::atan2f(m_mat[0][2], m_mat[2][3]) : std::atan2f(-m_mat[2][0], m_mat[0][0]);
 }
-typeMatrix inline Vector3 Matrix<T, R, C>::toVector3()
+typeMatrix inline double Matrix<T, R, C>::Pitch()
 {
-	return static_cast<Vector3>(*this);
+	return (m_mat[0][0] == (T)1 || m_mat[0][0] == (T)-1) ? 0 : std::asin(m_mat[1][0]);
 }
-typeMatrix inline Vector4 Matrix<T, R, C>::toVector4()
+typeMatrix inline double Matrix<T, R, C>::Roll()
 {
-	return static_cast<Vector4>(*this);
-}
-typeMatrix inline Quaternion Matrix<T, R, C>::toQuaternion()
-{
-	return static_cast<Quaternion>(*this);
+	return (m_mat[0][0] == (T)1 || m_mat[0][0] == (T)-1) ? 0 : std::atan2(-m_mat[1][2], m_mat[1][1]);
 }
 
 typeMatrix inline std::size_t Matrix<T, R, C>::getHashCode()
@@ -175,7 +165,7 @@ typeMatrix inline std::size_t Matrix<T, R, C>::countRows()
 	return R;
 }
 
-typeMatrix inline Matrix<T, R, C>&  Matrix<T, R, C>::translate2D(float p_x, float p_y)
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::translate2D(float p_x, float p_y)
 {
 	if (R < 3 && C < 2) {
 		throw std::out_of_range("Your Matrix don't fit for 2D translation check your dimensions");
@@ -312,8 +302,8 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::rotation3DAroundZ(float p_an
 	double degress = (double)p_angle * BWMath::PI / 180; // change from Rad to degrees
 
 	rotat3DZ[0][0] = (T)std::cos(degress);
-	rotat3DZ[0][1] = (T)std::sin(degress);
-	rotat3DZ[1][0] = (T)-std::sin(degress);
+	rotat3DZ[0][1] = (T)-std::sin(degress);
+	rotat3DZ[1][0] = (T)std::sin(degress);
 	rotat3DZ[1][1] = (T)std::cos(degress);
 
 	this->operator*=(rotat3DZ);
@@ -380,31 +370,37 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::rotation3DAroundZlocal(float
 	return *this;
 
 }
-			
-typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::rotation3DAroundArbitararyAxis(float p_angle, Vector3 p_axis)
+
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::rotation3DAroundArbitararyAxis(float angle, Vector3 axis)
 {
 	if (R < 3 && C < 3) {
 		throw std::out_of_range("Your Matrix dont fit for 3D rotation around \"Z\" check your dimensions");
 	}
 
+	double degress = (double)angle * BWMath::PI / 180; // change from Rad to degrees
+
+	axis.normalize();
+
 	Matrix<T, R, C> rotat3DArbiAxis;
-	double degress = (double)p_angle * BWMath::PI / 180; // change from Rad to degrees
 
-	rotat3DArbiAxis[0][0] = (std::cos(p_angle) + BWMath::pow(p_axis.x(), 2)) * (1 - std::cos(p_angle));
-	rotat3DArbiAxis[0][1] = (p_axis.x() * p_axis.y()) * (1 - std::cos(p_angle)) - (p_axis.z()*std::sin(p_angle));
-	rotat3DArbiAxis[0][2] = (p_axis.x() * p_axis.z()) * (1 - std::cos(p_angle)) + (p_axis.y()*std::sin(p_angle));
-	rotat3DArbiAxis[1][0] = (p_axis.y() * p_axis.x()) * (1 - std::cos(p_angle)) + (p_axis.z()*std::sin(p_angle));
-	rotat3DArbiAxis[1][1] = (std::cos(p_angle) + BWMath::pow(p_axis.y(), 2)) * (1 - std::cos(p_angle));
-	rotat3DArbiAxis[1][2] = (p_axis.y() * p_axis.z()) * (1 - std::cos(p_angle)) - (p_axis.x()*std::sin(p_angle));
-	rotat3DArbiAxis[2][0] = (p_axis.z() * p_axis.x()) * (1 - std::cos(p_angle)) - (p_axis.y()*std::sin(p_angle));
-	rotat3DArbiAxis[2][1] = (p_axis.z() * p_axis.y()) * (1 - std::cos(p_angle)) + (p_axis.x()*std::sin(p_angle));
-	rotat3DArbiAxis[2][2] = std::cos(p_angle) + BWMath::pow(p_axis.z(), 2) * (1 - std::cos(p_angle));
-
-	*this *= rotat3DArbiAxis;
+	rotat3DArbiAxis[0][0] = (axis.x() * axis.x()) + ((axis.y() * axis.y()) + (axis.z() * axis.z())) * std::cos(degress);
+	rotat3DArbiAxis[0][1] = axis.x() * axis.y() * (1 - std::cos(degress)) - axis.z() * std::sin(degress);
+	rotat3DArbiAxis[0][2] = axis.x() * axis.z() * (1 - std::cos(degress)) + axis.y() * std::sin(degress);
+	rotat3DArbiAxis[0][3] = (m_mat[0][3] * ((axis.y() * axis.y()) + (axis.z() * axis.z())) - axis.x() * (m_mat[1][3] * axis.y() + m_mat[2][3] * axis.z())) * (1 - std::cos(degress)) + (m_mat[1][3] * axis.z() - m_mat[2][3] * axis.y()) * std::sin(degress);
+	rotat3DArbiAxis[1][0] = axis.x() * axis.y() * (1 - std::cos(degress)) + axis.z() * std::sin(degress);
+	rotat3DArbiAxis[1][1] = (axis.y() * axis.y()) + ((axis.x() * axis.x()) + (axis.z() * axis.z())) * std::cos(degress);
+	rotat3DArbiAxis[1][2] = axis.y() * axis.z() * (1 - std::cos(degress)) - axis.x() * std::sin(degress);
+	rotat3DArbiAxis[1][3] = (m_mat[1][3] * ((axis.x() * axis.x()) + (axis.z() * axis.z())) - axis.y() * (m_mat[0][3] * axis.x() + m_mat[2][3] * axis.z())) * (1 - std::cos(degress)) + (m_mat[2][3] * axis.x() - m_mat[0][3] * axis.z()) * std::sin(degress);
+	rotat3DArbiAxis[2][0] = axis.x() * axis.z() * (1 - std::cos(degress)) - axis.y() * std::sin(degress);
+	rotat3DArbiAxis[2][1] = axis.y() * axis.z() * (1 - std::cos(degress)) + axis.x() * std::sin(degress);
+	rotat3DArbiAxis[2][2] = (axis.z() * axis.z()) + ((axis.x() * axis.x()) + (axis.y() * axis.y())) * std::cos(degress);
+	rotat3DArbiAxis[2][3] = (m_mat[2][3] * ((axis.x() * axis.x()) + (axis.y() * axis.y())) - axis.z() * (m_mat[0][3] * axis.x() + m_mat[1][3] * axis.y())) * (1 - std::cos(degress)) + (m_mat[0][3] * axis.y() - m_mat[1][3] * axis.x()) * std::sin(degress);
+	this->operator*=(rotat3DArbiAxis);
 	return *this;
+
 }
 
-typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::perspectivProjection(float p_windowWidth, float p_windowHeight, float p_nearPlane, float p_farPlane)
+typeMatrix inline Matrix<T, R, C> & Matrix<T, R, C>::perspectivProjection(float p_windowWidth, float p_windowHeight, float p_nearPlane, float p_farPlane)
 {
 	if (R < 4 && C < 4) {
 		throw std::out_of_range("Your Matrix dont fit for perspectiv projection check your dimensions");
@@ -412,16 +408,16 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::perspectivProjection(float p
 
 	Matrix<T, R, C> perProj;
 
-	perProj[0][0] = (T) ((2 * p_nearPlane) / p_windowWidth);
-	perProj[1][1] = (T) ((2 * p_nearPlane) / p_windowHeight);
-	perProj[2][2] = (T) (p_farPlane / (p_farPlane - p_nearPlane));
-	perProj[2][3] = (T) 1;
-	perProj[3][2] = (T) ((-p_farPlane * p_nearPlane) / (p_farPlane - p_nearPlane));
+	perProj[0][0] = (T)((2 * p_nearPlane) / p_windowWidth);
+	perProj[1][1] = (T)((2 * p_nearPlane) / p_windowHeight);
+	perProj[2][2] = (T)(p_farPlane / (p_farPlane - p_nearPlane));
+	perProj[2][3] = (T)1;
+	perProj[3][2] = (T)((-p_farPlane * p_nearPlane) / (p_farPlane - p_nearPlane));
 	perProj[3][3] = 0;
 	*this = perProj;
 	return *this;
 }
-typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::orthogonalProjection(float p_windowWidth, float p_windowHeight, float p_nearPlane, float p_farPlane)
+typeMatrix inline Matrix<T, R, C> & Matrix<T, R, C>::orthogonalProjection(float p_windowWidth, float p_windowHeight, float p_nearPlane, float p_farPlane)
 {
 	if (R < 4 && C < 3) {
 		throw std::out_of_range("Your Matrix dont fit for orthogonal projection check your dimensions");
@@ -429,20 +425,20 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::orthogonalProjection(float p
 
 	Matrix<T, R, C> perProj;
 
-	perProj[0][0] = (T) (2 / p_windowWidth);
-	perProj[1][1] = (T) (2 / p_windowHeight);
-	perProj[2][2] = (T) (1 / (p_farPlane - p_nearPlane));
-	perProj[3][3] = (T) (-p_nearPlane / (p_farPlane - p_nearPlane));
+	perProj[0][0] = (T)(2 / p_windowWidth);
+	perProj[1][1] = (T)(2 / p_windowHeight);
+	perProj[2][2] = (T)(1 / (p_farPlane - p_nearPlane));
+	perProj[3][3] = (T)(-p_nearPlane / (p_farPlane - p_nearPlane));
 
 	if (C > 3)
 	{
-		perProj[3][3] = (T) 1;
+		perProj[3][3] = (T)1;
 	}
 
 	*this = perProj;
 	return *this;
 }
-						
+
 
 typeMatrix inline Vector3 Matrix<T, R, C>::getTransform()
 {
@@ -459,6 +455,10 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::identity() {
 	return *this;
 
 }
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::normalize()
+{
+	// TODO: insert return statement here
+}
 typeMatrix inline Matrix<T, C, R> Matrix<T, R, C>::transpose()
 {
 	Matrix<T, C, R> temp;
@@ -473,27 +473,10 @@ typeMatrix inline Matrix<T, C, R> Matrix<T, R, C>::transpose()
 }
 
 #pragma endregion
-#pragma region castOperations
-typeMatrix inline Matrix<T, R, C>::operator Vector2()
-{
-	return Vector2(m_mat[0][3], m_mat[1][3]);
-}
-typeMatrix inline Matrix<T, R, C>::operator Vector3()
-{
-	return Vector3(m_mat[0][3], m_mat[1][3], m_mat[2][3]);
-}
-typeMatrix inline Matrix<T, R, C>::operator Vector4()
-{
-	return Vector4(m_mat[0][3], m_mat[1][3], m_mat[2][3], m_mat[3][3]);
-}
-typeMatrix inline Matrix<T, R, C>::operator Quaternion()
-{
-	return Quaternion(m_mat[0][3], m_mat[1][3], m_mat[2][3], m_mat[3][3]);
-}
-#pragma endregion
+
 #pragma region arithmeticOperations
 
-typeMatrix void Matrix<T, R, C>::operator=(const Matrix& p_mat)
+typeMatrix void Matrix<T, R, C>::operator=(const Matrix & p_mat)
 {
 	for (std::size_t i = 0; i < C; ++i) {
 		for (std::size_t ii = 0; ii < R; ++ii) {
@@ -502,23 +485,23 @@ typeMatrix void Matrix<T, R, C>::operator=(const Matrix& p_mat)
 	}
 }
 
-typeMatrix inline Matrix<T, R, C> Matrix<T, R, C>::operator+(const Matrix& p_mat) {
+typeMatrix inline Matrix<T, R, C> Matrix<T, R, C>::operator+(const Matrix & p_mat) {
 
 	Matrix<T, R, C> temp(*this);
 	return temp += p_mat;
 }
-typeMatrix inline Matrix<T, R, C> Matrix<T, R, C>::operator-(const Matrix& p_mat) {
+typeMatrix inline Matrix<T, R, C> Matrix<T, R, C>::operator-(const Matrix & p_mat) {
 
 	Matrix<T, R, C> temp(*this);
 	return temp -= p_mat;
 }
-typeMatrix inline Matrix<T, R, C> Matrix<T, R, C>::operator*(const Matrix& p_mat) {
+typeMatrix inline Matrix<T, R, C> Matrix<T, R, C>::operator*(const Matrix & p_mat) {
 
 	Matrix<T, R, C> temp(*this);
 	return temp *= p_mat;
 }
-						
-typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator+=(const Matrix& p_mat)
+
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator+=(const Matrix & p_mat)
 {
 	for (std::size_t i = 0; i < R; ++i) {
 		for (std::size_t ii = 0; ii < C; ++ii) {
@@ -527,7 +510,7 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator+=(const Matrix& p_m
 	}
 	return *this;
 }
-typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator-=(const Matrix& p_mat)
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator-=(const Matrix & p_mat)
 {
 	for (std::size_t i = 0; i < R; ++i) {
 		for (std::size_t ii = 0; ii < C; ++ii) {
@@ -536,7 +519,7 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator-=(const Matrix& p_m
 	}
 	return *this;
 }
-typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator*=(const Matrix& p_mat)
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator*=(const Matrix & p_mat)
 {
 	T tempValue = (T)0;
 	Matrix<T, R, R> tempMat;
@@ -555,7 +538,7 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator*=(const Matrix& p_m
 }
 #pragma endregion
 #pragma region comparisonOperations
-typeMatrix inline bool Matrix<T, R, C>::operator==(Matrix& p_mat)
+typeMatrix inline bool Matrix<T, R, C>::operator==(Matrix & p_mat)
 {
 	for (std::size_t i = 0; i < R; ++i) {
 		for (std::size_t ii = 0; ii < C; ++ii) {
@@ -565,7 +548,7 @@ typeMatrix inline bool Matrix<T, R, C>::operator==(Matrix& p_mat)
 	}
 	return true;
 }
-typeMatrix inline bool Matrix<T, R, C>::operator!=(Matrix& p_mat)
+typeMatrix inline bool Matrix<T, R, C>::operator!=(Matrix & p_mat)
 {
 	for (std::size_t i = 0; i < R; ++i) {
 		for (std::size_t ii = 0; ii < C; ++ii) {
@@ -578,20 +561,7 @@ typeMatrix inline bool Matrix<T, R, C>::operator!=(Matrix& p_mat)
 
 #pragma endregion	
 
-typeMatrix inline std::ostream& operator<<(std::ostream& p_output, Matrix<T, R, C>& p_mat) {
-	for (std::size_t i = 0; i < R; ++i) {
-		p_output << '|';
-		for (std::size_t ii = 0; ii < C; ++ii) {
-
-			p_output << p_mat[i][ii];
-			if (ii < C - 1)
-				p_output << ' ';
-		}
-		p_output << '|' << std::endl;
-	}
-	return p_output;
-}
-typeMatrix inline std::ostream& operator<<(std::ostream& p_output, Matrix<T, R, C> p_mat) {
+typeMatrix std::ostream& operator<<(std::ostream & p_output, Matrix<T, R, C> & p_mat) {
 	for (std::size_t i = 0; i < R; ++i) {
 		p_output << '|';
 		for (std::size_t ii = 0; ii < C; ++ii) {
