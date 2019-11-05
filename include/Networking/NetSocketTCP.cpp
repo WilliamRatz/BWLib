@@ -13,6 +13,11 @@ NetSocketTCP::~NetSocketTCP()
 {
 }
 
+int NetSocketTCP::GetDesciptor()
+{
+	return m_handle;
+}
+
 NetResult NetSocketTCP::OpenSocket(unsigned short p_port)
 {
 	m_handle = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -21,6 +26,7 @@ NetResult NetSocketTCP::OpenSocket(unsigned short p_port)
 	{
 		return NetResult(2);
 	}
+
 
 	sockaddr_in address;
 	address.sin_family = AF_INET;
@@ -60,9 +66,10 @@ NetResult NetSocketTCP::Send(char* dataArray, int dataArrayLength)
 	return NetResult(0);
 }
 
-NetResult NetSocketTCP::Receive(char* dataArray, int dataArrayLength)
+NetResult NetSocketTCP::Receive(char* dataArray, int dataArrayLength, int& receivedBytesLength)
 {
-	if (recv(m_handle, dataArray, dataArrayLength, 0) == SOCKET_ERROR)
+	receivedBytesLength = recv(m_handle, dataArray, dataArrayLength, 0);
+	if (receivedBytesLength == SOCKET_ERROR)
 	{
 		return NetResult(12);
 	}
@@ -75,6 +82,22 @@ NetResult NetSocketTCP::SetListeningMode()
 	{
 		return NetResult(10);
 	}
+	return NetResult(0);
+}
+
+NetResult NetSocketTCP::EnableTCP_NODELAY()
+{
+	int yes = 1;
+	setsockopt(m_handle, IPPROTO_TCP, TCP_NODELAY, (char*)&yes, sizeof(int));    // 1 - on, 0 - off
+
+	return NetResult(0);
+}
+
+NetResult NetSocketTCP::DisableTCP_NODELAY()
+{
+	int no = 0;
+	setsockopt(m_handle, IPPROTO_TCP, TCP_NODELAY, (char*)&no, sizeof(int));    // 1 - on, 0 - off
+
 	return NetResult(0);
 }
 

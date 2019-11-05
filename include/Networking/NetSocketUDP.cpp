@@ -16,6 +16,11 @@ NetSocketUDP::~NetSocketUDP()
 {
 }
 
+int NetSocketUDP::GetDesciptor()
+{
+	return m_handle;
+}
+
 NetResult NetSocketUDP::OpenSocket(unsigned short p_port)
 {
 	m_handle = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
@@ -62,7 +67,7 @@ NetResult NetSocketUDP::Send(NetAddress netAddress, char* dataArray, int dataArr
 
 	return NetResult(0);
 }
-NetAddress NetSocketUDP::Receive(char* p_dataArray, int p_dataArrayLength)
+NetAddress NetSocketUDP::Receive(char* p_dataArray, int p_dataArrayLength, int& p_receivedBytesLength)
 {
 #if PLATFORM == BWLIB_PLATFORM_WINDOWS
 	typedef int socklen_t;
@@ -70,14 +75,9 @@ NetAddress NetSocketUDP::Receive(char* p_dataArray, int p_dataArrayLength)
 
 	sockaddr_in from;
 	socklen_t fromLength = sizeof(from);
+	p_receivedBytesLength = recvfrom(m_handle, (char*)p_dataArray, p_dataArrayLength, 0, (sockaddr*)&from, &fromLength);
 
-	if (recvfrom(m_handle,
-		(char*)p_dataArray,
-		p_dataArrayLength,
-		0,
-		(sockaddr*)& from,
-		&fromLength)
-		<= 0)
+	if (p_receivedBytesLength == SOCKET_ERROR)
 	{
 		return NetAddress(NULL, NULL);
 	}

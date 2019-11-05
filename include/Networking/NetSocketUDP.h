@@ -27,6 +27,11 @@ public:
 	~NetSocketUDP();
 
 	/*
+		You will get the descriptor from your socket.
+	*/
+	int GetDesciptor();
+
+	/*
 		To open a socket on a specific port,
 		use Ports between 1025 and 49999
 		or use 0 to get a random free port.
@@ -44,8 +49,10 @@ public:
 		The array has to be long enough for the message
 		(if the message has 50 chars and your array has a lenght of
 		40 chars you didn't get the first 40 you get nothing of the message).
+		If you received a message the receivedBytesLength value gives you the number
+		of how many bytes did you received.
 	*/
-	NetAddress Receive(char* dataArray, int dataArrayLength);
+	NetAddress Receive(char* dataArray, int dataArrayLength, int& receivedBytesLength);
 
 	/*
 		Standardmode = NonBlocking disabled
