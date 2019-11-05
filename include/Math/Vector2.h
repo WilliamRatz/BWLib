@@ -13,7 +13,7 @@
 class Vector3;
 class Vector4;
 class Quaternion;
-template<typename T, std::size_t R, std::size_t C>
+template<typename T, std::size_t R, std::size_t C, typename Enable = void>
 class Matrix;
 
 class Vector2 {
