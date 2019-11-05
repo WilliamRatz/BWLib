@@ -20,7 +20,7 @@ public:
 	static const double		toDeg;
 	static const double		toRad;
 	
-	static double			exp		(const double& value);
+	static double			exp			(const double& value);
 
 	static double			log			(const double& value);
 	static double			ln			(const double& value);
@@ -53,5 +53,6 @@ public:
 };
 
 
-
 #endif /* Math_hpp */
+
+

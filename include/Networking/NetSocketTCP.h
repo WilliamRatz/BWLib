@@ -26,6 +26,11 @@ public:
 	~NetSocketTCP();
 
 	/*
+		You will get the descriptor from your socket.
+	*/
+	int GetDesciptor();
+
+	/*
 		To open a socket on a specific port,
 		use Ports between 1025 and 49999
 		or use 0 to get a random free port.
@@ -43,14 +48,29 @@ public:
 		The array has to be long enough for the message
 		(if the message has 50 chars and your array has a lenght of
 		40 chars you didn't get the first 40 you get nothing of the message).
+		If you received a message the receivedBytesLength value gives you the number
+		of how many bytes did you received.
 	*/
-	NetResult Receive(char* dataArray, int dataArrayLength);
+	NetResult Receive(char* dataArray, int dataArrayLength, int& receivedBytesLength);
 
 	/*
 		In listenning mode the socket can receive an ConnectTo event
 		(To disable the ListeningMode you have to close the socket)
 	*/
 	NetResult SetListeningMode();
+
+	/*
+		Some arcitecturs are sending and receiving bytes in compacte packages,
+		so they will wait until you have a big chunk of data to send it. This
+		funktion trys to avoid this behavior.
+	*/
+	NetResult EnableTCP_NODELAY();
+
+	/*
+		This funktion will the remove the EnableTCP_NODELAY from your socket, if
+		you enabled it.
+	*/
+	NetResult DisableTCP_NODELAY();
 
 	/*
 		Normally used in in loop continusly to accept if someone asked for connection

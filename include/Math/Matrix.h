@@ -33,51 +33,59 @@ public:
 	}
 
 #pragma region methods
+	Vector3			Forward();
+	Vector3			Backwards();
+	Vector3			Left();
+	Vector3			Right();
+	Vector3			Up();
+	Vector3			Down();
 
-	Vector3			Forward							();
-	Vector3			Backwards						();
-	Vector3			Left							();
-	Vector3			Right							();
-	Vector3			Up								();
-	Vector3			Down							();
+	double			Yaw();
+	double			Pitch();
+	double			Roll();
 
-	double			Yaw								();
-	double			Pitch							();
-	double			Roll							();
+	std::size_t		getHashCode();
+	std::size_t		countRows();
+	std::size_t		countColumns();
 
-	std::size_t		getHashCode						();
-	std::size_t		countRows						();
-	std::size_t		countColumns					();
+	Vector3			getTransform();
+	Vector3			getScale();
 
-	Vector3			getTransform					();
-	Matrix&			identity						();
-	Matrix&			normalize						();
-	Matrix&			inverse							();
-	Matrix<T, C, R>	transpose						();
+	Matrix&			zero();
+	Matrix&			identity();
+	Matrix&			normalize();
+	Matrix&			inverse();
+	Matrix<T, C, R>	transpose();
 
-	Matrix&			translate2D						(float x, float y);
-	Matrix&			scale2D							(float width, float height);
-	Matrix&			rotation2D						(float angle);
+	Matrix&			translate2D(float x, float y);
+	Matrix&			translate2D(Vector2 vec2);
+	Matrix&			scale2D(float widthHeight);
+	Matrix&			scale2D(float width, float height);
+	Matrix&			scale2D(Vector2 vec2);
+	Matrix&			rotation2D(float angle);
 
-	Matrix&			translate3D						(float x, float y, float z);
-	Matrix&			translate3D						(Vector3 vec3);
-	Matrix&			scale3D							(float width, float height, float depth);
-	Matrix&			rotation3DAroundX				(float angle);
-	Matrix&			rotation3DAroundY				(float angle);
-	Matrix&			rotation3DAroundZ				(float angle);
+	Matrix&			translate3D(float x, float y, float z);
+	Matrix&			translate3D(Vector3 vec3);
+	Matrix&			scale3D(float widthHeightDepth);
+	Matrix&			scale3D(float width, float height, float depth);
+	Matrix&			scale3D(Vector3 vec3);
+	Matrix&			rotation3DAroundX(float angle);
+	Matrix&			rotation3DAroundY(float angle);
+	Matrix&			rotation3DAroundZ(float angle);
 
-	Matrix&			rotation3DAroundXlocal			(float angle);
-	Matrix&			rotation3DAroundYlocal			(float angle);
-	Matrix&			rotation3DAroundZlocal			(float angle);
+	Matrix&			rotation3DAroundXlocal(float angle);
+	Matrix&			rotation3DAroundYlocal(float angle);
+	Matrix&			rotation3DAroundZlocal(float angle);
 
-	Matrix&			rotation3DAroundArbitararyAxis	(float angle, Vector3 axis);
+	Matrix&			rotation3DAroundArbitararyAxis(float angle, Vector3 axis);
 
-	Matrix&			perspectivProjection			(float windowWidth, float windowHeight, float nearPlane, float farPlane);
-	Matrix&			orthogonalProjection			(float windowWidth, float windowHeight, float nearPlane, float farPlane);
-
+	Matrix&			perspectivProjection(float windowWidth, float windowHeight, float nearPlane, float farPlane);
+	Matrix&			orthogonalProjection(float windowWidth, float windowHeight, float nearPlane, float farPlane);
 #pragma endregion
+
 #pragma region arithmeticOperations
 	void		operator=			(const Matrix&);
+	Matrix		operator-			();
 	Matrix		operator+			(const Matrix&);
 	Matrix		operator-			(const Matrix&);
 	Matrix		operator*			(const Matrix&);
@@ -85,6 +93,7 @@ public:
 	Matrix&		operator-=			(const Matrix&);
 	Matrix&		operator*=			(const Matrix&);
 #pragma endregion
+
 #pragma region comparisonOperations
 	bool		operator==			(Matrix&);
 	bool		operator!=			(Matrix&);
@@ -93,7 +102,6 @@ public:
 };
 
 #pragma region constructor
-
 typeMatrix inline Matrix<T, R, C>::Matrix()
 {
 	this->identity();
@@ -102,10 +110,9 @@ typeMatrix inline Matrix<T, R, C>::Matrix(const Matrix& p_mat)
 {
 	*this = p_mat;
 }
-
 #pragma endregion
-#pragma region methods
 
+#pragma region methods
 typeMatrix inline Vector3 Matrix<T, R, C>::Forward()
 {
 	return Vector3(m_mat[0][2], m_mat[1][2], m_mat[2][2]);
@@ -180,6 +187,36 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::translate2D(float p_x, float
 
 	return *this;
 }
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::translate2D(Vector2 vec2)
+{
+	if (R < 3 && C < 2) {
+		throw std::out_of_range("Your Matrix don't fit for 2D translation check your dimensions");
+	}
+
+	Matrix<T, R, C> trans2D;
+
+	trans2D[0][2] = (T)vec2.x();
+	trans2D[1][2] = (T)vec2.y();
+
+	*this *= trans2D;
+
+	return *this;
+}
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::scale2D(float p_widthHeight)
+{
+	if (R < 2 && C < 2) {
+		throw std::out_of_range("Your Matrix dont fit for 2D scaleing check your dimensions");
+	}
+
+	Matrix<T, R, C> scal2D;
+
+	scal2D[0][2] = (T)p_widthHeight;
+	scal2D[1][2] = (T)p_widthHeight;
+
+	*this *= scal2D;
+
+	return *this;
+}
 typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::scale2D(float p_width, float p_height)
 {
 	if (R < 2 && C < 2) {
@@ -190,6 +227,21 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::scale2D(float p_width, float
 
 	scal2D[0][2] = (T)p_width;
 	scal2D[1][2] = (T)p_height;
+
+	*this *= scal2D;
+
+	return *this;
+}
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::scale2D(Vector2 p_vec2)
+{
+	if (R < 2 && C < 2) {
+		throw std::out_of_range("Your Matrix dont fit for 2D scaleing check your dimensions");
+	}
+
+	Matrix<T, R, C> scal2D;
+
+	scal2D[0][2] = (T)p_vec2.x();
+	scal2D[1][2] = (T)p_vec2.y();
 
 	*this *= scal2D;
 
@@ -243,6 +295,21 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::translate3D(Vector3 p_vec3)
 	*this *= trans3D;
 	return *this;
 }
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::scale3D(float p_widthHeightDepth)
+{
+	if (R < 3 && C < 3) {
+		throw std::out_of_range("Your Matrix dont fit for 3D scaleing check your dimensions");
+	}
+
+	Matrix<T, R, C> scal3D;
+
+	scal3D[0][0] = (T)p_widthHeightDepth;
+	scal3D[1][1] = (T)p_widthHeightDepth;
+	scal3D[2][2] = (T)p_widthHeightDepth;
+
+	*this *= scal3D;
+	return *this;
+}
 typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::scale3D(float p_width, float p_height, float p_depth)
 {
 	if (R < 3 && C < 3) {
@@ -254,6 +321,21 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::scale3D(float p_width, float
 	scal3D[0][0] = (T)p_width;
 	scal3D[1][1] = (T)p_height;
 	scal3D[2][2] = (T)p_depth;
+
+	*this *= scal3D;
+	return *this;
+}
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::scale3D(Vector3 p_vec3)
+{
+	if (R < 3 && C < 3) {
+		throw std::out_of_range("Your Matrix dont fit for 3D scaleing check your dimensions");
+	}
+
+	Matrix<T, R, C> scal3D;
+
+	scal3D[0][0] = (T)p_vec3.x();
+	scal3D[1][1] = (T)p_vec3.y();
+	scal3D[2][2] = (T)p_vec3.z();
 
 	*this *= scal3D;
 	return *this;
@@ -377,6 +459,8 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::rotation3DAroundArbitararyAx
 		throw std::out_of_range("Your Matrix dont fit for 3D rotation around \"Z\" check your dimensions");
 	}
 
+
+
 	double degress = (double)angle * BWMath::PI / 180; // change from Rad to degrees
 
 	axis.normalize();
@@ -400,7 +484,7 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::rotation3DAroundArbitararyAx
 
 }
 
-typeMatrix inline Matrix<T, R, C> & Matrix<T, R, C>::perspectivProjection(float p_windowWidth, float p_windowHeight, float p_nearPlane, float p_farPlane)
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::perspectivProjection(float p_windowWidth, float p_windowHeight, float p_nearPlane, float p_farPlane)
 {
 	if (R < 4 && C < 4) {
 		throw std::out_of_range("Your Matrix dont fit for perspectiv projection check your dimensions");
@@ -417,7 +501,7 @@ typeMatrix inline Matrix<T, R, C> & Matrix<T, R, C>::perspectivProjection(float 
 	*this = perProj;
 	return *this;
 }
-typeMatrix inline Matrix<T, R, C> & Matrix<T, R, C>::orthogonalProjection(float p_windowWidth, float p_windowHeight, float p_nearPlane, float p_farPlane)
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::orthogonalProjection(float p_windowWidth, float p_windowHeight, float p_nearPlane, float p_farPlane)
 {
 	if (R < 4 && C < 3) {
 		throw std::out_of_range("Your Matrix dont fit for orthogonal projection check your dimensions");
@@ -439,12 +523,25 @@ typeMatrix inline Matrix<T, R, C> & Matrix<T, R, C>::orthogonalProjection(float 
 	return *this;
 }
 
-
+typeMatrix inline Vector3 Matrix<T, R, C>::getScale()
+{
+	return Vector3(m_mat[0][0], m_mat[1][1], m_mat[2][2]);
+}
 typeMatrix inline Vector3 Matrix<T, R, C>::getTransform()
 {
 	return Vector3(m_mat[0][3], m_mat[1][3], m_mat[2][3]);
 }
 
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::zero() {
+
+	for (std::size_t i = 0; i < C; ++i) {
+		for (std::size_t ii = 0; ii < R; ++ii) {
+			m_mat[ii][i] = T(0);
+		}
+	}
+	return *this;
+
+}
 typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::identity() {
 
 	for (std::size_t i = 0; i < C; ++i) {
@@ -455,9 +552,70 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::identity() {
 	return *this;
 
 }
-typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::normalize()
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::inverse()
 {
-	// TODO: insert return statement here
+	Matrix<T, R, C * 2> tempMat;
+	float temp;
+
+
+	for (std::size_t i = 0; i < C; ++i) {
+		for (std::size_t ii = 0; ii < R; ++ii) {
+			tempMat[ii][i] = m_mat[ii][i];
+		}
+	}
+
+
+	for (int i = 0; i < R; i++) {
+
+		for (int j = 0; j < 2 * R; j++) {
+			if (j == (i + R))
+				tempMat[i][j] = 1;
+		}
+	}
+
+	for (int i = R - 1; i > 0; i--) {
+
+		if (tempMat[i - 1][0] < tempMat[i][0])
+			for (int j = 0; j < 2 * R; j++) {
+				temp = tempMat[i][j];
+				tempMat[i][j] = tempMat[i - 1][j];
+				tempMat[i - 1][j] = temp;
+			}
+	}
+
+	for (int i = 0; i < R; i++) {
+
+		for (int j = 0; j < R; j++) {
+
+			if (j != i) {
+
+				temp = tempMat[j][i] / tempMat[i][i];
+				for (int k = 0; k < 2 * R; k++) {
+					tempMat[j][k] -= tempMat[i][k] * temp;
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < R; i++) {
+
+		temp = tempMat[i][i];
+		for (int j = 0; j < 2 * R; j++) {
+
+			tempMat[i][j] = tempMat[i][j] / temp;
+		}
+	}
+
+
+	for (std::size_t i = C; i < C*2; ++i) {
+		for (std::size_t ii = 0; ii < R; ++ii) {
+			m_mat[ii][i-C] = tempMat[ii][i];
+		}
+	}
+
+	std::cout << *this << std::endl;
+
+	return *this;
 }
 typeMatrix inline Matrix<T, C, R> Matrix<T, R, C>::transpose()
 {
@@ -471,12 +629,10 @@ typeMatrix inline Matrix<T, C, R> Matrix<T, R, C>::transpose()
 
 	return temp;
 }
-
 #pragma endregion
 
 #pragma region arithmeticOperations
-
-typeMatrix void Matrix<T, R, C>::operator=(const Matrix & p_mat)
+typeMatrix inline void Matrix<T, R, C>::operator=(const Matrix& p_mat)
 {
 	for (std::size_t i = 0; i < C; ++i) {
 		for (std::size_t ii = 0; ii < R; ++ii) {
@@ -484,24 +640,33 @@ typeMatrix void Matrix<T, R, C>::operator=(const Matrix & p_mat)
 		}
 	}
 }
+typeMatrix inline Matrix<T, R, C> Matrix<T, R, C>::operator-()
+{
+	for (std::size_t i = 0; i < C; ++i) {
+		for (std::size_t ii = 0; ii < R; ++ii) {
+			m_mat[ii][i] = -m_mat[ii][i];
+		}
+	}
 
-typeMatrix inline Matrix<T, R, C> Matrix<T, R, C>::operator+(const Matrix & p_mat) {
+	return *this;
+}
+typeMatrix inline Matrix<T, R, C> Matrix<T, R, C>::operator+(const Matrix& p_mat) {
 
 	Matrix<T, R, C> temp(*this);
 	return temp += p_mat;
 }
-typeMatrix inline Matrix<T, R, C> Matrix<T, R, C>::operator-(const Matrix & p_mat) {
+typeMatrix inline Matrix<T, R, C> Matrix<T, R, C>::operator-(const Matrix& p_mat) {
 
 	Matrix<T, R, C> temp(*this);
 	return temp -= p_mat;
 }
-typeMatrix inline Matrix<T, R, C> Matrix<T, R, C>::operator*(const Matrix & p_mat) {
+typeMatrix inline Matrix<T, R, C> Matrix<T, R, C>::operator*(const Matrix& p_mat) {
 
 	Matrix<T, R, C> temp(*this);
 	return temp *= p_mat;
 }
 
-typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator+=(const Matrix & p_mat)
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator+=(const Matrix& p_mat)
 {
 	for (std::size_t i = 0; i < R; ++i) {
 		for (std::size_t ii = 0; ii < C; ++ii) {
@@ -510,7 +675,7 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator+=(const Matrix & p_
 	}
 	return *this;
 }
-typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator-=(const Matrix & p_mat)
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator-=(const Matrix& p_mat)
 {
 	for (std::size_t i = 0; i < R; ++i) {
 		for (std::size_t ii = 0; ii < C; ++ii) {
@@ -519,7 +684,7 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator-=(const Matrix & p_
 	}
 	return *this;
 }
-typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator*=(const Matrix & p_mat)
+typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator*=(const Matrix& p_mat)
 {
 	T tempValue = (T)0;
 	Matrix<T, R, R> tempMat;
@@ -537,8 +702,9 @@ typeMatrix inline Matrix<T, R, C>& Matrix<T, R, C>::operator*=(const Matrix & p_
 	return *this;
 }
 #pragma endregion
+
 #pragma region comparisonOperations
-typeMatrix inline bool Matrix<T, R, C>::operator==(Matrix & p_mat)
+typeMatrix inline bool Matrix<T, R, C>::operator==(Matrix& p_mat)
 {
 	for (std::size_t i = 0; i < R; ++i) {
 		for (std::size_t ii = 0; ii < C; ++ii) {
@@ -548,7 +714,7 @@ typeMatrix inline bool Matrix<T, R, C>::operator==(Matrix & p_mat)
 	}
 	return true;
 }
-typeMatrix inline bool Matrix<T, R, C>::operator!=(Matrix & p_mat)
+typeMatrix inline bool Matrix<T, R, C>::operator!=(Matrix& p_mat)
 {
 	for (std::size_t i = 0; i < R; ++i) {
 		for (std::size_t ii = 0; ii < C; ++ii) {
@@ -558,10 +724,9 @@ typeMatrix inline bool Matrix<T, R, C>::operator!=(Matrix & p_mat)
 	}
 	return false;
 }
-
 #pragma endregion	
 
-typeMatrix std::ostream& operator<<(std::ostream & p_output, Matrix<T, R, C> & p_mat) {
+typeMatrix std::ostream& operator<<(std::ostream& p_output, Matrix<T, R, C>& p_mat) {
 	for (std::size_t i = 0; i < R; ++i) {
 		p_output << '|';
 		for (std::size_t ii = 0; ii < C; ++ii) {
