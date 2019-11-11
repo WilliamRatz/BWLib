@@ -40,6 +40,7 @@
     <ClCompile Include="include\Networking\NetSocketTCP.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Math\Math_Macros.h" />
     <ClInclude Include="include\Physik\BWPhysik.h" />
     <ClInclude Include="include\Physik\BWPhysik2D.h" />
     <ClInclude Include="include\Inc_BWMath.h" />
@@ -61,6 +62,7 @@
     <ClInclude Include="include\Networking\NetSocketUDP.h" />
     <ClInclude Include="include\Networking\NetAddress.h" />
     <ClInclude Include="include\Networking\NetSocketTCP.h" />
+    <ClInclude Include="include\Math\VectorX.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

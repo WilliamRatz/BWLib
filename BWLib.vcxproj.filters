@@ -122,5 +122,11 @@
     <ClInclude Include="include\Physik\BWPhysik.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Math\Math_Macros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Math\VectorX.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -10,10 +10,15 @@
 
 #include <stdexcept>
 #include <iostream>
+#include <type_traits>
+#include "Math_Macros.h"
 
-#define typeVector template <typename T, std::size_t N>
+template<typename T, std::size_t R, std::size_t C, typename Enable = void> class Matrix;
 
-typeVector class Vector {
+
+
+
+VectorTemplate class Vector {
 
 private:
 	T elements[N];
@@ -24,7 +29,7 @@ public:
 	Vector(const Vector<T, N>& vec);
 	~Vector() {};
 
-	std::size_t size() { return N; }
+	std::size_t inline size() { return N; }
 
 	T& operator[](const std::size_t index) {
 		if (index >= N) {
@@ -41,20 +46,20 @@ public:
 	}
 };
 
-typeVector Vector<T,N>::Vector() {
+VectorTemplate inline Vector<T,N>::Vector() {
 	for (std::size_t i = 0; i < N; ++i) {
 		elements[i] = NULL;
 	}
 }
 
-typeVector Vector<T, N>::Vector(T value)
+VectorTemplate inline Vector<T, N>::Vector(T value)
 	{
 	for (std::size_t i = 0; i < N; ++i) {
 		elements[i] = value;
 	}
 }
 
-typeVector Vector<T, N>::Vector(const Vector<T,N>& vec)
+VectorTemplate inline Vector<T, N>::Vector(const Vector<T,N>& vec)
 	{
 	for (std::size_t i = 0; i < N; ++i) {
 		elements[i] = vec.elements[i];

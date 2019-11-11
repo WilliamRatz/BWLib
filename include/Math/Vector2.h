@@ -13,8 +13,7 @@
 class Vector3;
 class Vector4;
 class Quaternion;
-template<typename T, std::size_t R, std::size_t C, typename Enable = void>
-class Matrix;
+MatrixTemplate class MatrixMacro;
 
 class Vector2 {
 private:
@@ -64,17 +63,17 @@ public:
 	Vector2 operator+(const Vector2&);
 	Vector2 operator-(const Vector2&);
 	Vector2 operator/(const Vector2&);
-	
+
 	Vector2& operator*=(const int&);
 	Vector2& operator/=(const int&);
 	Vector2 operator*(const int&);
 	Vector2 operator/(const int&);
-	
+
 	Vector2& operator*=(const float&);
 	Vector2& operator/=(const float&);
 	Vector2 operator*(const float&);
 	Vector2 operator/(const float&);
-	
+
 	Vector2& operator*=(const double&);
 	Vector2& operator/=(const double&);
 	Vector2 operator*(const double&);
@@ -92,8 +91,8 @@ Vector2 operator*(Matrix<T, M, N>& p_mat, Vector2& p_vec2) {
 
 	float a1 = p_mat[0][0] * (T)p_vec2.x() + p_mat[0][1] * (T)p_vec2.y() + p_mat[0][2] * (T)1;
 	float a2 = p_mat[1][0] * (T)p_vec2.x() + p_mat[1][1] * (T)p_vec2.y() + p_mat[1][2] * (T)1;
-		
-	Vector2 a(a1, a2);												   
+
+	Vector2 a(a1, a2);
 
 	return a;
 }
