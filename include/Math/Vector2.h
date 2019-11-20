@@ -13,7 +13,7 @@
 class Vector3;
 class Vector4;
 class Quaternion;
-MatrixTemplate class MatrixMacro;
+MatrixTemplate class Matrix < T, R, C, MatrixMacro;
 
 class Vector2 {
 private:
@@ -36,7 +36,7 @@ public:
 
 #pragma region Methods
 	void normalize();
-	unsigned int getHashCode();
+	unsigned __int64 getHashCode();
 
 	static Vector2 normalized(const Vector2&);
 	static float length(const Vector2&);
@@ -64,20 +64,10 @@ public:
 	Vector2 operator-(const Vector2&);
 	Vector2 operator/(const Vector2&);
 
-	Vector2& operator*=(const int&);
-	Vector2& operator/=(const int&);
-	Vector2 operator*(const int&);
-	Vector2 operator/(const int&);
-
 	Vector2& operator*=(const float&);
 	Vector2& operator/=(const float&);
 	Vector2 operator*(const float&);
 	Vector2 operator/(const float&);
-
-	Vector2& operator*=(const double&);
-	Vector2& operator/=(const double&);
-	Vector2 operator*(const double&);
-	Vector2 operator/(const double&);
 #pragma endregion
 
 #pragma region comparisonOperator

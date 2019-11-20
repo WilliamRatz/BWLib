@@ -13,7 +13,7 @@
 #include <type_traits>
 #include "Math_Macros.h"
 
-template<typename T, std::size_t R, std::size_t C, typename Enable = void> class Matrix;
+
 
 
 
@@ -21,13 +21,28 @@ template<typename T, std::size_t R, std::size_t C, typename Enable = void> class
 VectorTemplate class Vector {
 
 private:
-	T elements[N];
+	T m_elements[N];
 
 public:
-	Vector();
-	Vector(T value);
-	Vector(const Vector<T, N>& vec);
-	~Vector() {};
+	inline Vector()
+	{
+		for (std::size_t i = 0; i < N; ++i) {
+			m_elements[i] = NULL;
+		}
+	}
+	inline Vector(T value)
+	{
+		for (std::size_t i = 0; i < N; ++i) {
+			m_elements[i] = value;
+		}
+	}
+	inline Vector(const Vector<T, N>& vec)
+	{
+		for (std::size_t i = 0; i < N; ++i) {
+			m_elements[i] = vec.m_elements[i];
+		}
+	}
+	inline ~Vector() {};
 
 	std::size_t inline size() { return N; }
 
@@ -35,34 +50,14 @@ public:
 		if (index >= N) {
 			throw std::out_of_range("Index out of Range");
 		}
-		return elements[index];
+		return m_elements[index];
 	}
 
-	const T& operator[](const std::size_t index) const{
+	const T& operator[](const std::size_t index) const {
 		if (index > N) {
 			throw std::out_of_range("Index out of Range");
 		}
-		return elements[index];
+		return m_elements[index];
 	}
 };
-
-VectorTemplate inline Vector<T,N>::Vector() {
-	for (std::size_t i = 0; i < N; ++i) {
-		elements[i] = NULL;
-	}
-}
-
-VectorTemplate inline Vector<T, N>::Vector(T value)
-	{
-	for (std::size_t i = 0; i < N; ++i) {
-		elements[i] = value;
-	}
-}
-
-VectorTemplate inline Vector<T, N>::Vector(const Vector<T,N>& vec)
-	{
-	for (std::size_t i = 0; i < N; ++i) {
-		elements[i] = vec.elements[i];
-	}
-}
 #endif

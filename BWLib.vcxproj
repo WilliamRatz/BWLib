@@ -24,9 +24,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\Math\BWMath.cpp" />
     <ClCompile Include="include\Physik\BWPhysik.cpp" />
     <ClCompile Include="include\Physik\BWPhysik2D.cpp" />
-    <ClCompile Include="include\Math\BWMath.cpp" />
     <ClCompile Include="include\Math\Quaternion.cpp" />
     <ClCompile Include="include\Math\Vector2.cpp" />
     <ClCompile Include="include\Math\Vector3.cpp" />
@@ -62,7 +62,6 @@
     <ClInclude Include="include\Networking\NetSocketUDP.h" />
     <ClInclude Include="include\Networking\NetAddress.h" />
     <ClInclude Include="include\Networking\NetSocketTCP.h" />
-    <ClInclude Include="include\Math\VectorX.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

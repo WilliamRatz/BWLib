@@ -68,11 +68,11 @@ public:
 	{
 		unsigned __int64 answer = static_cast<unsigned __int64>(m_elements[0]) * 397;
 
-		for (unsigned __int64 i = 1; i < N-1; ++i)
+		for (unsigned __int64 i = 1; i < N - 1; ++i)
 		{
 			answer ^= static_cast<unsigned __int64>(m_elements[i]) * 397;
 		}
-		answer ^= static_cast<unsigned __int64>(m_elements[N-1]);
+		answer ^= static_cast<unsigned __int64>(m_elements[N - 1]);
 		return answer;
 	}
 
@@ -89,12 +89,13 @@ public:
 	static double length(const VectorX& vecX)
 	{
 		double answer = 0;
-		for (unsigned __int64 i = 0; i < vecX.size(); ++i) 
+		for (unsigned __int64 i = 0; i < vecX.size(); ++i)
 		{
 			answer + BWMath::pow(vecX[i], 2);
 		}
 		return BWMath::sqrt(answer);
 	}
+	
 
 #pragma endregion
 
@@ -118,7 +119,7 @@ public:
 	{
 		if (*this->size() != vecX.size()) { throw ("Both Vectors need to have the same dimension"); }
 
-		for (unsigned __int64 i = 0; i < N; ++i) 
+		for (unsigned __int64 i = 0; i < N; ++i)
 		{
 			m_elements[i] = vecX[i];
 		}
@@ -161,7 +162,7 @@ public:
 
 		for (unsigned __int64 i = 0; i < N; ++i)
 		{
-			m_elements[i] = m_elements[i] - vecX[i];
+			m_elements[i] = m_elements[i] / vecX[i];
 		}
 		return *this;
 	}
@@ -187,42 +188,31 @@ public:
 		return temp /= vecX;
 	}
 
-	//VectorX& operator*=(const int&)
-	//{
-	//	if (*this->size() != vecX.size()) { throw ("Both Vectors need to have the same dimension"); }
 
-	//	for (unsigned __int64 i = 0; i < N ++i)
-	//	{
-
-	//	}
-	//}
-	//VectorX& operator/=(const int&)
-	//{
-	//	if (*this->size() != vecX.size()) { throw ("Both Vectors need to have the same dimension"); }
-
-	//	for (unsigned __int64 i = 0; i < N ++i)
-	//	{
-
-	//	}
-	//}
-	//VectorX operator*(const int&)
-	//{
-	//	if (*this->size() != vecX.size()) { throw ("Both Vectors need to have the same dimension"); }
-
-	//	for (unsigned __int64 i = 0; i < N ++i)
-	//	{
-
-	//	}
-	//}
-	//VectorX operator/(const int&)
-	//{
-	//	if (*this->size() != vecX.size()) { throw ("Both Vectors need to have the same dimension"); }
-
-	//	for (unsigned __int64 i = 0; i < N ++i)
-	//	{
-
-	//	}
-	//}
+	VectorX& operator*=(const T& value)
+	{
+		for (unsigned __int64 i = 0; i < N; ++i)
+		{
+			m_elements[i] = m_elements[i] * value;
+		}
+		return *this;
+	}
+	VectorX& operator/=(const T& value)
+	{
+		for (unsigned __int64 i = 0; i < N; ++i)
+		{
+			m_elements[i] = m_elements[i] / value;
+		}
+		return *this;
+	}
+	VectorX& operator*(const T& value)
+	{
+		return *this *= value;
+	}
+	VectorX& operator/(const T& value)
+	{
+		return *this /= value;
+	}
 
 #pragma endregion
 
@@ -237,6 +227,7 @@ public:
 
 
 };
+
 template<typename T, std::size_t N>
 std::ostream& operator<<(std::ostream&, VectorXMacro&)
 {

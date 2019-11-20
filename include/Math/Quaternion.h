@@ -13,7 +13,7 @@
 class Vector2;
 class Vector3;
 class Vector4;
-MatrixTemplate class MatrixMacro;
+MatrixTemplate class Matrix < T, R, C, MatrixMacro;
 
 
 class Quaternion {
