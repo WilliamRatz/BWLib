@@ -12,7 +12,8 @@
 #include "Vector3.h"
 
 template<typename T, std::size_t R, std::size_t C>
-class Matrix < T, R, C, MatrixMacro {
+class Matrix < T, R, C, MatrixMacro
+{
 private:
 	Vector<T, C> m_mat[R];
 
