@@ -137,6 +137,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)library\</OutDir>
     <TargetName>$(MSBuildProjectName)</TargetName>
+    <IntDir>$(SolutionDir)library\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -239,10 +240,10 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <PrecompiledHeaderOutputFile>$(SolutionDir)library\$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <ProgramDataBaseFileName>$(IntDir)DataBaseFile\$(TargetName).pch</ProgramDataBaseFileName>
-      <XMLDocumentationFileName>$(SolutionDir)library\$(IntDir)</XMLDocumentationFileName>
-      <AssemblerListingLocation>$(SolutionDir)library\$(IntDir)</AssemblerListingLocation>
+      <XMLDocumentationFileName>$(IntDir)</XMLDocumentationFileName>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BrowseInformationFile>$(IntDir)BrowserInfo\$(TargetName).pch</BrowseInformationFile>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
@@ -257,7 +258,7 @@
       <Path>$(SolutionDir)library\$(IntDir)Log\$(MSBuildProjectName).log</Path>
     </BuildLog>
     <Xdcmake>
-      <OutputFile>$(SolutionDir)library\$(Configuration)\$(TargetName).xml</OutputFile>
+      <OutputFile>$(Configuration)\$(TargetName).xml</OutputFile>
     </Xdcmake>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
