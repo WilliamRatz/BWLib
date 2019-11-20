@@ -10,54 +10,54 @@
 
 #include <stdexcept>
 #include <iostream>
+#include <type_traits>
+#include "Math_Macros.h"
 
-#define typeVector template <typename T, std::size_t N>
 
-typeVector class Vector {
+
+
+
+
+VectorTemplate class Vector {
 
 private:
-	T elements[N];
+	T m_elements[N];
 
 public:
-	Vector();
-	Vector(T value);
-	Vector(const Vector<T, N>& vec);
-	~Vector() {};
+	inline Vector()
+	{
+		for (std::size_t i = 0; i < N; ++i) {
+			m_elements[i] = NULL;
+		}
+	}
+	inline Vector(T value)
+	{
+		for (std::size_t i = 0; i < N; ++i) {
+			m_elements[i] = value;
+		}
+	}
+	inline Vector(const Vector<T, N>& vec)
+	{
+		for (std::size_t i = 0; i < N; ++i) {
+			m_elements[i] = vec.m_elements[i];
+		}
+	}
+	inline ~Vector() {};
 
-	std::size_t size() { return N; }
+	std::size_t inline size() { return N; }
 
 	T& operator[](const std::size_t index) {
 		if (index >= N) {
 			throw std::out_of_range("Index out of Range");
 		}
-		return elements[index];
+		return m_elements[index];
 	}
 
-	const T& operator[](const std::size_t index) const{
+	const T& operator[](const std::size_t index) const {
 		if (index > N) {
 			throw std::out_of_range("Index out of Range");
 		}
-		return elements[index];
+		return m_elements[index];
 	}
 };
-
-typeVector Vector<T,N>::Vector() {
-	for (std::size_t i = 0; i < N; ++i) {
-		elements[i] = NULL;
-	}
-}
-
-typeVector Vector<T, N>::Vector(T value)
-	{
-	for (std::size_t i = 0; i < N; ++i) {
-		elements[i] = value;
-	}
-}
-
-typeVector Vector<T, N>::Vector(const Vector<T,N>& vec)
-	{
-	for (std::size_t i = 0; i < N; ++i) {
-		elements[i] = vec.elements[i];
-	}
-}
 #endif

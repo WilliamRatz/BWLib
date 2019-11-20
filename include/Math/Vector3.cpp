@@ -29,9 +29,9 @@ void Vector3::normalize()
 {
 	*this = Vector3(this->x() / Vector3::length(*this), this->y() / Vector3::length(*this), this->z() / Vector3::length(*this));
 }
-unsigned int Vector3::getHashCode() 
+unsigned __int64 Vector3::getHashCode()
 {
-	return (((static_cast<unsigned int>(m_vec3[0]) * 397) ^ static_cast<unsigned int>(m_vec3[1])) * 397) ^ static_cast<unsigned int>(m_vec3[2]);
+	return (((static_cast<unsigned __int64>(m_vec3[0]) * 397) ^ static_cast<unsigned __int64>(m_vec3[1])) * 397) ^ static_cast<unsigned __int64>(m_vec3[2]);
 }
 
 float Vector3::length(const Vector3& p_vec3)
@@ -137,46 +137,19 @@ Vector3 Vector3::operator/(const Vector3& p_vec3) {
 	return temp /= p_vec3;
 }
 
-Vector3& Vector3::operator*=(const int& p_value)
-{
-	m_vec3[0] = m_vec3[0] * static_cast<float>(p_value);
-	m_vec3[1] = m_vec3[1] * static_cast<float>(p_value);
-	m_vec3[2] = m_vec3[2] * static_cast<float>(p_value);
-
-	return *this;
-}
-Vector3& Vector3::operator/=(const int& p_value) 
-{
-	m_vec3[0] = m_vec3[0] / static_cast<float>(p_value);
-	m_vec3[1] = m_vec3[1] / static_cast<float>(p_value);
-	m_vec3[2] = m_vec3[2] / static_cast<float>(p_value);
-
-	return *this;
-}
-Vector3 Vector3::operator*(const int& p_value) 
-{
-	Vector3 temp(*this);
-	return temp *= p_value;
-}
-Vector3 Vector3::operator/(const int& p_value) 
-{
-	Vector3 temp(*this);
-	return temp /= p_value;
-}
-
 Vector3& Vector3::operator*=(const float& p_value) 
 {
-	m_vec3[0] = m_vec3[0] * static_cast<float>(p_value);
-	m_vec3[1] = m_vec3[1] * static_cast<float>(p_value);
-	m_vec3[2] = m_vec3[2] * static_cast<float>(p_value);
+	m_vec3[0] = m_vec3[0] * p_value;
+	m_vec3[1] = m_vec3[1] * p_value;
+	m_vec3[2] = m_vec3[2] * p_value;
 
 	return *this;
 }
 Vector3& Vector3::operator/=(const float& p_value) 
 {
-	m_vec3[0] = m_vec3[0] / static_cast<float>(p_value);
-	m_vec3[1] = m_vec3[1] / static_cast<float>(p_value);
-	m_vec3[2] = m_vec3[2] / static_cast<float>(p_value);
+	m_vec3[0] = m_vec3[0] / p_value;
+	m_vec3[1] = m_vec3[1] / p_value;
+	m_vec3[2] = m_vec3[2] / p_value;
 
 	return *this;
 }
@@ -191,32 +164,6 @@ Vector3 Vector3::operator/(const float& p_value)
 	return temp /= p_value;
 }
 
-Vector3& Vector3::operator*=(const double& p_value) 
-{
-	m_vec3[0] = m_vec3[0] * static_cast<float>(p_value);
-	m_vec3[1] = m_vec3[1] * static_cast<float>(p_value);
-	m_vec3[2] = m_vec3[2] * static_cast<float>(p_value);
-
-	return *this;
-}
-Vector3& Vector3::operator/=(const double& p_value) 
-{
-	m_vec3[0] = m_vec3[0] / static_cast<float>(p_value);
-	m_vec3[1] = m_vec3[1] / static_cast<float>(p_value);
-	m_vec3[2] = m_vec3[2] / static_cast<float>(p_value);
-
-	return *this;
-}
-Vector3 Vector3::operator*(const double& p_value) 
-{
-	Vector3 temp(*this);
-	return temp *= p_value;
-}
-Vector3 Vector3::operator/(const double& p_value) 
-{
-	Vector3 temp(*this);
-	return temp /= p_value;
-}
 #pragma endregion
 
 #pragma region comparisonOperator

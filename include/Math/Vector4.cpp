@@ -33,9 +33,9 @@ Vector4 Vector4::normalize()
 
 	return *this;
 }
-unsigned int Vector4::getHashCode() {
-	
-	return ((((((static_cast<unsigned int>(m_vec4[0])) * 397) ^ static_cast<unsigned int>(m_vec4[1])) * 397) ^ static_cast<unsigned int>(m_vec4[2])) * 397) ^ static_cast<unsigned int>(m_vec4[3]);
+unsigned __int64 Vector4::getHashCode() {
+
+	return ((((((static_cast<unsigned __int64>(m_vec4[0])) * 397) ^ static_cast<unsigned __int64>(m_vec4[1])) * 397) ^ static_cast<unsigned __int64>(m_vec4[2])) * 397) ^ static_cast<unsigned __int64>(m_vec4[3]);
 }
 
 float Vector4::length(const Vector4& p_vec4)
@@ -141,50 +141,21 @@ Vector4 Vector4::operator/(const Vector4& p_vec4) {
 	return temp /= p_vec4;
 }
 
-Vector4& Vector4::operator*=(const int& p_value)
-{
-	m_vec4[0] = m_vec4[0] * static_cast<float>(p_value);
-	m_vec4[1] = m_vec4[1] * static_cast<float>(p_value);
-	m_vec4[2] = m_vec4[2] * static_cast<float>(p_value);
-	m_vec4[3] = m_vec4[3] * static_cast<float>(p_value);
-
-	return *this;
-}
-Vector4& Vector4::operator/=(const int& p_value)
-{
-	m_vec4[0] = m_vec4[0] / static_cast<float>(p_value);
-	m_vec4[1] = m_vec4[1] / static_cast<float>(p_value);
-	m_vec4[2] = m_vec4[2] / static_cast<float>(p_value);
-	m_vec4[3] = m_vec4[3] / static_cast<float>(p_value);
-
-	return *this;
-}
-Vector4 Vector4::operator*(const int& p_value)
-{
-	Vector4 temp(*this);
-	return temp *= p_value;
-}
-Vector4 Vector4::operator/(const int& p_value)
-{
-	Vector4 temp(*this);
-	return temp /= p_value;
-}
-
 Vector4& Vector4::operator*=(const float& p_value)
 {
-	m_vec4[0] = m_vec4[0] * static_cast<float>(p_value);
-	m_vec4[1] = m_vec4[1] * static_cast<float>(p_value);
-	m_vec4[2] = m_vec4[2] * static_cast<float>(p_value);
-	m_vec4[3] = m_vec4[3] * static_cast<float>(p_value);
+	m_vec4[0] = m_vec4[0] * p_value;
+	m_vec4[1] = m_vec4[1] * p_value;
+	m_vec4[2] = m_vec4[2] * p_value;
+	m_vec4[3] = m_vec4[3] * p_value;
 
 	return *this;
 }
 Vector4& Vector4::operator/=(const float& p_value)
 {
-	m_vec4[0] = m_vec4[0] / static_cast<float>(p_value);
-	m_vec4[1] = m_vec4[1] / static_cast<float>(p_value);
-	m_vec4[2] = m_vec4[2] / static_cast<float>(p_value);
-	m_vec4[3] = m_vec4[3] / static_cast<float>(p_value);
+	m_vec4[0] = m_vec4[0] / p_value;
+	m_vec4[1] = m_vec4[1] / p_value;
+	m_vec4[2] = m_vec4[2] / p_value;
+	m_vec4[3] = m_vec4[3] / p_value;
 
 	return *this;
 }
@@ -194,35 +165,6 @@ Vector4 Vector4::operator*(const float& p_value)
 	return temp *= p_value;
 }
 Vector4 Vector4::operator/(const float& p_value)
-{
-	Vector4 temp(*this);
-	return temp /= p_value;
-}
-
-Vector4& Vector4::operator*=(const double& p_value)
-{
-	m_vec4[0] = m_vec4[0] * static_cast<float>(p_value);
-	m_vec4[1] = m_vec4[1] * static_cast<float>(p_value);
-	m_vec4[2] = m_vec4[2] * static_cast<float>(p_value);
-	m_vec4[3] = m_vec4[3] * static_cast<float>(p_value);
-
-	return *this;
-}
-Vector4& Vector4::operator/=(const double& p_value)
-{
-	m_vec4[0] = m_vec4[0] / static_cast<float>(p_value);
-	m_vec4[1] = m_vec4[1] / static_cast<float>(p_value);
-	m_vec4[2] = m_vec4[2] / static_cast<float>(p_value);
-	m_vec4[3] = m_vec4[3] / static_cast<float>(p_value);
-
-	return *this;
-}
-Vector4 Vector4::operator*(const double& p_value)
-{
-	Vector4 temp(*this);
-	return temp *= p_value;
-}
-Vector4 Vector4::operator/(const double& p_value)
 {
 	Vector4 temp(*this);
 	return temp /= p_value;
@@ -267,7 +209,7 @@ std::ostream& operator<<(std::ostream& p_output, Vector4& vec4)
 	return p_output;
 }
 
-std::ostream & operator<<(std::ostream& p_output, Vector4 vec4)
+std::ostream& operator<<(std::ostream& p_output, Vector4 vec4)
 {
 	p_output << '(' << vec4.x() << '/' << vec4.y() << '/' << vec4.z() << '/' << vec4.w() << ')';
 	return p_output;

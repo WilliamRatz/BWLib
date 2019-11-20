@@ -13,8 +13,7 @@
 class Vector2;
 class Vector3;
 class Vector4;
-template<typename T, std::size_t R, std::size_t C>
-class Matrix; 
+MatrixTemplate class Matrix < T, R, C, MatrixMacro;
 
 
 class Quaternion {

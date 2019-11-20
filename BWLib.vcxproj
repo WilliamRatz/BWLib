@@ -24,9 +24,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\Math\BWMath.cpp" />
     <ClCompile Include="include\Physik\BWPhysik.cpp" />
     <ClCompile Include="include\Physik\BWPhysik2D.cpp" />
-    <ClCompile Include="include\Math\BWMath.cpp" />
     <ClCompile Include="include\Math\Quaternion.cpp" />
     <ClCompile Include="include\Math\Vector2.cpp" />
     <ClCompile Include="include\Math\Vector3.cpp" />
@@ -40,6 +40,7 @@
     <ClCompile Include="include\Networking\NetSocketTCP.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Math\Math_Macros.h" />
     <ClInclude Include="include\Physik\BWPhysik.h" />
     <ClInclude Include="include\Physik\BWPhysik2D.h" />
     <ClInclude Include="include\Inc_BWMath.h" />
