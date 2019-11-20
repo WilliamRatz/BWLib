@@ -4,8 +4,8 @@
 
 
 template<typename T, std::size_t N>
-class VectorXMacro {
-
+class  VectorX < T, N, VectorXMacro>
+{
 private:
 	T m_elements[N];
 
@@ -80,7 +80,7 @@ public:
 	{
 		VectorX temp(vecX);
 		double length = VectorX::length(*this);
-		for (unsigned __int64 i = 0; i < N; ++i)
+		for (unsigned __int64 i = 0ull; i < N; ++i)
 		{
 			temp[i] = vecX[i] / length;
 		}
@@ -88,30 +88,15 @@ public:
 	}
 	static double length(const VectorX& vecX)
 	{
-		double answer = 0;
-		for (unsigned __int64 i = 0; i < vecX.size(); ++i)
+		double answer = 0.0;
+		for (unsigned __int64 i = 0ull; i < vecX.size(); ++i)
 		{
-			answer + BWMath::pow(vecX[i], 2);
+			answer + BWMath::pow(vecX[i], 2.0);
 		}
 		return BWMath::sqrt(answer);
 	}
 	
 
-#pragma endregion
-
-#pragma region castOperations
-	/*operator Vector2()
-	{
-	}
-	operator Vector4()
-	{
-	}
-	operator Quaternion()
-	{
-	}
-	operator Matrix<float, 4, 4>()
-	{
-	}*/
 #pragma endregion
 
 #pragma region arithmeticOperator
@@ -225,6 +210,18 @@ public:
 	}
 #pragma endregion
 
+
+};
+
+template<typename T>
+class  VectorX < T, 3, VectorXMacro>
+{
+
+};
+
+template<typename T>
+class  VectorX < T, 2, VectorXMacro>
+{
 
 };
 

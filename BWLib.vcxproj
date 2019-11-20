@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Math\Math_Macros.h" />
+    <ClInclude Include="include\Math\VectorX.h" />
     <ClInclude Include="include\Physik\BWPhysik.h" />
     <ClInclude Include="include\Physik\BWPhysik2D.h" />
     <ClInclude Include="include\Inc_BWMath.h" />
@@ -239,7 +240,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>Default</LanguageStandard>
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <ProgramDataBaseFileName>$(IntDir)DataBaseFile\$(TargetName).pch</ProgramDataBaseFileName>
       <XMLDocumentationFileName>$(IntDir)</XMLDocumentationFileName>

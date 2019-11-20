@@ -75,14 +75,6 @@ Vector3::operator Quaternion()
 {
 	return Quaternion(x(), y(), z(), 0);
 }
-Vector3::operator Matrix<float, 4, 4>()
-{
-	Matrix<float, 4, 4> mat;
-	mat[0][3] = x();
-	mat[1][3] = y();
-	mat[2][3] = z();
-	return mat;
-}
 #pragma endregion
 
 #pragma region arithmeticOperator

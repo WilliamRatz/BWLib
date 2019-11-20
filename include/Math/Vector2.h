@@ -13,7 +13,6 @@
 class Vector3;
 class Vector4;
 class Quaternion;
-MatrixTemplate class Matrix < T, R, C, MatrixMacro;
 
 class Vector2 {
 private:
@@ -50,7 +49,6 @@ public:
 	operator Vector3();
 	operator Vector4();
 	operator Quaternion();
-	operator Matrix<float, 4, 4>();
 #pragma endregion
 
 #pragma region arithmeticOperator

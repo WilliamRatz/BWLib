@@ -12,7 +12,7 @@
 #include "Vector3.h"
 
 template<typename T, std::size_t R, std::size_t C>
-class Matrix < T, R, C, MatrixMacro
+class Matrix < T, R, C, MatrixMacro>
 {
 private:
 	Vector<T, C> m_mat[R];
@@ -270,7 +270,7 @@ public:
 };
 
 template<typename T>
-class Matrix < T, 4, 4, MatrixMacro
+class Matrix < T, 4, 4, MatrixMacro>
 {
 private:
 	Vector<T, 4> m_mat[4];
@@ -866,7 +866,7 @@ public:
 };
 
 template<typename T>
-class Matrix < T, 3, 3, MatrixMacro
+class Matrix < T, 3, 3, MatrixMacro>
 {
 	private:
 	Vector<T, 3> m_mat[3];
@@ -1271,7 +1271,7 @@ public:
 
 };
 
-MatrixTemplate std::ostream& operator<<(std::ostream& output, Matrix < T, R, C,MatrixMacro& mat) {
+MatrixTemplate std::ostream& operator<<(std::ostream& output, Matrix < T, R, C,MatrixMacro>& mat) {
 	for (std::size_t i = 0; i < R; ++i) {
 		output << '|';
 		for (std::size_t ii = 0; ii < C; ++ii) {

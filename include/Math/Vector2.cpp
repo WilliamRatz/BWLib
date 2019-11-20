@@ -68,14 +68,6 @@ Vector2::operator Quaternion()
 {
 	return Quaternion(x(), y(), 0, 0);
 }
-Vector2::operator Matrix<float, 4, 4>()
-{
-	Matrix<float, 4, 4> p_mat;
-	p_mat[0][3] = x();
-	p_mat[1][3] = y();
-	
-	return p_mat;
-}
 #pragma endregion
 
 #pragma region arithmeticOperator
