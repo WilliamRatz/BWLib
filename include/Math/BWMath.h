@@ -335,13 +335,24 @@ public:
 	*/
 	static inline double			round(const double& value, const double& position)
 	{
-		double temp = value * BWMath::pow(10.0, -position);
-		temp = temp;
-		temp -= (value * BWMath::pow(10, position)) * 10.0;
+		double result = 0;
 
-		if (temp > 4.0)
+		if (position > 0)
 		{
-			return BWMath::ceil(value, position);
+			result = (BWMath::fract(value * BWMath::pow(10, -(position))));
+		}
+		else if (position < 0)
+		{
+			result = (BWMath::fract(value * BWMath::pow(10, -(position + 1))));
+		}
+		else
+		{
+			return BWMath::fract(value);
+		}
+
+		if (result >= 0.5)
+		{
+			return  BWMath::ceil(value, position);
 		}
 		else
 		{
@@ -355,7 +366,7 @@ public:
 	*/
 	static inline double			floor(const double& value, const double& position)
 	{
-		return BWMath::fract(value * BWMath::pow(10, position)) * BWMath::pow(10, -position);
+		return (value * BWMath::pow(10, -position) - BWMath::fract(value * BWMath::pow(10, -position))) * BWMath::pow(10, position);
 	}
 	/*
 		ceil(12395.54321,  2) = 124
@@ -364,13 +375,7 @@ public:
 	*/
 	static inline double			ceil(const double& value, const double& position)
 	{
-		double temp = value * BWMath::pow(10.0, position);
-		temp = static_cast<double>(static_cast<int>(temp));
-		temp *= 10.0;
-		temp += 10.0;
-		temp /= BWMath::pow(10.0, position + 1.0);
-
-		return temp;
+		return ((value * BWMath::pow(10, -position) + 1) - BWMath::fract(value * BWMath::pow(10, -position))) * BWMath::pow(10, position);
 	}
 
 	static inline unsigned int		crossSum(const signed __int8& value) { return template_crossSum(value); }
