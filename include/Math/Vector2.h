@@ -20,11 +20,11 @@ private:
 
 public:
 
-	static float x(Vector2 p_vec2) { return p_vec2.m_vec2[0]; } const
-	static float y(Vector2 p_vec2) { return p_vec2.m_vec2[1]; } const
+	static float x(Vector2 p_vec2) { return p_vec2.m_vec2[0]; }
+	static float y(Vector2 p_vec2) { return p_vec2.m_vec2[1]; }
 
-	float x() { return m_vec2[0]; }
-	float y() { return m_vec2[1]; }
+	float x() const { return m_vec2[0]; }
+	float y() const { return m_vec2[1]; }
 
 	void x(float p_x) { m_vec2[0] = p_x; }
 	void y(float p_y) { m_vec2[1] = p_y; }
@@ -35,7 +35,7 @@ public:
 
 #pragma region Methods
 	void normalize();
-	unsigned __int64 getHashCode();
+	unsigned __int64 getHashCode() const;
 
 	static Vector2 normalized(const Vector2&);
 	static float length(const Vector2&);
@@ -53,40 +53,32 @@ public:
 
 #pragma region arithmeticOperator
 	void operator=(const Vector2&);
-	Vector2 operator-();
+	Vector2& operator-();
 
 	Vector2& operator+=(const Vector2&);
 	Vector2& operator-=(const Vector2&);
-	Vector2& operator/=(const Vector2&);
-	Vector2 operator+(const Vector2&);
-	Vector2 operator-(const Vector2&);
-	Vector2 operator/(const Vector2&);
+	Vector2 operator+(const Vector2&) const;
+	Vector2 operator-(const Vector2&) const;
 
 	Vector2& operator*=(const float&);
 	Vector2& operator/=(const float&);
-	Vector2 operator*(const float&);
-	Vector2 operator/(const float&);
+	Vector2 operator*(const float&) const;
+	Vector2 operator/(const float&) const;
 #pragma endregion
 
 #pragma region comparisonOperator
-	bool operator==(Vector2&);
-	bool operator!=(Vector2&);
+	bool operator==(Vector2&) const;
+	bool operator!=(Vector2&) const;
 #pragma endregion
 };
 
 template<typename T, std::size_t M, std::size_t N>
-Vector2 operator*(Matrix<T, M, N>& p_mat, Vector2& p_vec2) {
+Vector2 operator*(const Matrix<T, M, N>& p_mat, const Vector2& p_vec2);
 
-	float a1 = p_mat[0][0] * (T)p_vec2.x() + p_mat[0][1] * (T)p_vec2.y() + p_mat[0][2] * (T)1;
-	float a2 = p_mat[1][0] * (T)p_vec2.x() + p_mat[1][1] * (T)p_vec2.y() + p_mat[1][2] * (T)1;
+Vector2 operator*(const float& p_f, const Vector2& p_vec3);
 
-	Vector2 a(a1, a2);
-
-	return a;
-}
-
-std::ostream& operator<<(std::ostream&, Vector2&);
-std::ostream& operator<<(std::ostream&, Vector2);
+std::ostream& operator<<(std::ostream&, const Vector2&);
+std::ostream& operator<<(std::ostream&, const Vector2);
 
 
 #endif /* Vector2_h */

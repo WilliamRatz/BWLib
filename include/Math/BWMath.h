@@ -36,7 +36,7 @@ private:
 		if (value >= (T)0)
 			return value;
 
-		return value - ((T)2 * value);
+		return -value;
 	}
 	template<typename T> static inline unsigned int			template_crossSum(const T& value) {
 		if (value == NULL)
@@ -74,11 +74,11 @@ private:
 
 public:
 
-	static const double PI;
-	static const double TAU;
-	static const double EULER;
-	static const double toDeg;
-	static const double toRad;
+	static const double				PI;
+	static const double				TAU;
+	static const double				EULER;
+	static const double				toDeg;
+	static const double				toRad;
 
 	
 	static inline double			exp(const double& value) 
@@ -316,10 +316,6 @@ public:
 	static inline signed   __int16	abs(const signed   __int16& value) { return template_abs(value); }
 	static inline signed   __int32	abs(const signed   __int32& value) { return template_abs(value); }
 	static inline signed   __int64	abs(const signed   __int64& value) { return template_abs(value); }
-	static inline unsigned __int8	abs(const unsigned __int8& value) { return template_abs(value); }
-	static inline unsigned __int16	abs(const unsigned __int16& value) { return template_abs(value); }
-	static inline unsigned __int32	abs(const unsigned __int32& value) { return template_abs(value); }
-	static inline unsigned __int64	abs(const unsigned __int64& value) { return template_abs(value); }
 	static inline float				abs(const float& value) { return template_abs(value); }
 	static inline double			abs(const double& value) { return template_abs(value); }
 

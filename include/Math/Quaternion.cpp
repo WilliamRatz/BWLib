@@ -12,7 +12,7 @@ Quaternion::Quaternion()
 	m_quad[2] = NULL;
 	m_quad[3] = NULL;
 }
-Quaternion::Quaternion(float p_x, float p_y, float p_z, float p_w)
+Quaternion::Quaternion(const float p_x, const float p_y, const float p_z, const float p_w)
 {
 	m_quad[0] = p_x;
 	m_quad[1] = p_y;
@@ -25,9 +25,65 @@ Quaternion::Quaternion(const Quaternion& p_quad)
 }
 
 #pragma region Methods
-unsigned int Quaternion::getHashCode()
+void Quaternion::conjugate()
+{
+	m_quad[0] = -m_quad[0];
+	m_quad[1] = -m_quad[1];
+	m_quad[2] = -m_quad[2];
+	m_quad[3] = m_quad[3];
+}
+void Quaternion::normalize()
+{
+	float length = Quaternion::length(*this);
+
+	m_quad[0] /= length;
+	m_quad[1] /= length;
+	m_quad[2] /= length;
+	m_quad[3] /= length;
+}
+void Quaternion::inverse()
+{
+	this->conjugate();
+	this->operator/=(Quaternion::length(*this) * Quaternion::length(*this));
+}
+unsigned int Quaternion::getHashCode() const
 {
 	return ((((((static_cast<unsigned int>(m_quad[0])) * 397) ^ static_cast<unsigned int>(m_quad[1])) * 397) ^ static_cast<unsigned int>(m_quad[2])) * 397) ^ static_cast<unsigned int>(m_quad[3]);
+}
+void Quaternion::rotateVector3(Vector3& v)
+{
+	Vector3 quadVec = *this;
+	float s = this->w();
+	v =  quadVec * 2.0f * Vector3::dot(quadVec, v)
+			+ v * (s*s - Vector3::dot(quadVec, quadVec))
+			+ Vector3::cross(quadVec, v) * 2.0f * s;
+}
+Quaternion Quaternion::conjugated(const Quaternion& p_quad)
+{
+	return Quaternion(-Quaternion::x(p_quad),
+					  -Quaternion::y(p_quad),
+					  -Quaternion::z(p_quad),
+					   Quaternion::w(p_quad));
+}
+Quaternion Quaternion::normalized(const Quaternion& p_quad)
+{
+	return Quaternion(Quaternion::x(p_quad) / Quaternion::length(p_quad), 
+					  Quaternion::y(p_quad) / Quaternion::length(p_quad), 
+					  Quaternion::z(p_quad) / Quaternion::length(p_quad), 
+					  Quaternion::w(p_quad) / Quaternion::length(p_quad));
+}
+Quaternion Quaternion::inversed(const Quaternion& p_quad)
+{
+	Quaternion cQuad = Quaternion::conjugated(p_quad);
+	return cQuad/(Quaternion::length(p_quad)* Quaternion::length(p_quad));
+}
+float Quaternion::length(const Quaternion& p_quad)
+{
+	return static_cast<float>(BWMath::sqrt(Quaternion::x(p_quad) * Quaternion::x(p_quad)
+										 + Quaternion::y(p_quad) * Quaternion::y(p_quad)
+										 + Quaternion::z(p_quad) * Quaternion::z(p_quad)
+										 + Quaternion::w(p_quad) * Quaternion::w(p_quad)));
+
 }
 #pragma endregion
 
@@ -63,17 +119,17 @@ Quaternion Quaternion::operator-()
 
 	return *this;
 }
-Quaternion Quaternion::operator+(const Quaternion& p_quad) {
+Quaternion Quaternion::operator+(const Quaternion& p_quad) const {
 
 	Quaternion temp(*this);
 	return temp += p_quad;
 }
-Quaternion Quaternion::operator-(const Quaternion& p_quad) {
+Quaternion Quaternion::operator-(const Quaternion& p_quad) const {
 
 	Quaternion temp(*this);
 	return temp -= p_quad;
 }
-Quaternion Quaternion::operator*(const Quaternion& p_quad) {
+Quaternion Quaternion::operator*(const Quaternion& p_quad) const {
 
 	Quaternion temp(*this);
 	return temp *= p_quad;
@@ -95,12 +151,40 @@ Quaternion& Quaternion::operator-=(const Quaternion& p_quad) {
 	return *this;
 }
 Quaternion& Quaternion::operator*=(const Quaternion& p_quad) {
-	m_quad[0] = (m_quad[0] * p_quad.m_quad[0]) - (m_quad[1] * p_quad.m_quad[1]) - (m_quad[2] * p_quad.m_quad[2]) - (m_quad[3] * p_quad.m_quad[3]);
-	m_quad[1] = (m_quad[0] * p_quad.m_quad[1]) + (m_quad[1] * p_quad.m_quad[0]) + (m_quad[2] * p_quad.m_quad[3]) - (m_quad[3] * p_quad.m_quad[2]);
-	m_quad[2] = (m_quad[0] * p_quad.m_quad[2]) - (m_quad[1] * p_quad.m_quad[3]) + (m_quad[2] * p_quad.m_quad[0]) + (m_quad[3] * p_quad.m_quad[1]);
-	m_quad[3] = (m_quad[0] * p_quad.m_quad[3]) + (m_quad[1] * p_quad.m_quad[2]) - (m_quad[2] * p_quad.m_quad[1]) - (m_quad[3] * p_quad.m_quad[0]);
+	m_quad[0] = (m_quad[0] * p_quad.m_quad[3]) + (m_quad[1] * p_quad.m_quad[2]) - (m_quad[2] * p_quad.m_quad[1]) + (m_quad[3] * p_quad.m_quad[0]);
+	m_quad[1] = (-m_quad[0] * p_quad.m_quad[2]) + (m_quad[1] * p_quad.m_quad[3]) + (m_quad[2] * p_quad.m_quad[0]) + (m_quad[3] * p_quad.m_quad[1]);
+	m_quad[2] = (m_quad[0] * p_quad.m_quad[1]) - (m_quad[1] * p_quad.m_quad[0]) + (m_quad[2] * p_quad.m_quad[3]) + (m_quad[3] * p_quad.m_quad[2]);
+	m_quad[3] = (-m_quad[0] * p_quad.m_quad[0]) - (m_quad[1] * p_quad.m_quad[1]) - (m_quad[2] * p_quad.m_quad[2]) + (m_quad[3] * p_quad.m_quad[3]);
 
 	return *this;
+}
+Quaternion& Quaternion::operator*=(const float& p_value)
+{
+	m_quad[0] *= p_value;
+	m_quad[1] *= p_value;
+	m_quad[2] *= p_value;
+	m_quad[3] *= p_value;
+
+	return *this;
+}
+Quaternion& Quaternion::operator/=(const float& p_value)
+{
+	m_quad[0] /= p_value;
+	m_quad[1] /= p_value;
+	m_quad[2] /= p_value;
+	m_quad[3] /= p_value;
+
+	return *this;
+}
+Quaternion Quaternion::operator*(const float& p_value) const
+{
+	Quaternion temp(*this);
+	return temp *= p_value;
+}
+Quaternion Quaternion::operator/(const float& p_value) const
+{
+	Quaternion temp(*this);
+	return temp /= p_value;
 }
 #pragma endregion
 

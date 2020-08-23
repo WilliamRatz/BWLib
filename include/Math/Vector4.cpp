@@ -33,7 +33,7 @@ Vector4 Vector4::normalize()
 
 	return *this;
 }
-unsigned __int64 Vector4::getHashCode() {
+unsigned __int64 Vector4::getHashCode() const {
 
 	return ((((((static_cast<unsigned __int64>(m_vec4[0])) * 397) ^ static_cast<unsigned __int64>(m_vec4[1])) * 397) ^ static_cast<unsigned __int64>(m_vec4[2])) * 397) ^ static_cast<unsigned __int64>(m_vec4[3]);
 }
@@ -83,7 +83,7 @@ void Vector4::operator=(const Vector4& p_vec4) {
 	m_vec4[2] = p_vec4.m_vec4[2];
 	m_vec4[3] = p_vec4.m_vec4[3];
 }
-Vector4 Vector4::operator-()
+Vector4& Vector4::operator-()
 {
 	m_vec4[0] = -m_vec4[0];
 	m_vec4[1] = -m_vec4[1];
@@ -108,28 +108,15 @@ Vector4& Vector4::operator-=(const Vector4& p_vec4) {
 
 	return *this;
 }
-Vector4& Vector4::operator/=(const Vector4& p_vec4) {
-	m_vec4[0] = m_vec4[0] / p_vec4.m_vec4[0];
-	m_vec4[1] = m_vec4[1] / p_vec4.m_vec4[1];
-	m_vec4[2] = m_vec4[2] / p_vec4.m_vec4[2];
-	m_vec4[3] = m_vec4[3] / p_vec4.m_vec4[3];
-
-	return *this;
-}
-Vector4 Vector4::operator+(const Vector4& p_vec4) {
+Vector4 Vector4::operator+(const Vector4& p_vec4) const {
 
 	Vector4 temp(*this);
 	return temp += p_vec4;
 }
-Vector4 Vector4::operator-(const Vector4& p_vec4) {
+Vector4 Vector4::operator-(const Vector4& p_vec4) const {
 
 	Vector4 temp(*this);
 	return temp -= p_vec4;
-}
-Vector4 Vector4::operator/(const Vector4& p_vec4) {
-
-	Vector4 temp(*this);
-	return temp /= p_vec4;
 }
 
 Vector4& Vector4::operator*=(const float& p_value)
@@ -150,12 +137,12 @@ Vector4& Vector4::operator/=(const float& p_value)
 
 	return *this;
 }
-Vector4 Vector4::operator*(const float& p_value)
+Vector4 Vector4::operator*(const float& p_value) const
 {
 	Vector4 temp(*this);
 	return temp *= p_value;
 }
-Vector4 Vector4::operator/(const float& p_value)
+Vector4 Vector4::operator/(const float& p_value) const
 {
 	Vector4 temp(*this);
 	return temp /= p_value;
@@ -163,7 +150,7 @@ Vector4 Vector4::operator/(const float& p_value)
 #pragma endregion
 
 #pragma region comparisonOperator
-bool Vector4::operator==(Vector4& p_vec4) {
+bool Vector4::operator==(Vector4& p_vec4) const {
 
 	if (m_vec4[0] == p_vec4.m_vec4[0] &&
 		m_vec4[1] == p_vec4.m_vec4[1] &&
@@ -178,7 +165,7 @@ bool Vector4::operator==(Vector4& p_vec4) {
 	}
 
 }
-bool Vector4::operator!=(Vector4& p_vec4) {
+bool Vector4::operator!=(Vector4& p_vec4) const {
 
 	if (m_vec4[0] != p_vec4.m_vec4[0] ||
 		m_vec4[1] != p_vec4.m_vec4[1] ||
@@ -193,6 +180,23 @@ bool Vector4::operator!=(Vector4& p_vec4) {
 	}
 }
 #pragma endregion
+
+template<typename T, std::size_t R, std::size_t C>
+Vector4 operator*(const Matrix<T, R, C>& p_mat, const Vector4& p_vec4) {
+
+	float a1 = p_mat[0][0] * (T)p_vec4.x() + p_mat[0][1] * (T)p_vec4.y() + p_mat[0][2] * (T)p_vec4.z() + p_mat[0][3] * (T)1;
+	float a2 = p_mat[1][0] * (T)p_vec4.x() + p_mat[1][1] * (T)p_vec4.y() + p_mat[1][2] * (T)p_vec4.z() + p_mat[1][3] * (T)1;
+	float a3 = p_mat[2][0] * (T)p_vec4.x() + p_mat[2][1] * (T)p_vec4.y() + p_mat[2][2] * (T)p_vec4.z() + p_mat[2][3] * (T)1;
+
+	Vector4 a(a1, a2, a3);
+
+	return a;
+}
+
+Vector4 operator*(const float& p_f, const Vector4& p_vec4)
+{
+	return p_vec4 * p_f;
+}
 
 std::ostream& operator<<(std::ostream& p_output, Vector4& vec4)
 {

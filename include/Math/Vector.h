@@ -2,7 +2,7 @@
 //  Vector.h
 //  MathLibery
 //
-//  Created by William Ratz on 18.09.18.
+//  Created by William Ratz on 18.09.18
 //  Copyright © 2018 William Ratz. All rights reserved.
 //
 #ifndef Vector_H
@@ -12,11 +12,6 @@
 #include <iostream>
 #include <type_traits>
 #include "Math_Macros.h"
-
-
-
-
-
 
 VectorTemplate class Vector {
 
@@ -54,7 +49,7 @@ public:
 	}
 
 	const T& operator[](const std::size_t index) const {
-		if (index > N) {
+		if (index >= N) {
 			throw std::out_of_range("Index out of Range");
 		}
 		return m_elements[index];

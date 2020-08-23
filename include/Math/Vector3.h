@@ -21,13 +21,13 @@ private:
 
 public:
 
-	static float x(Vector3 m_vec3) { return m_vec3.m_vec3[0]; } const
-	static float y(Vector3 m_vec3) { return m_vec3.m_vec3[1]; } const
-	static float z(Vector3 m_vec3) { return m_vec3.m_vec3[2]; } const
+	static float x(Vector3 m_vec3) { return m_vec3.m_vec3[0]; } 
+	static float y(Vector3 m_vec3) { return m_vec3.m_vec3[1]; } 
+	static float z(Vector3 m_vec3) { return m_vec3.m_vec3[2]; } 
 
-	float x() { return m_vec3[0]; }
-	float y() { return m_vec3[1]; }
-	float z() { return m_vec3[2]; }
+	float x() const { return m_vec3[0]; }
+	float y() const { return m_vec3[1]; }
+	float z() const { return m_vec3[2]; }
 
 	void x(float p_x) { m_vec3[0] = p_x; }
 	void y(float p_y) { m_vec3[1] = p_y; }
@@ -40,12 +40,12 @@ public:
 #pragma region Methods
 	
 	void normalize();
-	unsigned __int64 getHashCode();
+	unsigned __int64 getHashCode() const;
 
 	static Vector3 normalized(const Vector3&);
-	static float length(const Vector3&);
-	static float dot(const Vector3&, const Vector3&);
-	static Vector3 cross(const Vector3&, const Vector3&);
+	static float length(const Vector3&); 
+	static float dot(const Vector3&, const Vector3&); 
+	static Vector3 cross(const Vector3&, const Vector3&); 
 
 	static Vector3 One();
 	static Vector3 Zero();
@@ -60,42 +60,33 @@ public:
 
 #pragma region arithmeticOperator
 	void operator=(const Vector3&);
-	Vector3 operator-();
+	Vector3& operator-();
 
 	Vector3& operator+=(const Vector3&);
 	Vector3& operator-=(const Vector3&);
-	Vector3& operator/=(const Vector3&);
-	Vector3 operator+(const Vector3&);
-	Vector3 operator-(const Vector3&);
-	Vector3 operator/(const Vector3&);
+	Vector3 operator+(const Vector3&) const;
+	Vector3 operator-(const Vector3&) const;
 	
 	Vector3& operator*=(const float&);
 	Vector3& operator/=(const float&);
-	Vector3 operator*(const float&);
-	Vector3 operator/(const float&);
+	Vector3 operator*(const float&) const;
+	Vector3 operator/(const float&) const;
 #pragma endregion
 
 #pragma region comparisonOperator
-	bool operator==(Vector3&);
-	bool operator!=(Vector3&);
+	bool operator==(const Vector3&) const;
+	bool operator!=(const Vector3&) const;
 #pragma endregion
 
 };
 
 template<typename T, std::size_t M, std::size_t N>
-Vector3 operator*(Matrix<T, M, N>& p_mat, Vector3& p_vec3) {
+Vector3 operator*(const Matrix<T, M, N>& p_mat, const Vector3& p_vec3);
 
-	float a1 = p_mat[0][0] * (T)p_vec3.x() + p_mat[0][1] * (T)p_vec3.y() + p_mat[0][2] * (T)p_vec3.z() + p_mat[0][3] * (T)1;
-	float a2 = p_mat[1][0] * (T)p_vec3.x() + p_mat[1][1] * (T)p_vec3.y() + p_mat[1][2] * (T)p_vec3.z() + p_mat[1][3] * (T)1;
-	float a3 = p_mat[2][0] * (T)p_vec3.x() + p_mat[2][1] * (T)p_vec3.y() + p_mat[2][2] * (T)p_vec3.z() + p_mat[2][3] * (T)1;
-	
-	Vector3 a(a1, a2, a3);
+Vector3 operator*(const float& p_f, const Vector3& p_vec3);
 
-	return a;
-}
-
-std::ostream& operator<<(std::ostream&, Vector3&);
-std::ostream& operator<<(std::ostream&, Vector3);
+std::ostream& operator<<(std::ostream&, const Vector3&);
+std::ostream& operator<<(std::ostream&, const Vector3);
 
 
 #endif /* Vector3_h */

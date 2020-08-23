@@ -28,7 +28,7 @@ void Vector2::normalize()
 {
 	*this = Vector2(this->x() / Vector2::length(*this), this->y() / Vector2::length(*this));
 }
-unsigned __int64 Vector2::getHashCode() {
+unsigned __int64 Vector2::getHashCode() const {
 
 	return (static_cast<unsigned __int64>(m_vec2[0]) * 397) ^ static_cast<unsigned __int64>(m_vec2[1]);
 }
@@ -76,24 +76,19 @@ void Vector2::operator=(const Vector2& p_vec2) {
 	m_vec2[0] = p_vec2.m_vec2[0];
 	m_vec2[1] = p_vec2.m_vec2[1];
 }
-Vector2 Vector2::operator-()
+Vector2& Vector2::operator-()
 {
 	m_vec2[0] = -m_vec2[0];
 	m_vec2[1] = -m_vec2[1];
 
 	return *this;
 }
-Vector2 Vector2::operator+(const Vector2& p_vec2) {
+Vector2 Vector2::operator+(const Vector2& p_vec2) const {
 
 	Vector2 temp(*this);
 	return temp -= p_vec2;
 }
-Vector2 Vector2::operator-(const Vector2& p_vec2) {
-
-	Vector2 temp(*this);
-	return temp -= p_vec2;
-}
-Vector2 Vector2::operator/(const Vector2& p_vec2) {
+Vector2 Vector2::operator-(const Vector2& p_vec2) const {
 
 	Vector2 temp(*this);
 	return temp -= p_vec2;
@@ -107,12 +102,6 @@ Vector2& Vector2::operator+=(const Vector2& p_vec2) {
 Vector2& Vector2::operator-=(const Vector2& p_vec2) {
 	m_vec2[0] = m_vec2[0] - p_vec2.m_vec2[0];
 	m_vec2[1] = m_vec2[1] - p_vec2.m_vec2[1];
-
-	return *this;
-}
-Vector2& Vector2::operator/=(const Vector2& p_vec2) {
-	m_vec2[0] = m_vec2[0] / p_vec2.m_vec2[0];
-	m_vec2[1] = m_vec2[1] / p_vec2.m_vec2[1];
 
 	return *this;
 }
@@ -131,12 +120,12 @@ Vector2& Vector2::operator/=(const float& p_value)
 
 	return *this;
 }
-Vector2 Vector2::operator*(const float& p_value)
+Vector2 Vector2::operator*(const float& p_value) const
 {
 	Vector2 temp(*this);
 	return temp *= p_value;
 }
-Vector2 Vector2::operator/(const float& p_value)
+Vector2 Vector2::operator/(const float& p_value) const
 {
 	Vector2 temp(*this);
 	return temp /= p_value;
@@ -145,7 +134,7 @@ Vector2 Vector2::operator/(const float& p_value)
 #pragma endregion
 
 #pragma region comparisonOperator
-bool Vector2::operator==(Vector2& p_vec) {
+bool Vector2::operator==(Vector2& p_vec) const {
 
 	if (m_vec2[0] == p_vec.m_vec2[0] &&
 		m_vec2[1] == p_vec.m_vec2[1]) {
@@ -158,7 +147,7 @@ bool Vector2::operator==(Vector2& p_vec) {
 	}
 
 }
-bool Vector2::operator!=(Vector2& p_vec) {
+bool Vector2::operator!=(Vector2& p_vec) const {
 
 	if (m_vec2[0] != p_vec.m_vec2[0] ||
 		m_vec2[1] != p_vec.m_vec2[1]) {
@@ -172,13 +161,30 @@ bool Vector2::operator!=(Vector2& p_vec) {
 }
 #pragma endregion
 
-std::ostream& operator<<(std::ostream& p_output, Vector2& p_vec2)
+template<typename T, std::size_t M, std::size_t N>
+Vector2 operator*(const Matrix<T, M, N>& p_mat, const Vector2& p_vec2) {
+
+	float a1 = p_mat[0][0] * (T)p_vec2.x() + p_mat[0][1] * (T)p_vec2.y() + p_mat[0][2] * (T)1;
+	float a2 = p_mat[1][0] * (T)p_vec2.x() + p_mat[1][1] * (T)p_vec2.y() + p_mat[1][2] * (T)1;
+
+	Vector2 a(a1, a2);
+
+	return a;
+}
+
+Vector2 operator*(const float& p_f, const Vector2& p_vec3) {
+	
+	return p_vec3 * p_f;
+}
+
+
+std::ostream& operator<<(std::ostream& p_output, const Vector2& p_vec2)
 {
 	p_output << '(' << p_vec2.x() << '/' << p_vec2.y() << ')';
 	return p_output;
 }
 
-std::ostream & operator<<(std::ostream& p_output, Vector2 p_vec2)
+std::ostream & operator<<(std::ostream& p_output, const Vector2 p_vec2)
 {
 	p_output << '(' << p_vec2.x() << '/' << p_vec2.y() << ')';
 	return p_output;

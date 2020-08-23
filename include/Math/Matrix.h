@@ -10,6 +10,7 @@
 #define Matrix_H
 #include "Vector2.h"
 #include "Vector3.h"
+#include "BWMath.h"
 
 template<typename T, std::size_t R, std::size_t C>
 class Matrix < T, R, C, MatrixMacro>
@@ -20,7 +21,8 @@ private:
 public:
 	inline Matrix()
 	{
-		this->identity();
+		if (R == C)
+			this->identity();
 	}
 	inline Matrix(const Matrix& mat)
 	{
@@ -68,6 +70,10 @@ public:
 
 	}
 	inline Matrix& identity() {
+		if (R != C) {
+			throw std::out_of_range("Identity matrices are only available with square matrices");
+		}
+
 
 		for (std::size_t i = 0; i < C; ++i) {
 			for (std::size_t ii = 0; ii < R; ++ii) {
@@ -79,6 +85,10 @@ public:
 	}
 	inline Matrix& inverse()
 	{
+		if (R != C) {
+			throw std::out_of_range("Inverse matrices are only available with square matrices");
+		}
+
 		Matrix<T, R, C * 2> tempMat;
 		float temp;
 
@@ -354,10 +364,6 @@ public:
 
 	inline Matrix& translate(float x, float y, float z)
 	{
-		if (4 != 4 || 4 != 4) {
-			throw std::out_of_range("Your Matrix dont fit for 3D translation, check your dimensions");
-		}
-
 		Matrix trans3D;
 
 		trans3D[0][3] = (T)x;
@@ -369,10 +375,6 @@ public:
 	}
 	inline Matrix& translate(Vector3 vec3)
 	{
-		if (4 != 4 || 4 != 4) {
-			throw std::out_of_range("Your Matrix dont fit for 3D translation, check your dimensions");
-		}
-
 		Matrix trans3D;
 
 		trans3D[0][3] = (T)vec3.x();
@@ -384,10 +386,6 @@ public:
 	}
 	inline Matrix& scale(float widthHeightDepth)
 	{
-		if (4 != 4 || 4 != 4) {
-			throw std::out_of_range("Your Matrix dont fit for 3D scaleing, check your dimensions");
-		}
-
 		Matrix scal3D;
 
 		scal3D[0][0] = (T)widthHeightDepth;
@@ -399,10 +397,6 @@ public:
 	}
 	inline Matrix& scale(float width, float height, float depth)
 	{
-		if (4 != 4 || 4 != 4) {
-			throw std::out_of_range("Your Matrix dont fit for 3D scaleing, check your dimensions");
-		}
-
 		Matrix scal3D;
 
 		scal3D[0][0] = (T)width;
@@ -414,10 +408,6 @@ public:
 	}
 	inline Matrix& scale(Vector3 vec3)
 	{
-		if (4 != 4 || 4 != 4) {
-			throw std::out_of_range("Your Matrix dont fit for 3D scaleing, check your dimensions");
-		}
-
 		Matrix scal3D;
 
 		scal3D[0][0] = (T)vec3.x();
@@ -429,10 +419,6 @@ public:
 	}
 	inline Matrix& rotation3DAroundX(float angle)
 	{
-		if (4 != 4 || 4 != 4) {
-			throw std::out_of_range("Your Matrix dont fit for 3D rotation around \"X\", check your dimensions");
-		}
-
 		Matrix rotat3DX;
 		double degress = (double)angle * BWMath::PI / 180; // change from Rad to degrees
 
@@ -446,10 +432,6 @@ public:
 	}
 	inline Matrix& rotation3DAroundY(float angle)
 	{
-		if (4 != 4 || 4 != 4) {
-			throw std::out_of_range("Your Matrix dont fit for 3D rotation around \"Y\", check your dimensions");
-		}
-
 		Matrix rotat3DY;
 		double degress = (double)angle * BWMath::PI / 180; // change from Rad to degrees
 
@@ -463,10 +445,6 @@ public:
 	}
 	inline Matrix& rotation3DAroundZ(float angle)
 	{
-		if (4 != 4 || 4 != 4) {
-			throw std::out_of_range("Your Matrix dont fit for 3D rotation around \"Z\", check your dimensions");
-		}
-
 		Matrix rotat3DZ;
 		double degress = (double)angle * BWMath::PI / 180; // change from Rad to degrees
 
@@ -481,9 +459,6 @@ public:
 
 	inline Matrix& rotationAroundXlocal(float angle)
 	{
-		if (4 != 4 || 4 != 4) {
-			throw std::out_of_range("Your Matrix dont fit for 3D rotation around \"X\", check your dimensions");
-		}
 		Vector3 transformation(m_mat[0][3], m_mat[1][3], m_mat[2][3]);
 
 		this->m_mat[0][3] = 0;
@@ -500,10 +475,6 @@ public:
 	}
 	inline Matrix& rotationAroundYlocal(float angle)
 	{
-		if (4 != 4 || 4 != 4) {
-			throw std::out_of_range("Your Matrix dont fit for 3D rotation around \"Y\", check your dimensions");
-		}
-
 		Vector3 transformation(m_mat[0][3], m_mat[1][3], m_mat[2][3]);
 
 		this->m_mat[0][3] = 0;
@@ -520,10 +491,6 @@ public:
 	}
 	inline Matrix& rotationAroundZlocal(float angle)
 	{
-		if (4 != 4 || 4 != 4) {
-			throw std::out_of_range("Your Matrix dont fit for 3D rotation around \"Z\", check your dimensions");
-		}
-
 		Vector3 transformation(m_mat[0][3], m_mat[1][3], m_mat[2][3]);
 
 		this->m_mat[0][3] = 0;
@@ -542,10 +509,6 @@ public:
 
 	inline Matrix& rotationAroundArbitararyAxis(float angle, Vector3 axis)
 	{
-		if (4 != 4 || 4 != 4) {
-			throw std::out_of_range("Your Matrix dont fit for 3D rotation around \"Z\", check your dimensions");
-		}
-
 		double degress = (double)angle * BWMath::PI / 180; // change from Rad to degrees
 
 		axis.normalize();
@@ -571,10 +534,6 @@ public:
 
 	inline Matrix& perspectivProjection(float windowWidth, float windowHeight, float nearPlane, float farPlane)
 	{
-		if (4 != 4 || 4 != 4) {
-			throw std::out_of_range("Your Matrix dont fit for perspectiv projection, check your dimensions");
-		}
-
 		Matrix perProj;
 
 		perProj[0][0] = (T)((2 * nearPlane) / windowWidth);
@@ -588,10 +547,6 @@ public:
 	}
 	inline Matrix& orthogonalProjection(float windowWidth, float windowHeight, float nearPlane, float farPlane)
 	{
-		if (4 != 4 || 4 != 4) {
-			throw std::out_of_range("Your Matrix dont fit for orthogonal projection, check your dimensions");
-		}
-
 		Matrix perProj;
 
 		perProj[0][0] = (T)(2 / windowWidth);
@@ -610,66 +565,75 @@ public:
 
 	inline Vector3 getScale()
 	{
-		if (4 != 4 || 4 != 4)
-		{
-			throw std::out_of_range("Your Matrix dont fit for 3D actions \"Z\", check your dimensions");
-		}
-			return Vector3(m_mat[0][0], m_mat[1][1], m_mat[2][2]);
-
+		return Vector3(m_mat[0][0], m_mat[1][1], m_mat[2][2]);
 	}
 	inline Vector3 getTransform()
 	{
-		if (4 != 4 || 4 != 4)
-		{
-			throw std::out_of_range("Your Matrix dont fit for 3D actions \"Z\", check your dimensions");
-		}
 		return Vector3(m_mat[0][3], m_mat[1][3], m_mat[2][3]);
 	}
 	inline Vector3 getEulerAngles()
 	{
-		if (4 != 4 || 4 != 4)
+		float sy = sqrt(m_mat[0][0] * m_mat[0][0] + m_mat[1][0] * m_mat[1][0]);
+
+		bool singular = sy < 1e-6; // If
+
+		Vector3 temp;
+		if (!singular)
 		{
-			throw std::out_of_range("Your Matrix dont fit for 3D actions \"Z\", check your dimensions");
+			temp.x(std::atan2(m_mat[2][1], m_mat[2][2]));
+			temp.y(std::atan2(-m_mat[2][0], sy));
+			temp.z(std::atan2(m_mat[1][0], m_mat[0][0]));
 		}
-
-			float sy = sqrt(m_mat[0][0] * m_mat[0][0] + m_mat[1][0] * m_mat[1][0]);
-
-			bool singular = sy < 1e-6; // If
-
-			Vector3 temp;
-			if (!singular)
-			{
-				temp.x(std::atan2(m_mat[2][1], m_mat[2][2]));
-				temp.y(std::atan2(-m_mat[2][0], sy));
-				temp.z(std::atan2(m_mat[1][0], m_mat[0][0]));
-			}
-			else
-			{
-				temp.x(std::atan2(-m_mat[1][2], m_mat[1][1]));
-				temp.y(std::atan2(-m_mat[2][0], sy));
-				temp.z(0);
-			}
-			return temp;
+		else
+		{
+			temp.x(std::atan2(-m_mat[1][2], m_mat[1][1]));
+			temp.y(std::atan2(-m_mat[2][0], sy));
+			temp.z(0);
+		}
+		return temp;
 
 	}
 
 	inline Matrix& zero() {
 
-		for (std::size_t i = 0; i < 4; ++i) {
-			for (std::size_t ii = 0; ii < 4; ++ii) {
-				m_mat[ii][i] = T(0);
-			}
-		}
+		m_mat[0][0] = 0;
+		m_mat[0][1] = 0;
+		m_mat[0][2] = 0;
+		m_mat[0][3] = 0;
+		m_mat[1][0] = 0;
+		m_mat[1][1] = 0;
+		m_mat[1][2] = 0;
+		m_mat[1][3] = 0;
+		m_mat[2][0] = 0;
+		m_mat[2][1] = 0;
+		m_mat[2][2] = 0;
+		m_mat[2][3] = 0;
+		m_mat[3][0] = 0;
+		m_mat[3][1] = 0;
+		m_mat[3][2] = 0;
+		m_mat[3][3] = 0;
 		return *this;
 
 	}
 	inline Matrix& identity() {
 
-		for (std::size_t i = 0; i < 4; ++i) {
-			for (std::size_t ii = 0; ii < 4; ++ii) {
-				m_mat[ii][i] = (i == ii) ? T(1) : T(0);
-			}
-		}
+		m_mat[0][0] = 1;
+		m_mat[0][1] = 0;
+		m_mat[0][2] = 0;
+		m_mat[0][3] = 0;
+		m_mat[1][0] = 0;
+		m_mat[1][1] = 1;
+		m_mat[1][2] = 0;
+		m_mat[1][3] = 0;
+		m_mat[2][0] = 0;
+		m_mat[2][1] = 0;
+		m_mat[2][2] = 1;
+		m_mat[2][3] = 0;
+		m_mat[3][0] = 0;
+		m_mat[3][1] = 0;
+		m_mat[3][2] = 0;
+		m_mat[3][3] = 1;
+
 		return *this;
 
 	}
@@ -868,7 +832,7 @@ public:
 template<typename T>
 class Matrix < T, 3, 3, MatrixMacro>
 {
-	private:
+private:
 	Vector<T, 3> m_mat[3];
 
 public:
@@ -890,7 +854,7 @@ public:
 	}
 
 #pragma region methods
-	
+
 	inline Vector2 Left()
 	{
 		return Vector2(-m_mat[0][0], -m_mat[1][0]);
@@ -940,11 +904,7 @@ public:
 
 	inline Matrix& translate(float x, float y)
 	{
-		if (3 < 3 || 3 < 2) {
-			throw std::out_of_range("Your Matrix don't fit for 2D translation check your dimensions");
-		}
-
-		 Matrix trans2D;
+		Matrix trans2D;
 
 		trans2D[0][2] = (T)x;
 		trans2D[1][2] = (T)y;
@@ -955,10 +915,6 @@ public:
 	}
 	inline Matrix& scale(float widthHeight)
 	{
-		if (3 != 3 || 3 != 3) {
-			throw std::out_of_range("Your Matrix dont fit for 2D scaleing, check your dimensions");
-		}
-
 		Matrix scal2D;
 
 		scal2D[0][2] = (T)widthHeight;
@@ -970,10 +926,6 @@ public:
 	}
 	inline Matrix& scale(float width, float height)
 	{
-		if (3 != 3 || 3 != 3) {
-			throw std::out_of_range("Your Matrix dont fit for 2D scaleing, check your dimensions");
-		}
-
 		Matrix scal2D;
 
 		scal2D[0][2] = (T)width;
@@ -985,10 +937,6 @@ public:
 	}
 	inline Matrix& scale(Vector2 vec2)
 	{
-		if (3 != 3 || 3 != 3) {
-			throw std::out_of_range("Your Matrix dont fit for 2D scaleing, check your dimensions");
-		}
-
 		Matrix scal2D;
 
 		scal2D[0][2] = (T)vec2.x();
@@ -1000,10 +948,6 @@ public:
 	}
 	inline Matrix& rotation(float angle)
 	{
-		if (3 != 3 || 3 != 3) {
-			throw std::out_of_range("Your Matrix dont fit for 2D rotation, check your dimensions");
-		}
-
 		Matrix rotat2D;
 		double degress = (double)angle * BWMath::PI / 180; // change from Rad to degrees
 
@@ -1018,45 +962,30 @@ public:
 
 	inline Vector2 getScale()
 	{
-		if (3 != 3 || 3 != 3)
-		{
-			throw std::out_of_range("Your Matrix dont fit for 2D actions \"Z\", check your dimensions");
-		}
-			return Vector2(m_mat[0][0], m_mat[1][1]);
-
+		return Vector2(m_mat[0][0], m_mat[1][1]);
 	}
 	inline Vector2 getTransform()
 	{
-		if (3 != 3 || 3 != 3)
-		{
-			throw std::out_of_range("Your Matrix dont fit for 2D actions \"Z\", check your dimensions");
-		}
-			return Vector2(m_mat[0][3], m_mat[1][3]);
-
+		return Vector2(m_mat[0][3], m_mat[1][3]);
 	}
 	inline Vector2 getEulerAngles()
 	{
-		if (3 != 3 || 3 != 3)
+		float sy = sqrt(m_mat[0][0] * m_mat[0][0] + m_mat[1][0] * m_mat[1][0]);
+
+		bool singular = sy < 1e-6; // If
+
+		Vector2 temp;
+		if (!singular)
 		{
-			throw std::out_of_range("Your Matrix dont fit for 2D actions \"Z\", check your dimensions");
+			temp.x(std::atan2(m_mat[2][1], m_mat[2][2]));
+			temp.y(std::atan2(-m_mat[2][0], sy));
 		}
-			float sy = sqrt(m_mat[0][0] * m_mat[0][0] + m_mat[1][0] * m_mat[1][0]);
-
-			bool singular = sy < 1e-6; // If
-
-			Vector2 temp;
-			if (!singular)
-			{
-				temp.x(std::atan2(m_mat[2][1], m_mat[2][2]));
-				temp.y(std::atan2(-m_mat[2][0], sy));
-			}
-			else
-			{
-				temp.x(std::atan2(-m_mat[1][2], m_mat[1][1]));
-				temp.y(std::atan2(-m_mat[2][0], sy));
-			}
-			return temp;
-
+		else
+		{
+			temp.x(std::atan2(-m_mat[1][2], m_mat[1][1]));
+			temp.y(std::atan2(-m_mat[2][0], sy));
+		}
+		return temp;
 	}
 
 	inline Matrix& zero() {
@@ -1067,7 +996,6 @@ public:
 			}
 		}
 		return *this;
-
 	}
 	inline Matrix& identity() {
 
@@ -1077,13 +1005,11 @@ public:
 			}
 		}
 		return *this;
-
 	}
 	inline Matrix& inverse()
 	{
 		Matrix<T, 3, 3 * 2> tempMat;
 		float temp;
-
 
 		for (std::size_t i = 0; i < 3; ++i) {
 			for (std::size_t ii = 0; ii < 3; ++ii) {
@@ -1271,7 +1197,7 @@ public:
 
 };
 
-MatrixTemplate std::ostream& operator<<(std::ostream& output, Matrix < T, R, C,MatrixMacro>& mat) {
+MatrixTemplate std::ostream& operator<<(std::ostream& output, Matrix < T, R, C, MatrixMacro>& mat) {
 	for (std::size_t i = 0; i < R; ++i) {
 		output << '|';
 		for (std::size_t ii = 0; ii < C; ++ii) {

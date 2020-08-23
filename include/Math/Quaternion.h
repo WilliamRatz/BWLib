@@ -24,10 +24,10 @@ public:
 	static float z(Quaternion p_quad) { return p_quad.m_quad[2]; }
 	static float w(Quaternion p_quad) { return p_quad.m_quad[3]; }
 
-	float x() { return m_quad[0]; }
-	float y() { return m_quad[1]; }
-	float z() { return m_quad[2]; }
-	float w() { return m_quad[3]; }
+	float x() const { return m_quad[0]; }
+	float y() const { return m_quad[1]; }
+	float z() const { return m_quad[2]; }
+	float w() const { return m_quad[3]; }
 
 	void x(float p_x) { m_quad[0] = p_x; }
 	void y(float p_y) { m_quad[1] = p_y; }
@@ -35,12 +35,21 @@ public:
 	void w(float p_w) { m_quad[3] = p_w; }
 
 	Quaternion();
-	Quaternion(float p_x, float p_y, float p_z, float p_w);
+	Quaternion(const float p_x, const float p_y, const float p_z, const float p_w);
 	Quaternion(const Quaternion&);
 
 #pragma region Methods
 	
-	unsigned int getHashCode();
+	void conjugate();
+	void normalize();
+	void inverse();
+	unsigned int getHashCode() const;
+	//returns rotated Vector
+	void rotateVector3(Vector3& v);
+	static Quaternion conjugated(const Quaternion&);
+	static Quaternion normalized(const Quaternion&);
+	static Quaternion inversed(const Quaternion&);
+	static float length(const Quaternion&);
 
 #pragma endregion
 
@@ -54,12 +63,17 @@ public:
 	void operator=(const Quaternion&);
 	Quaternion operator-();
 
-	Quaternion operator+(const Quaternion&);
-	Quaternion operator-(const Quaternion&);
-	Quaternion operator*(const Quaternion&);
+	Quaternion operator+(const Quaternion&) const;
+	Quaternion operator-(const Quaternion&) const;
+	Quaternion operator*(const Quaternion&) const;
 	Quaternion& operator+=(const Quaternion&);
 	Quaternion& operator-=(const Quaternion&);
 	Quaternion& operator*=(const Quaternion&);
+
+	Quaternion& operator*=(const float&);
+	Quaternion& operator/=(const float&);
+	Quaternion operator*(const float&) const;
+	Quaternion operator/(const float&) const;
 #pragma endregion
 
 #pragma region comparisonOperations
